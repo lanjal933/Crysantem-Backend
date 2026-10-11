@@ -9,6 +9,15 @@ const { generalLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
 
+// Log variables de entorno al inicio
+console.log('=== VARIABLES DE ENTORTE ===');
+console.log('MP_ACCESS_TOKEN configurado:', !!process.env.MP_ACCESS_TOKEN);
+console.log('MP_ACCESS_TOKEN length:', process.env.MP_ACCESS_TOKEN?.length || 0);
+console.log('SUPABASE_URL configurado:', !!process.env.SUPABASE_URL);
+console.log('GOOGLE_CLIENT_ID configurado:', !!process.env.GOOGLE_CLIENT_ID);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('APP_URL:', process.env.APP_URL);
+
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
