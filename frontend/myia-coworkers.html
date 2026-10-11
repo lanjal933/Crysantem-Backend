@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crysantem COWORKERS</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=6.3">
+  <script src="js/config.js?v=6.3"></script>
+</head>
+<body class="myia-page">
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="index.html" class="navbar-link">Inicio</a>
+        <a href="myia-home.html" class="navbar-link">MyIA</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container myia-container">
+    <div class="coworkers-header">
+      <div class="coworkers-badge">COWORKERS</div>
+      <h1 class="coworkers-title">Bienvenido al equipo</h1>
+      <p class="coworkers-subtitle">
+        Como miembro del equipo Crysantem, puedes crear páginas MyIA gratuitamente usando el plan Responde (01) sin necesidad de conectar tu cuenta de Google. Ideal para demos y pruebas.
+      </p>
+    </div>
+
+    <div class="coworkers-content">
+      <div class="coworkers-info">
+        <div class="coworkers-info-card">
+          <div class="coworkers-info-icon">✓</div>
+          <h3>Plan Responde (01) Gratuito</h3>
+          <p>Acceso completo al plan básico sin costo para demos.</p>
+        </div>
+
+        <div class="coworkers-info-card">
+          <div class="coworkers-info-icon">🔓</div>
+          <h3>Sin OAuth Requerido</h3>
+          <p>No necesitas conectar tu cuenta de Google para crear páginas.</p>
+        </div>
+
+        <div class="coworkers-info-card">
+          <div class="coworkers-info-icon">🎯</div>
+          <h3>Para Demos y Pruebas</h3>
+          <p>Crea páginas para mostrar tus demos a clientes potenciales.</p>
+        </div>
+      </div>
+
+      <div class="coworkers-actions">
+        <div class="coworkers-current-user">
+          <p><strong>Email:</strong> <span id="userEmail">Cargando...</span></p>
+          <p><strong>Estado:</strong> <span class="status-active">Coworker Verificado</span></p>
+        </div>
+
+        <button id="createCoworkerPage" class="btn btn-primary btn-large">
+          Crear Nueva Página
+        </button>
+
+        <a href="myia-dashboard.html" class="btn btn-secondary">
+          Ver Mis Páginas
+        </a>
+      </div>
+    </div>
+
+    <div class="coworkers-note">
+      <p>
+        <strong>Nota:</strong> Las páginas creadas desde esta sección están configuradas automáticamente con el plan Responde (01) y no requieren OAuth. Solo se pueden crear desde emails autorizados por el administrador.
+      </p>
+    </div>
+  </div>
+
+  <script src="js/myia-coworkers.js?v=6.3"></script>
+</body>
+</html>

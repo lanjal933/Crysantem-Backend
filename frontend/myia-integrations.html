@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Integraciones - MyIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=6.3">
+  <script src="js/config.js?v=6.3"></script>
+  <style>
+    .integrations-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      position: relative;
+    }
+
+    .integrations-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .integrations-header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .integrations-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      font-family: var(--font-display);
+    }
+
+    .integrations-subtitle {
+      color: var(--text-secondary);
+    }
+
+    .plan-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(0, 255, 136, 0.2);
+      border: 1px solid var(--green-main);
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: var(--green-main);
+      margin-top: 12px;
+      font-weight: 600;
+    }
+
+    .integrations-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .integration-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-xl);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .integration-card.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .integration-card-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .integration-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--bg-main);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .integration-icon svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .integration-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      font-family: var(--font-display);
+    }
+
+    .integration-description {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-input,
+    .form-select {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      transition: all var(--transition);
+    }
+
+    .form-input:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--green-main);
+      box-shadow: 0 0 0 3px rgba(0, 255, 140, 0.1);
+    }
+
+    .file-upload {
+      border: 2px dashed var(--border);
+      border-radius: var(--border-radius-md);
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .file-upload:hover {
+      border-color: var(--green-main);
+      background: rgba(0, 255, 140, 0.05);
+    }
+
+    .file-upload-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .file-upload-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .file-upload input {
+      display: none;
+    }
+
+    .btn-primary {
+      background: var(--green-main);
+      color: var(--bg-main);
+      padding: 14px 28px;
+      border: 1px solid var(--green-main);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-secondary);
+      border-color: var(--green-secondary);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-right: 12px;
+      font-family: var(--font-body);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--green-main);
+      color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 0.85rem;
+    }
+
+    .integrations-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .config-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-muted);
+    }
+
+    .status-dot.configured {
+      background: var(--green-main);
+    }
+
+    .status-dot.partial {
+      background: #ffaa00;
+    }
+
+    .info-box {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--border-radius-md);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .info-box-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #6366f1;
+      margin-bottom: 8px;
+    }
+
+    .info-box-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--green-main);
+    }
+
+    .checkbox-item label {
+      color: var(--text-main);
+      font-size: 0.9rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .day-schedule-row {
+      display: grid;
+      grid-template-columns: 100px 1fr 1fr 60px;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      background: var(--bg-main);
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--border);
+    }
+
+    .day-schedule-row.disabled {
+      opacity: 0.5;
+    }
+
+    .day-name {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .day-time-input {
+      padding: 8px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-sm);
+      color: var(--text-main);
+      font-size: 0.85rem;
+    }
+
+    .day-time-input:disabled {
+      opacity: 0.5;
+    }
+
+    .copy-schedule-btn {
+      padding: 6px 12px;
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid var(--green-main);
+      border-radius: var(--border-radius-sm);
+      color: var(--green-main);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .copy-schedule-btn:hover {
+      background: rgba(0, 255, 136, 0.2);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .integrations-container {
+        padding: 100px 16px 20px;
+      }
+
+      .integrations-header {
+        margin-bottom: 24px;
+      }
+
+      .integrations-title {
+        font-size: 1.5rem;
+      }
+
+      .integrations-subtitle {
+        font-size: 0.9rem;
+      }
+
+      .integrations-content {
+        max-width: 100%;
+      }
+
+      .integration-card {
+        padding: 20px;
+        margin-bottom: 16px;
+      }
+
+      .integration-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .integration-icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .integration-icon svg {
+        width: 24px;
+        height: 24px;
+      }
+
+      .integration-actions {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .integration-actions button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .integrations-container {
+        padding: 80px 12px 16px;
+      }
+
+      .integrations-title {
+        font-size: 1.2rem;
+      }
+
+      .integration-card {
+        padding: 16px;
+      }
+
+      .form-group label {
+        font-size: 0.85rem;
+      }
+
+      input, textarea, select {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="#demo" class="navbar-link">Demos</a>
+        <a href="#myia" class="navbar-link" style="color: var(--green-main);">MyIA</a>
+        <a href="#planes" class="navbar-link">Planes</a>
+        <a href="#portfolio" class="navbar-link">Portfolio</a>
+        <a href="#nosotros" class="navbar-link">Nosotros</a>
+        <a href="#faq" class="navbar-link">FAQ</a>
+        <a href="#contacto" class="navbar-link">Contacto</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="integrations-container">
+    <div class="container">
+      <div class="integrations-header">
+        <h1 class="integrations-title">Integraciones según tu Plan</h1>
+        <p class="integrations-subtitle">Configura las herramientas que tu agente usará según el plan seleccionado</p>
+        <div class="plan-badge" id="planBadge">Plan: Cargando...</div>
+      </div>
+
+      <div class="integrations-content">
+        <!-- Google Sheets (Plan 02: Asiste+) -->
+        <div class="integration-card" id="sheetsCard">
+          <div class="integration-card-header">
+            <div class="integration-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 4h16v16H4V4z" fill="#0F9D58"/>
+                <path d="M4 4h8v8H4V4z" fill="#34A853"/>
+                <path d="M12 4h8v8h-8V4z" fill="#4285F4"/>
+                <path d="M4 12h8v8H4v-8z" fill="#FBBC05"/>
+                <path d="M12 12h8v8h-8v-8z" fill="#EA4335"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="integration-title">Google Sheets</h3>
+              <div class="config-status">
+                <div class="status-dot" id="sheetsStatus"></div>
+                <span id="sheetsStatusText">No configurado</span>
+              </div>
+            </div>
+          </div>
+          <p class="integration-description">
+            Configura las hojas de cálculo que tu agente usará para leer y escribir datos según el plan.
+          </p>
+          
+          <div class="info-box">
+            <div class="info-box-title">INFO Instrucciones</div>
+            <div class="info-box-text">
+              Para usar Google Sheets, primero debes crear una hoja base de datos de usuarios. 
+              Esta hoja servirá como repositorio central de información.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Sheet ID de la base de datos de usuarios</label>
+            <input type="text" class="form-input" id="sheetsDbId" placeholder="Ej: 1BxiMvs0XRA5nFMdKvBdBZjGMUUqpt35">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">URL del Sheet (para que la IA pueda copiarla)</label>
+            <input type="text" class="form-input" id="sheetsUrl" placeholder="https://docs.google.com/spreadsheets/d/SHEET_ID/edit" readonly>
+          </div>
+
+          <div class="form-group">
+            <button class="btn-secondary" id="downloadTemplateBtn" style="width: 100%;">
+              <span style="margin-right: 8px;">[DOWNLOAD]</span>
+              Descargar Plantilla de Base de Datos
+            </button>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 8px;">
+              Plantilla predefinida con columnas para clientes, citas, historial, etc.
+            </p>
+          </div>
+
+          <!-- Plan 03+ y 04+: Sheets personalizados -->
+          <div class="form-group" id="customSheetsSection" style="display: none;">
+            <label class="form-label">Sheets Personalizados (Plan 03+)</label>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">
+              Agrega sheets personalizados con instrucciones específicas para la IA.
+            </p>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <span style="color: var(--text-secondary); font-size: 0.85rem;">
+                Sheets agregados: <span id="customSheetsCount">0</span> / <span id="customSheetsLimit">1</span>
+              </span>
+              <span id="customSheetsRemaining" style="color: var(--green-main); font-size: 0.85rem;">Restantes: 1</span>
+            </div>
+            
+            <div id="customSheetsList">
+              <!-- Los sheets personalizados se agregarán aquí dinámicamente -->
+            </div>
+            
+            <button class="btn-secondary" id="addCustomSheetBtn" style="width: 100%; margin-top: 16px;">
+              + Añadir Sheet Personalizado
+            </button>
+          </div>
+        </div>
+
+        <!-- Imágenes Markdown (Plan 03: Automatiza+) -->
+        <div class="integration-card" id="imagesCard">
+          <div class="integration-card-header">
+            <div class="integration-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" fill="#00ff88"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="integration-title">Imágenes del Sistema Markdown</h3>
+              <div class="config-status">
+                <div class="status-dot" id="imagesStatus"></div>
+                <span id="imagesStatusText">No configurado</span>
+              </div>
+            </div>
+          </div>
+          <p class="integration-description">
+            Sube las imágenes que tu agente mostrará en las respuestas usando el sistema de markdown de Crysantem.
+          </p>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <span style="color: var(--text-secondary); font-size: 0.85rem;">
+              Imágenes cargadas: <span id="imagesCount">0</span> / <span id="imagesLimit">10</span>
+            </span>
+            <span id="imagesRemaining" style="color: var(--green-main); font-size: 0.85rem;">Restantes: 10</span>
+          </div>
+
+          <div class="info-box">
+            <div class="info-box-title">INFO Sistema de Markdown</div>
+            <div class="info-box-text">
+              Las imágenes se guardan en <code>frontend/IMG/imagenes_markdown/</code> y se referencian en el prompt usando <code>![Descripción](markdown:nombre_imagen.jpg)</code>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Subir imágenes</label>
+            <div class="file-upload" id="imageUpload">
+              <div class="file-upload-icon">📤</div>
+              <div class="file-upload-text">Arrastra imágenes aquí o haz clic para seleccionar</div>
+              <input type="file" id="imageInput" multiple accept="image/*">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Imágenes cargadas con descripciones</label>
+            <div id="uploadedImages" style="display: flex; flex-wrap: wrap; gap: 12px;">
+              <p style="color: var(--text-muted); font-size: 0.85rem;">No hay imágenes cargadas</p>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <div class="info-box-title">INFO Descripciones de Imágenes</div>
+            <div class="info-box-text">
+              Añade descripciones breves a cada imagen para que la IA las identifique y use correctamente en las respuestas.
+            </div>
+          </div>
+        </div>
+
+        <!-- Gmail (Plan 04: Intelligence) -->
+        <div class="integration-card hidden" id="gmailCard">
+          <div class="integration-card-header">
+            <div class="integration-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill="#EA4335"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="integration-title">Gmail</h3>
+              <div class="config-status">
+                <div class="status-dot" id="gmailStatus"></div>
+                <span id="gmailStatusText">No configurado</span>
+              </div>
+            </div>
+          </div>
+          <p class="integration-description">
+            Configura cómo tu agente enviará correos automáticos a través de Gmail.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label">Gmail de envío</label>
+            <input type="email" class="form-input" id="gmailSender" placeholder="tu-email@gmail.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Gmail de respuesta (opcional)</label>
+            <input type="email" class="form-input" id="gmailReplyTo" placeholder="respuestas@tu-negocio.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Asunto predeterminado</label>
+            <input type="text" class="form-input" id="gmailSubject" placeholder="Información de [Nombre del Negocio]">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Plantilla de correo</label>
+            <textarea class="form-textarea" id="gmailTemplate" style="min-height: 150px;" placeholder="Hola {nombre}, gracias por contactarnos..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Campos dinámicos (IA rellena usando n8n)</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="gmailAiSubject" checked>
+                <label for="gmailAiSubject">Asunto (IA genera según contexto)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="gmailAiBody" checked>
+                <label for="gmailAiBody">Cuerpo del correo (IA rellena {variables})</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="gmailAiAttachments">
+                <label for="gmailAiAttachments">Adjuntos (IA decide cuándo adjuntar)</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Tipo de envío</label>
+            <select class="form-select" id="gmailSendType">
+              <option value="immediate">Inmediato (al terminar la conversación)</option>
+              <option value="scheduled">Programado (según configuración)</option>
+              <option value="manual">Manual (requiere aprobación)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Google Calendar (Plan 03: Automatiza+) -->
+        <div class="integration-card hidden" id="calendarCard">
+          <div class="integration-card-header">
+            <div class="integration-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" fill="#4285F4"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="integration-title">Google Calendar</h3>
+              <div class="config-status">
+                <div class="status-dot" id="calendarStatus"></div>
+                <span id="calendarStatusText">No configurado</span>
+              </div>
+            </div>
+          </div>
+          <p class="integration-description">
+            Configura el calendario donde tu agente gestionará citas y eventos.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label">Calendar ID</label>
+            <input type="text" class="form-input" id="calendarId" placeholder="primary o calendar ID específico">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Duración predeterminada de citas (minutos)</label>
+            <select class="form-select" id="calendarDuration">
+              <option value="15">15 minutos</option>
+              <option value="30" selected>30 minutos</option>
+              <option value="45">45 minutos</option>
+              <option value="60">60 minutos</option>
+              <option value="90">90 minutos</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Horario de disponibilidad por día</label>
+            <div id="dayScheduleConfig" style="display: flex; flex-direction: column; gap: 12px;">
+              <!-- Se generará dinámicamente con JS -->
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Zona horaria</label>
+            <select class="form-select" id="calendarTimezone">
+              <option value="UTC">UTC (Tiempo Universal Coordinado)</option>
+              <option value="America/Bogota">America/Bogota (Colombia)</option>
+              <option value="America/Mexico_City">America/Mexico_City (México)</option>
+              <option value="America/Argentina/Buenos_Aires">America/Argentina/Buenos_Aires (Argentina)</option>
+              <option value="America/Santiago">America/Santiago (Chile)</option>
+              <option value="America/Lima">America/Lima (Perú)</option>
+              <option value="Europe/Madrid">Europe/Madrid (España)</option>
+              <option value="America/New_York">America/New_York (EST)</option>
+              <option value="America/Los_Angeles">America/Los_Angeles (PST)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Funciones de la IA (Todos los planes) -->
+        <div class="integration-card" id="functionsCard">
+          <div class="integration-card-header">
+            <div class="integration-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="integration-title">Funciones de la IA</h3>
+              <div class="config-status">
+                <div class="status-dot" id="functionsStatus"></div>
+                <span id="functionsStatusText">No configurado</span>
+              </div>
+            </div>
+          </div>
+          <p class="integration-description">
+            Define las funciones específicas que tu agente IA podrá realizar.
+          </p>
+
+          <div class="form-group">
+            <label class="form-label">Funciones Disponibles</label>
+            <textarea 
+              class="form-input" 
+              id="functionsPrompt" 
+              rows="8" 
+              placeholder="Ejemplo de funciones:
+
+- Agendar citas: El agente puede agendar citas automáticamente en el calendario configurado.
+- Mostrar productos: El agente puede mostrar catálogos de productos desde Google Sheets.
+- Gestión de clientes: El agente puede registrar y consultar información de clientes.
+- Procesar pedidos: El agente puede procesar pedidos y generar facturas.
+- Consultar horarios: El agente puede consultar disponibilidad de horarios.
+- Enviar correos: El agente puede enviar correos automáticos según configuración.
+- Sesiones de coaching: El agente puede agendar sesiones de coaching o consultoría.
+- Soporte técnico: El agente puede responder preguntas técnicas y generar tickets.
+
+Describe aquí todas las funciones que tu agente deberá realizar. Sé específico sobre qué puede y qué no puede hacer."
+            ></textarea>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">
+              Esta descripción se integrará en el super prompt de la IA para guiar su comportamiento.
+            </p>
+          </div>
+        </div>
+
+        <div class="integrations-footer">
+          <button class="btn-secondary" id="backBtn">← Volver al Prompt</button>
+          <button class="btn-primary" id="continueBtn">Continuar a Pago y Autenticación →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Template para sheet personalizado -->
+  <template id="customSheetTemplate">
+    <div class="custom-sheet-card" style="background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.2); border-radius: var(--border-radius-md); padding: 20px; margin-bottom: 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h4 style="margin: 0; color: var(--text-main); font-size: 1rem;">Sheet Personalizado</h4>
+        <button class="delete-sheet-btn" style="background: rgba(255, 100, 100, 0.2); border: 1px solid rgba(255, 100, 100, 0.4); color: #ff6464; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem;">Eliminar</button>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" style="font-size: 0.85rem;">Título del Sheet</label>
+        <input type="text" class="form-input custom-sheet-title" placeholder="Ej: Inventario Q4">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" style="font-size: 0.85rem;">Sheet ID</label>
+        <input type="text" class="form-input custom-sheet-id" placeholder="Ej: 1BxiMvs0XRA5nFMdKvBdBZjGMUUqpt35">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" style="font-size: 0.85rem;">URL GET (para IA)</label>
+        <input type="text" class="form-input custom-sheet-url-get" placeholder="https://docs.google.com/spreadsheets/d/SHEET_ID/edit" readonly>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" style="font-size: 0.85rem;">URL POST (para IA)</label>
+        <input type="text" class="form-input custom-sheet-url-post" placeholder="https://sheets.googleapis.com/v4/spreadsheets/SHEET_ID/values/..." readonly>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" style="font-size: 0.85rem;">Tipo de interacción</label>
+        <select class="form-select custom-sheet-type">
+          <option value="manual">El usuario proporciona el prompt</option>
+          <option value="ai">La IA elige el prompt automáticamente</option>
+          <option value="logic">Proceso lógico (ej: sumar, promediar)</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" style="font-size: 0.85rem;">Prompt específico para la IA</label>
+        <textarea class="form-input custom-sheet-prompt" rows="6" placeholder="Ej: ### REGLAS CRÍTICAS PARA LA EXTRACCIÓN DE DATOS:
+Antes de invocar cualquier herramienta de escritura o registro, estás OBLIGADO a extraer explícitamente las siguientes dos variables del mensaje del usuario:
+- &quot;producto&quot;: El nombre, concepto o descripción clara del artículo que desea registrar.
+- &quot;precio&quot;: El valor numérico del costo o precio..."></textarea>
+        <p style="color: var(--text-muted); font-size: 0.75rem; margin-top: 4px;">
+          Este prompt se incluirá automáticamente cuando la IA interactúe con este sheet.
+        </p>
+      </div>
+    </div>
+  </template>
+
+  <script src="js/main.js"></script>
+  <script src="js/myia-integrations.js?v=6.3"></script>
+</body>
+</html>

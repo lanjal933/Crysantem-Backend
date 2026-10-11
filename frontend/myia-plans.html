@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selecciona tu Plan - MyIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=6.3">
+  <script src="js/config.js?v=6.3"></script>
+  <style>
+    .plans-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      position: relative;
+    }
+
+    .plans-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .plans-header {
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .plans-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      font-family: var(--font-display);
+      letter-spacing: -0.02em;
+    }
+
+    .plans-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .billing-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 32px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .billing-toggle-label {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      transition: color var(--transition);
+    }
+
+    .billing-toggle-label.active {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 56px;
+      height: 28px;
+      background: var(--bg-secondary);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      transition: all var(--transition);
+    }
+
+    .toggle-switch.active {
+      border-color: var(--green-main);
+      background: rgba(0, 255, 136, 0.1);
+    }
+
+    .toggle-switch.active::after {
+      left: 30px;
+      background: var(--green-main);
+    }
+
+    .annual-badge {
+      background: linear-gradient(135deg, var(--green-main), var(--green-secondary));
+      color: var(--bg-main);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--spacing-lg);
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .plan-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-xl);
+      transition: all var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .plan-card:hover {
+      border-color: var(--green-main);
+      transform: translateY(-4px);
+    }
+
+    .plan-card.selected {
+      border-color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .plan-card.selected::after {
+      content: '';
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      background: var(--green-main);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .plan-card.selected::after {
+      content: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3Epath d='M20 6L9 17l-5-5'/%3E/svg%3E");
+    }
+
+    .plan-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--green-main), var(--green-secondary));
+      color: var(--bg-main);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .plan-number {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--green-main);
+      margin-bottom: 8px;
+    }
+
+    .plan-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      font-family: var(--font-display);
+    }
+
+    .plan-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      font-family: var(--font-display);
+    }
+
+    .plan-price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+
+    .plan-features {
+      list-style: none;
+      margin: 24px 0;
+    }
+
+    .plan-features li {
+      color: var(--text-secondary);
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .plan-features li::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--green-main);
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .plan-ai {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--border-radius-md);
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .plan-ai-label {
+      font-size: 0.75rem;
+      color: #6366f1;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .plan-ai-value {
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .plan-limit {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .plan-annual-total {
+      font-size: 0.85rem;
+      color: var(--green-main);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .plan-minimum {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .enterprise-btn {
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      padding: 12px 24px;
+      border: 2px solid var(--border);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      width: 100%;
+      font-family: var(--font-body);
+    }
+
+    .enterprise-btn:hover {
+      border-color: var(--green-main);
+      color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .back-btn {
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-right: 12px;
+      font-family: var(--font-body);
+    }
+
+    .back-btn:hover {
+      border-color: var(--green-main);
+      color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .continue-btn {
+      background: var(--green-main);
+      color: var(--bg-main);
+      padding: 14px 28px;
+      border: 1px solid var(--green-main);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .continue-btn:hover {
+      background: var(--green-secondary);
+      border-color: var(--green-secondary);
+      transform: translateY(-1px);
+    }
+
+    .continue-btn:disabled {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border-color: var(--border);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .plans-footer {
+      text-align: center;
+      margin-top: 48px;
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="#demo" class="navbar-link">Demos</a>
+        <a href="#myia" class="navbar-link" style="color: var(--green-main);">MyIA</a>
+        <a href="#planes" class="navbar-link">Planes</a>
+        <a href="#portfolio" class="navbar-link">Portfolio</a>
+        <a href="#nosotros" class="navbar-link">Nosotros</a>
+        <a href="#faq" class="navbar-link">FAQ</a>
+        <a href="#contacto" class="navbar-link">Contacto</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="plans-container">
+    <div class="container">
+      <div class="plans-header">
+        <button class="back-btn" id="backBtn">← Volver</button>
+        <h1 class="plans-title">Selecciona tu Plan</h1>
+        <p class="plans-subtitle">Elige el nivel de automatización que necesita tu negocio</p>
+
+        <div class="billing-toggle">
+          <span class="billing-toggle-label active" data-billing="monthly">Facturación Mensual</span>
+          <div class="toggle-switch" id="billingToggle"></div>
+          <span class="billing-toggle-label" data-billing="annual">
+            Facturación Anual
+            <span class="annual-badge">Ahorrá 2 meses</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="plans-grid">
+        <div class="plan-card" data-plan="responde">
+          <div class="plan-number">01</div>
+          <h3 class="plan-name">Responde</h3>
+          <div class="plan-price" data-monthly="60000" data-annual="50000">$60.000 <span>/mes</span></div>
+          <div class="plan-annual-total" style="display: none;">Cobrado anualmente: $600.000 ARS</div>
+
+          <div class="plan-ai">
+            <div class="plan-ai-label">Modelo de IA</div>
+            <div class="plan-ai-value">Gemini Flash</div>
+          </div>
+
+          <ul class="plan-features">
+            <li>Chatbot básico 24/7</li>
+            <li>Canales: Web, Telegram, Discord</li>
+            <li>Respuestas automáticas</li>
+            <li>Soporte por email</li>
+          </ul>
+
+          <div class="plan-limit">Hasta 1.000 mensajes al mes</div>
+          <div class="plan-minimum">Permanencia mínima: 3 meses</div>
+        </div>
+
+        <div class="plan-card" data-plan="asiste">
+          <div class="plan-number">02</div>
+          <h3 class="plan-name">Asiste</h3>
+          <div class="plan-badge">Recomendado</div>
+          <div class="plan-price" data-monthly="85000" data-annual="70833">$85.000 <span>/mes</span></div>
+          <div class="plan-annual-total" style="display: none;">Cobrado anualmente: $850.000 ARS</div>
+
+          <div class="plan-ai">
+            <div class="plan-ai-label">Modelo de IA</div>
+            <div class="plan-ai-value">Gemini Flash</div>
+          </div>
+
+          <ul class="plan-features">
+            <li>Todo lo del plan Responde</li>
+            <li>Conexión con Google Drive</li>
+            <li>Texto Bonito (Markdown enriquecido)</li>
+            <li>Cajas coloridas y links estéticos</li>
+            <li>Botones directos a WhatsApp/Gmail</li>
+          </ul>
+
+          <div class="plan-limit">Hasta 2.500 mensajes al mes</div>
+          <div class="plan-minimum">Permanencia mínima: 3 meses</div>
+        </div>
+
+        <div class="plan-card" data-plan="automatiza">
+          <div class="plan-number">03</div>
+          <h3 class="plan-name">Automatiza</h3>
+          <div class="plan-price" data-monthly="150000" data-annual="125000">$150.000 <span>/mes</span></div>
+          <div class="plan-annual-total" style="display: none;">Cobrado anualmente: $1.500.000 ARS</div>
+
+          <div class="plan-ai">
+            <div class="plan-ai-label">Modelo de IA</div>
+            <div class="plan-ai-value">Gemini Pro</div>
+          </div>
+
+          <ul class="plan-features">
+            <li>Todo lo del plan Asiste</li>
+            <li>Conexión con Google Calendar</li>
+            <li>Texto Bonito incluido</li>
+            <li>Gráficos Pro (Gráficos dinámicos)</li>
+            <li>Gestión automática de citas</li>
+          </ul>
+
+          <div class="plan-limit">Hasta 5.000 mensajes al mes</div>
+          <div class="plan-minimum">Permanencia mínima: 6 meses</div>
+        </div>
+
+        <div class="plan-card" data-plan="intelligence">
+          <div class="plan-number">04</div>
+          <h3 class="plan-name">Crysantem Intelligence</h3>
+          <div class="plan-price" data-monthly="190000" data-annual="158333">$190.000 <span>/mes</span></div>
+          <div class="plan-annual-total" style="display: none;">Cobrado anualmente: $1.900.000 ARS</div>
+
+          <div class="plan-ai">
+            <div class="plan-ai-label">Modelo de IA</div>
+            <div class="plan-ai-value">Gemini Pro</div>
+          </div>
+
+          <ul class="plan-features">
+            <li>Todo lo del plan Automatiza</li>
+            <li>Conexión con Gmail</li>
+            <li>Google Drive + Calendar</li>
+            <li>Integraciones premium</li>
+            <li>Soporte prioritario</li>
+          </ul>
+
+          <div class="plan-limit">Mensajes ajustados a medida</div>
+        </div>
+
+        <div class="plan-card enterprise-only">
+          <div class="plan-number">05</div>
+          <h3 class="plan-name">Enterprise</h3>
+          <div class="plan-price">Custom <span>/Personalizado</span></div>
+
+          <div class="plan-ai">
+            <div class="plan-ai-label">Modelo de IA</div>
+            <div class="plan-ai-value">Gemini Pro</div>
+          </div>
+
+          <ul class="plan-features">
+            <li>Todo lo del plan Crysantem Intelligence</li>
+            <li>Integraciones personalizadas ilimitadas</li>
+            <li>Soporte técnico dedicado 24/7</li>
+            <li>Infraestructura escalable</li>
+            <li>SLA garantizado</li>
+            <li>Mensajes ilimitados</li>
+          </ul>
+
+          <div class="plan-limit">Solución completamente a medida</div>
+          <button class="enterprise-btn" onclick="window.open('https://wa.me/13237093568?text=Hola,%20estoy%20interesado%20en%20el%20plan%20Enterprise', '_blank')">
+            Agendar Sesión →
+          </button>
+        </div>
+      </div>
+
+      <div class="plans-footer">
+        <button id="continueBtn" class="continue-btn" disabled>Continuar con autenticación →</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/myia-plans.js?v=6.3"></script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crysantem — Agentes y Chatbots de Inteligencia Artificial</title>
+  <meta name="description" content="Crysantem desarrolla agentes y chatbots de IA personalizados para automatizar la atención y los procesos de empresas.">
+  <meta property="og:title" content="Crysantem — Agentes y Chatbots de Inteligencia Artificial">
+  <meta property="og:description" content="Crysantem desarrolla agentes y chatbots de IA personalizados para automatizar la atención y los procesos de empresas.">
+  <meta property="og:type" content="website">
+
+  <!-- Cache Control -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=6.3">
+  <script src="js/config.js?v=6.3"></script>
+  <script src="js/chart.umd.min.js?v=6.3"></script>
+
+  <!-- Tapfiliate Tracking Script -->
+  <script type="text/javascript">
+    (function(t,a,p){t.TapfiliateObject=a;t[a]=t[a]||function(){
+    (t[a].q=t[a].q||[]).push(arguments)}})(window,'tap');
+
+    // TODO: Reemplazar 'YOUR_TAPFILIATE_ACCOUNT_ID' con tu Account ID real de Tapfiliate
+    tap('create', 'YOUR_TAPFILIATE_ACCOUNT_ID', { integration: 'crysantem' });
+    tap('detect');
+  </script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="#" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="#demo" class="navbar-link">Demos</a>
+        <a href="#myia" class="navbar-link">MyIA</a>
+        <a href="#planes" class="navbar-link">Planes</a>
+        <a href="#portfolio" class="navbar-link">Portfolio</a>
+        <a href="#nosotros" class="navbar-link">Nosotros</a>
+        <a href="#faq" class="navbar-link">FAQ</a>
+        <a href="#contacto" class="navbar-link">Contacto</a>
+        <a href="myia-coworkers.html" class="navbar-link" id="coworkersLink" style="display: none;">COWORKERS</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <div id="userEmailDisplay" class="navbar-dropdown-item" style="cursor: default; font-weight: 500;"></div>
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section id="hero" class="hero section">
+    <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-glow-3"></div>
+    <div class="hero-glow-4"></div>
+    <div class="container hero-content">
+      <h1 class="hero-title">
+        Atención al cliente que <span class="dynamic-text"></span>
+      </h1>
+      <p class="hero-subtitle">
+        Creamos agentes de IA capaces de responder consultas, asistir clientes y automatizar tareas directamente desde tu web, Discord o Telegram.
+      </p>
+      <div class="hero-cta">
+        <a href="#demo" class="btn btn-primary">Probar demo</a>
+        <a href="https://wa.me/13237093568" target="_blank" class="btn btn-secondary">Hablar por WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo" class="demo-section section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Probá Crysantem V1.4 AHORA</h2>
+        <p class="section-subtitle">
+          Conocé cómo puede responder un agente IA diseñado para atender clientes.
+        </p>
+      </div>
+      <div class="demo-container">
+        <div class="demo-chat">
+          <div class="demo-header">
+            <div class="demo-header-icon">C</div>
+            <div class="demo-header-info">
+              <div class="demo-header-title">Crysantem AI</div>
+              <div class="demo-header-status">
+                <span class="status-indicator"></span>
+                <span class="status-text">Online</span>
+              </div>
+            </div>
+          </div>
+          <div class="demo-messages" id="demoMessages"></div>
+          <div class="demo-input">
+            <input type="text" id="demoInput" placeholder="Escribí tu consulta..." autocomplete="off">
+            <button id="demoSendBtn">➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="planes" class="plans-section section">
+    <div class="container">
+      <h2 class="section-title">Planes</h2>
+      <p class="section-subtitle">
+        Elegí el nivel de automatización que necesita tu negocio.
+      </p>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-number">01</div>
+          <h3 class="plan-name">Responde</h3>
+          <div class="plan-price">
+            <div class="plan-price-monthly">$60.000 ARS / mes</div>
+          </div>
+          <p class="plan-description">Chatbot básico para automatizar la atención al cliente 24/7.</p>
+          <p class="plan-details">Canales: Web, Telegram o Discord</p>
+          <ul class="plan-features">
+            <li>Responde preguntas frecuentes, horarios, ubicación y datos de contacto</li>
+            <li>Mantiene conversaciones naturales usando la información de tu empresa</li>
+            <li>Mensajes: Hasta 1.000 mensajes al mes</li>
+            <li>Sin costo de implementación</li>
+          </ul>
+          <a href="myia-home.html" class="btn btn-secondary btn-full">Comenzar</a>
+        </div>
+
+        <div class="plan-card">
+          <div class="plan-number">02</div>
+          <h3 class="plan-name">Asiste</h3>
+          <div class="plan-price">
+            <div class="plan-price-monthly">$85.000 ARS / mes</div>
+          </div>
+          <p class="plan-description">Asistente inteligente que entiende el contexto y guía al cliente.</p>
+          <p class="plan-details">Conexión clave: Google Drive (Base de conocimiento personalizada)</p>
+          <ul class="plan-features">
+            <li>Todo lo del plan anterior</li>
+            <li>Comprende la intención del usuario y da recomendaciones personalizadas</li>
+            <li>Recopila datos de clientes y los guía paso a paso</li>
+            <li>Detecta cuándo se necesita un humano y deriva la conversación</li>
+            <li>Markdown enriquecido: cajas coloridas, links estéticos, botones directos</li>
+            <li>Mensajes: Hasta 2.500 mensajes al mes</li>
+            <li>Sin costo de implementación</li>
+          </ul>
+          <a href="myia-home.html" class="btn btn-secondary btn-full">Comenzar</a>
+        </div>
+
+        <div class="plan-card featured">
+          <div class="plan-badge">RECOMENDADO</div>
+          <div class="plan-number">03</div>
+          <h3 class="plan-name">Automatiza</h3>
+          <div class="plan-price">
+            <div class="plan-price-monthly">$150.000 ARS / mes</div>
+          </div>
+          <p class="plan-description">Agente operativo que transforma conversaciones en acciones comerciales.</p>
+          <p class="plan-details">Conexión clave: Google Calendar (Integración total de agenda)</p>
+          <ul class="plan-features">
+            <li>Todo lo del plan anterior</li>
+            <li>Reserva, gestiona y cancela citas de forma automática</li>
+            <li>Envía confirmaciones y recordatorios a los clientes</li>
+            <li>Captura, clasifica y califica leads (clientes potenciales)</li>
+            <li>Gráficos dinámicos generados por la IA</li>
+            <li>Ejecuta flujos automatizados con herramientas externas</li>
+            <li>Mensajes: Hasta 5.000 mensajes al mes</li>
+            <li>Sin costo de implementación</li>
+          </ul>
+          <a href="myia-home.html" class="btn btn-primary btn-full">Comenzar</a>
+        </div>
+
+        <div class="plan-card premium">
+          <div class="plan-badge" style="background: var(--purple-accent);">PREMIUM</div>
+          <div class="plan-number">04</div>
+          <h3 class="plan-name">Crysantem Intelligence</h3>
+          <div class="plan-price">
+            <div class="plan-price-monthly">$190.000 ARS / mes</div>
+          </div>
+          <p class="plan-description">Agente de IA avanzado con integración completa de Gmail.</p>
+          <p class="plan-details">Conexión clave: Gmail, Google Drive y Google Calendar (Ecosistema completo)</p>
+          <ul class="plan-features">
+            <li>Todo lo del plan anterior</li>
+            <li>Envía resúmenes automáticos de las conversaciones por email</li>
+            <li>Envía y procesa imágenes, catálogos y documentos técnicos complejos</li>
+            <li>Ejecuta automatizaciones personalizadas e integraciones adicionales a pedido</li>
+            <li>Mensajes: Ajustados a medida</li>
+            <li>Sin costo de implementación</li>
+          </ul>
+          <a href="myia-home.html" class="btn btn-secondary btn-full">Comenzar</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="enterprise" class="enterprise-section section">
+    <div class="container">
+      <h2 class="section-title">Enterprise</h2>
+      <p class="section-subtitle">
+        Soluciones personalizadas para grandes empresas.
+      </p>
+      <div class="plans-grid">
+        <div class="plan-card enterprise-only">
+          <div class="plan-number">Enterprise</div>
+          <h3 class="plan-name">Solución Enterprise</h3>
+          <div class="plan-price">
+            <div class="plan-price-monthly">Personalizado</div>
+          </div>
+          <p class="plan-description">Desarrollo completamente a medida de tu agente de IA con integraciones avanzadas, soporte dedicado y infraestructura escalable para grandes volúmenes.</p>
+          <ul class="plan-features">
+            <li>Integraciones personalizadas ilimitadas</li>
+            <li>Soporte técnico dedicado 24/7</li>
+            <li>Infraestructura escalable</li>
+            <li>SLA garantizado</li>
+            <li>Mensajes ilimitados</li>
+            <li>Gestión de datos y seguridad avanzada</li>
+            <li>Diseñado desde cero para adaptarse a los procesos específicos de tu empresa</li>
+          </ul>
+          <a href="#contacto" class="btn btn-primary btn-full">Contactar Ventas</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="myia" class="myia-section section">
+    <div class="container">
+      <div class="myia-content">
+        <div class="myia-text">
+          <h2 class="section-title">MyIA</h2>
+          <p class="section-subtitle">
+            Instala tu agente tú mismo YA
+          </p>
+          <p class="myia-description">
+            Ten tu agente funcionando en una web hermosa en menos de 15 minutos sin conocimientos técnicos.
+          </p>
+          <a href="myia-home.html" class="btn btn-primary btn-large">Comenzar</a>
+        </div>
+        <div class="myia-visual">
+          <div class="myia-preview">
+            <div class="myia-preview-header">
+              <div class="myia-preview-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <div class="myia-preview-body">
+              <div class="myia-preview-chat">
+                <div class="myia-preview-message myia-preview-message-ai">
+                  <div class="myia-preview-avatar">AI</div>
+                  <div class="myia-preview-bubble">
+                    ¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?
+                  </div>
+                </div>
+                <div class="myia-preview-message myia-preview-message-user">
+                  <div class="myia-preview-bubble">
+                    Necesito información sobre tus servicios
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="portfolio" class="portfolio-section section">
+    <div class="container portfolio-container">
+      <div class="portfolio-header">
+        <h2 class="section-title">Portfolio</h2>
+        <div class="portfolio-indicator">01 / 03</div>
+      </div>
+      <p class="section-subtitle">
+        Mira algunos de nuestros proyectos en acción.
+      </p>
+      <div class="portfolio-scroll" id="portfolioScroll">
+        <div class="portfolio-item">
+          <div class="portfolio-video">
+            <video controls preload="metadata">
+              <source src="videos/portfolio1.mp4" type="video/mp4">
+              Tu navegador no soporta videos.
+            </video>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-video">
+            <video controls preload="metadata">
+              <source src="videos/portfolio2.mp4" type="video/mp4">
+              Tu navegador no soporta videos.
+            </video>
+          </div>
+        </div>
+        <div class="portfolio-item">
+          <div class="portfolio-video">
+            <video controls preload="metadata">
+              <source src="videos/portfolio3.mp4" type="video/mp4">
+              Tu navegador no soporta videos.
+            </video>
+          </div>
+        </div>
+      </div>
+      <p class="portfolio-hint">← Deslizá para explorar →</p>
+    </div>
+  </section>
+
+  <section id="nosotros" class="nosotros-section section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Construimos herramientas de IA para negocios reales.</h2>
+        <p class="section-subtitle">
+          En Crysantem desarrollamos agentes de inteligencia artificial enfocados principalmente en atención al cliente y automatización.
+        </p>
+        <p class="section-subtitle" style="margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xl);">
+          Nuestro objetivo es simple: que las empresas puedan ofrecer una mejor atención sin convertir cada consulta en trabajo manual.
+        </p>
+      </div>
+      <div class="nosotros-grid">
+        <div class="nosotros-card">
+          <h3 class="nosotros-title">Simple</h3>
+          <p class="nosotros-text">Tecnología compleja detrás. Experiencia sencilla delante.</p>
+        </div>
+        <div class="nosotros-card">
+          <h3 class="nosotros-title">Útil</h3>
+          <p class="nosotros-text">No hacemos IA por hacer IA. Cada función debe resolver un problema.</p>
+        </div>
+        <div class="nosotros-card">
+          <h3 class="nosotros-title">Adaptable</h3>
+          <p class="nosotros-text">Cada negocio tiene procesos diferentes. El agente debe adaptarse a ellos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="faq-section section">
+    <div class="container">
+      <h2 class="section-title">Preguntas Frecuentes</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question">¿Qué es un agente de IA?</div>
+          <div class="faq-answer">
+            Un agente de IA es un sistema inteligente que puede entender, procesar y responder consultas de manera automática, simulando una conversación humana. Puede aprender sobre tu negocio y proporcionar respuestas personalizadas a tus clientes.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿El chatbot se adapta a mi empresa?</div>
+          <div class="faq-answer">
+            Sí. Crysantem desarrolla agentes personalizados según las necesidades, información y procesos de tu empresa. Lo entrenamos con los datos específicos de tu negocio para que responda de manera coherente y útil.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿Puedo probar la IA antes de contratar?</div>
+          <div class="faq-answer">
+            Sí. La web cuenta con una demostración de Crysantem V1.4 en la sección "Probá Crysantem V1.4 AHORA". Podés interactuar con el agente directamente para ver cómo funciona.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿Puedo conectar mi Google Calendar?</div>
+          <div class="faq-answer">
+            Sí, dependiendo del plan contratado. Los planes "Automatiza" y "Crysantem Pro" incluyen integración con Google Calendar para gestionar citas y agenda automáticamente.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿Puede utilizar información e imágenes de mi empresa?</div>
+          <div class="faq-answer">
+            Sí, en los planes que incluyan almacenamiento/integraciones correspondientes. El plan Crysantem Pro permite usar Google Drive para gestionar archivos y documentos específicos de tu negocio.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿Puede enviar emails?</div>
+          <div class="faq-answer">
+            Sí, en los planes que incluyan integración con Gmail. El plan Crysantem Pro incluye esta funcionalidad para enviar resúmenes y comunicaciones por email.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿Los agentes pueden agendar citas?</div>
+          <div class="faq-answer">
+            Sí, mediante las integraciones correspondientes. Los planes que incluyen Google Calendar permiten que el agente gestione automáticamente la agenda de citas.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿El servicio tiene mantenimiento mensual?</div>
+          <div class="faq-answer">
+            Sí. El mantenimiento mensual es necesario para mantener operativo el agente y sus servicios asociados. Esto incluye actualizaciones, monitoreo y soporte continuo.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿Puedo solicitar una solución personalizada?</div>
+          <div class="faq-answer">
+            Sí. Crysantem puede desarrollar soluciones adaptadas a necesidades específicas que no estén cubiertas por los planes estándar. Contáctanos para discutir tu proyecto.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿Cuánto tarda en estar listo?</div>
+          <div class="faq-answer">
+            El tiempo depende del nivel de personalización y complejidad del agente. Generalmente, los proyectos básicos pueden estar listos en unos días, mientras que soluciones más complejas pueden tomar semanas.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">¿Qué ocurre si dejo de pagar el mantenimiento?</div>
+          <div class="faq-answer">
+            El servicio puede quedar suspendido hasta regularizar el mantenimiento. El agente dejará de funcionar correctamente hasta que se reactive el pago mensual.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="contact-section section">
+    <div class="container contact-content">
+      <h2 class="contact-title">¿Querés implementar un agente de IA?</h2>
+      <p class="contact-text">
+        Contanos qué necesitás y analizaremos qué tipo de chatbot puede adaptarse mejor a tu negocio.
+      </p>
+      <div class="contact-actions">
+        <a href="https://wa.me/13237093568" target="_blank" class="btn btn-primary">WhatsApp</a>
+        <a href="mailto:consultas@crysantem.tech" class="btn btn-secondary">Gmail</a>
+        <a href="https://wa.me/13237093568" target="_blank" class="btn btn-secondary">Agendar Sesión</a>
+      </div>
+
+      <!-- Sección de Afiliados -->
+      <div class="affiliate-section" style="margin-top: 60px; padding: 40px; background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.2); border-radius: var(--border-radius-lg);">
+        <h3 class="affiliate-title" style="font-size: 1.5rem; font-weight: 600; color: var(--text-main); margin-bottom: 16px; font-family: var(--font-display);">
+          🎯 Volvete afiliado a Crysantem
+        </h3>
+        <p class="affiliate-text" style="color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6;">
+          Llevate altas comisiones del 30% por cada venta que lleves a cabo. Comparte nuestros productos y gana dinero por cada cliente que refieras.
+        </p>
+        <a href="https://form.jotform.com/262756017815057" target="_blank" class="btn btn-primary" style="display: inline-block; text-decoration: none;">
+          Solicitar Afiliación
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <h3 class="footer-title">Crysantem</h3>
+        <p class="footer-subtitle">Agentes de IA para atención y automatización.</p>
+        <div class="footer-sections">
+          <div class="footer-section">
+            <h4>Links</h4>
+            <a href="#demo">Demos</a>
+            <a href="#planes">Planes</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contacto">Contacto</a>
+          </div>
+          <div class="footer-section">
+            <h4>Canales</h4>
+            <a href="https://wa.me/13237093568" target="_blank">WhatsApp</a>
+            <a href="#" target="_blank">Telegram</a>
+            <a href="#" target="_blank">Discord</a>
+          </div>
+          <div class="footer-section">
+            <h4>Legal</h4>
+            <a href="#">Términos y Condiciones</a>
+            <a href="#">Política de Privacidad</a>
+            <a href="politicas-google.html">Política de Google</a>
+          </div>
+        </div>
+      </div>
+      <p class="footer-copyright">
+        2026 Crysantem. Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Iniciar Sesión</h3>
+        <button class="modal-close">×</button>
+      </div>
+      <form id="authForm"></form>
+    </div>
+  </div>
+
+  <script src="js/markdown-renderer.js?v=6.1"></script>
+  <script src="js/main-new.js?v=6.1"></script>
+</body>
+</html>

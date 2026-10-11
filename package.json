@@ -1,0 +1,12 @@
+{
+  "name": "crysantem",
+  "version": "1.4.0",
+  "description": "Crysantem - Agentes de IA y Gestión de Páginas MyIA",
+  "scripts": {
+    "start": "cd backend && node server.js",
+    "dev": "cd backend && nodemon server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

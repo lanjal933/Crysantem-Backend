@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resumen - MyIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .summary-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      position: relative;
+    }
+
+    .summary-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .summary-header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .summary-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      font-family: var(--font-display);
+    }
+
+    .summary-subtitle {
+      color: var(--text-secondary);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--spacing-lg);
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .summary-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-lg);
+    }
+
+    .summary-card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-display);
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 0.9rem;
+    }
+
+    .summary-label {
+      color: var(--text-secondary);
+    }
+
+    .summary-value {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .summary-value.highlight {
+      color: var(--green-main);
+    }
+
+    .summary-code {
+      background: var(--bg-main);
+      padding: 12px;
+      border-radius: var(--border-radius-md);
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      white-space: pre-wrap;
+      word-break: break-all;
+      margin-top: 8px;
+    }
+
+    .summary-footer {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .btn-create {
+      background: var(--green-main);
+      color: var(--bg-main);
+      padding: 14px 48px;
+      border: 1px solid var(--green-main);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .btn-create:hover {
+      background: var(--green-secondary);
+      border-color: var(--green-secondary);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(0, 255, 140, 0.3);
+    }
+
+    .btn-back {
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-right: 12px;
+      font-family: var(--font-body);
+    }
+
+    .btn-back:hover {
+      border-color: var(--green-main);
+      color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    /* Loading Screen */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-main);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .loading-overlay.active {
+      display: flex;
+    }
+
+    .loading-content {
+      text-align: center;
+      max-width: 600px;
+      padding: 40px;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid rgba(0, 255, 140, 0.2);
+      border-top-color: var(--green-main);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      font-family: var(--font-display);
+    }
+
+    .loading-subtitle {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .loading-log {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      padding: 16px;
+      text-align: left;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+
+    .log-entry {
+      padding: 4px 0;
+      color: var(--text-secondary);
+    }
+
+    .log-entry.success {
+      color: var(--green-main);
+    }
+
+    .log-entry.error {
+      color: #ff4444;
+    }
+
+    .log-entry.warning {
+      color: #ffaa00;
+    }
+
+    .log-entry.info {
+      color: #4488ff;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .summary-container {
+        padding: 100px 16px 20px;
+      }
+
+      .summary-header {
+        margin-bottom: 24px;
+      }
+
+      .summary-title {
+        font-size: 1.5rem;
+      }
+
+      .summary-subtitle {
+        font-size: 0.9rem;
+      }
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .summary-card {
+        padding: 20px;
+      }
+
+      .summary-card-title {
+        font-size: 1rem;
+      }
+
+      .summary-footer {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .summary-footer button {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .summary-container {
+        padding: 80px 12px 16px;
+      }
+
+      .summary-title {
+        font-size: 1.2rem;
+      }
+
+      .summary-card {
+        padding: 16px;
+      }
+
+      .summary-item {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .summary-item-label {
+        font-size: 0.85rem;
+      }
+
+      .summary-item-value {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="#demo" class="navbar-link">Demos</a>
+        <a href="#myia" class="navbar-link" style="color: var(--green-main);">MyIA</a>
+        <a href="#planes" class="navbar-link">Planes</a>
+        <a href="#portfolio" class="navbar-link">Portfolio</a>
+        <a href="#nosotros" class="navbar-link">Nosotros</a>
+        <a href="#faq" class="navbar-link">FAQ</a>
+        <a href="#contacto" class="navbar-link">Contacto</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="summary-container">
+    <div class="container">
+      <div class="summary-header">
+        <h1 class="summary-title">Resumen de tu Página</h1>
+        <p class="summary-subtitle">Revisa la configuración antes de crear tu agente de IA</p>
+      </div>
+
+    <div class="summary-grid">
+      <!-- Negocio -->
+      <div class="summary-card">
+        <h3 class="summary-card-title">Datos del Negocio</h3>
+        <div class="summary-item">
+          <span class="summary-label">Nombre:</span>
+          <span class="summary-value" id="summaryBusinessName">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Slug:</span>
+          <span class="summary-value" id="summarySlug">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">URL final:</span>
+          <span class="summary-value highlight" id="summaryUrl">-</span>
+        </div>
+      </div>
+
+      <!-- Diseño -->
+      <div class="summary-card">
+        <h3 class="summary-card-title">Diseño Visual</h3>
+        <div class="summary-item">
+          <span class="summary-label">Fondo:</span>
+          <span class="summary-value" id="summaryBackground">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Fuente principal:</span>
+          <span class="summary-value" id="summaryFont">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Fuente del título:</span>
+          <span class="summary-value" id="summaryTitleFont">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Diseño de página:</span>
+          <span class="summary-value" id="summaryDesign">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Chat:</span>
+          <span class="summary-value" id="summaryChat">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Header:</span>
+          <span class="summary-value" id="summaryHeader">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Footer:</span>
+          <span class="summary-value" id="summaryFooter">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Imagen panel (Dividido):</span>
+          <span class="summary-value" id="summarySplitImage">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Texto panel (Dividido):</span>
+          <span class="summary-value" id="summarySplitText">-</span>
+        </div>
+      </div>
+
+      <!-- IA -->
+      <div class="summary-card">
+        <h3 class="summary-card-title">Configuración del Agente</h3>
+        <div class="summary-item">
+          <span class="summary-label">Modelo:</span>
+          <span class="summary-value highlight" id="summaryModel">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Plan:</span>
+          <span class="summary-value" id="summaryPlan">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Límite:</span>
+          <span class="summary-value" id="summaryLimit">-</span>
+        </div>
+        <div style="margin-top: 12px;">
+          <div class="summary-label" style="margin-bottom: 8px;">Mensaje de bienvenida:</div>
+          <div class="summary-code" id="summaryWelcome">-</div>
+        </div>
+      </div>
+
+      <!-- System Prompt -->
+      <div class="summary-card">
+        <h3 class="summary-card-title">System Prompt (n8n)</h3>
+        <div class="summary-label" style="margin-bottom: 8px;">Este prompt se guardará en Supabase:</div>
+        <div class="summary-code" id="summaryPrompt">-</div>
+      </div>
+
+      <!-- Integraciones -->
+      <div class="summary-card">
+        <h3 class="summary-card-title">Integraciones Configuradas</h3>
+        <div id="integrationsSummary">
+          <p style="color: var(--text-muted);">Cargando integraciones...</p>
+        </div>
+      </div>
+
+      <!-- Pago y Autenticación -->
+      <div class="summary-card">
+        <h3 class="summary-card-title">Pago y Autenticación</h3>
+        <div class="summary-item">
+          <span class="summary-label">Plan:</span>
+          <span class="summary-value highlight" id="summaryPaymentPlan">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Método de pago:</span>
+          <span class="summary-value" id="summaryPaymentMethod">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Google conectado:</span>
+          <span class="summary-value" id="summaryGoogleConnected">-</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Email Google:</span>
+          <span class="summary-value" id="summaryGoogleEmail">-</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-footer">
+      <button class="btn-back" id="backBtn">← Volver al constructor</button>
+      <button class="btn-create" id="createBtn">¡Crear Página!</button>
+    </div>
+    </div>
+  </div>
+
+  <!-- Loading Screen -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <h2 class="loading-title">Creando tu página...</h2>
+      <p class="loading-subtitle">Configurando el agente de IA y desplegando tu página</p>
+      <div class="loading-log" id="loadingLog"></div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/myia-summary.js?v=6.3"></script>
+</body>
+</html>

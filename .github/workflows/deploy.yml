@@ -1,0 +1,48 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+
+    - name: Install dependencies
+      run: |
+        cd backend
+        npm ci
+
+    - name: Run tests (if available)
+      run: |
+        cd backend
+        npm test --if-present
+
+    - name: Build (if applicable)
+      run: |
+        cd backend
+        npm run build --if-present
+
+    - name: Deploy to server
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      uses: easingthemes/ssh-deploy@v3
+      with:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+        REMOTE_USER: ${{ secrets.REMOTE_USER }}
+        TARGET: /var/www/crysantem/backend
+        SOURCE: backend/
+        EXCLUDE: "/node_modules/, /.env, /.git/"

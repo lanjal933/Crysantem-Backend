@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vincular Google OAuth - MyIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .oauth-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .oauth-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .oauth-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 48px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .oauth-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      font-family: var(--font-display);
+    }
+
+    .oauth-subtitle {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .google-btn {
+      width: 100%;
+      padding: 16px 24px;
+      background: white;
+      color: #333;
+      border: none;
+      border-radius: var(--border-radius-md);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all var(--transition);
+    }
+
+    .google-btn:hover {
+      background: #f8f8f8;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .google-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .scopes-list {
+      text-align: left;
+      margin: 24px 0;
+      padding: 20px;
+      background: rgba(0, 255, 136, 0.05);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: var(--border-radius-md);
+    }
+
+    .scopes-list h4 {
+      color: var(--text-main);
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+
+    .scopes-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .scopes-list li {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scopes-list li::before {
+      content: '✓';
+      color: var(--green-main);
+      font-weight: bold;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 24px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color var(--transition);
+    }
+
+    .back-link:hover {
+      color: var(--green-main);
+    }
+  </style>
+</head>
+<body>
+  <div class="oauth-container">
+    <div class="oauth-card">
+      <h1 class="oauth-title">Vincular Google OAuth</h1>
+      <p class="oauth-subtitle">
+        Para continuar con la configuración de tu automatización, necesitas vincular tu cuenta de Google.
+        Esto permitirá acceder a Sheets, Drive, Calendar y Gmail según tu plan.
+      </p>
+
+      <div class="scopes-list" id="scopesList">
+        <h4>Permisos solicitados:</h4>
+        <ul id="scopesItems">
+          <li>Cargando permisos...</li>
+        </ul>
+      </div>
+
+      <button class="google-btn" id="googleAuthBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Vincular con Google OAuth
+      </button>
+
+      <a href="myia-payment.html" class="back-link">← Volver al pago</a>
+    </div>
+  </div>
+
+  <script src="js/myia-oauth.js"></script>
+</body>
+</html>

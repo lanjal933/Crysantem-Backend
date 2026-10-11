@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Crysantem</title>
+  <meta name="description" content="Dashboard de usuario de Crysantem">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --color-bg: #0a0a0a;
+      --color-surface: #1a1a1a;
+      --color-white: #ffffff;
+      --color-text-secondary: #b8b8b8;
+      --color-green: #00ff88;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
+      --border-radius-xl: 20px;
+    }
+
+    .navbar-logo-img {
+      height: 60px;
+      width: auto;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="/" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="/" class="navbar-link">Inicio</a>
+        <a href="/#demo" class="navbar-link">Demo</a>
+        <a href="/#planes" class="navbar-link">Planes</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Cuenta ▾</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <a href="/dashboard" class="navbar-dropdown-item">Mi cuenta</a>
+            <a href="/dashboard" class="navbar-dropdown-item">Dashboard</a>
+            <button id="logoutBtn" class="navbar-dropdown-item">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section" style="min-height: calc(100vh - 80px); padding-top: 120px;">
+    <div class="container">
+      <h1 class="section-title">Mi Cuenta</h1>
+      <div class="dashboard-content">
+        <div class="dashboard-card">
+          <h2>Información del Usuario</h2>
+          <div class="user-info">
+            <div class="info-item">
+              <span class="label">Nombre:</span>
+              <span class="value" id="userName">-</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Email:</span>
+              <span class="value" id="userEmail">-</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Método de autenticación:</span>
+              <span class="value" id="authProvider">-</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Email verificado:</span>
+              <span class="value" id="emailVerified">-</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Miembro desde:</span>
+              <span class="value" id="createdAt">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <h2>Acciones Rápidas</h2>
+          <div class="dashboard-actions">
+            <a href="#demo" class="btn btn-primary">Probar la IA</a>
+            <a href="#planes" class="btn btn-secondary">Ver Planes</a>
+            <a href="#contacto" class="btn btn-secondary">Contactar Soporte</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="/">Inicio</a>
+        <a href="#demo">Probá Crysantem</a>
+        <a href="#planes">Planes</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contacto">Contacto</a>
+        <a href="politicas-google.html">Política de Google</a>
+      </div>
+      <p class="footer-copyright">
+        © 2024 Crysantem. Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <style>
+    .dashboard-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .dashboard-card {
+      background: var(--color-surface);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--border-radius-xl);
+      padding: var(--spacing-xl);
+      margin-bottom: var(--spacing-lg);
+      box-shadow: 0 0 40px rgba(0, 255, 140, 0.05);
+    }
+
+    .dashboard-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: var(--spacing-lg);
+      color: var(--color-white);
+      font-weight: 700;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--spacing-sm) 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .info-item:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+
+    .value {
+      color: var(--color-white);
+      font-weight: 600;
+    }
+
+    .dashboard-actions {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    @media (max-width: 768px) {
+      .info-item {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+      }
+    }
+  </style>
+
+  <script>
+    const API_URL = window.location.origin;
+    let authToken = localStorage.getItem('authToken');
+
+    async function loadUserProfile() {
+      if (!authToken) {
+        window.location.href = '/';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/api/auth/profile`, {
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const user = data.user;
+
+          document.getElementById('userName').textContent = user.name;
+          document.getElementById('userEmail').textContent = user.email;
+          document.getElementById('authProvider').textContent = user.auth_provider === 'google' ? 'Google' : 'Email';
+          document.getElementById('emailVerified').textContent = user.email_verified ? 'Sí' : 'No';
+          document.getElementById('createdAt').textContent = new Date(user.created_at).toLocaleDateString('es-ES');
+        } else {
+          localStorage.removeItem('authToken');
+          window.location.href = '/';
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error);
+        localStorage.removeItem('authToken');
+        window.location.href = '/';
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('authToken');
+      window.location.href = '/';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUserProfile();
+      document.getElementById('logoutBtn').addEventListener('click', logout);
+
+      const navbarToggle = document.querySelector('.navbar-toggle');
+      const navbarLinks = document.querySelector('.navbar-links');
+      const authBtn = document.getElementById('authBtn');
+      const authDropdown = document.getElementById('authDropdown');
+
+      if (navbarToggle) {
+        navbarToggle.addEventListener('click', () => {
+          navbarLinks.classList.toggle('active');
+        });
+      }
+
+      authBtn?.addEventListener('click', () => {
+        authDropdown.classList.toggle('active');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!authBtn?.contains(e.target) && !authDropdown?.contains(e.target)) {
+          authDropdown?.classList.remove('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+# Política de Privacidad y Uso de Datos de Google
+
+**Última actualización: 7 de octubre de 2026**
+
+Esta política describe exclusivamente cómo **Crysantem** accede, utiliza, almacena, protege y elimina datos obtenidos mediante las APIs de Google utilizando **OAuth 2.0**.
+
+Crysantem utiliza Google OAuth para conectar determinadas cuentas de Google con sitios web personalizados y agentes de inteligencia artificial contratados por sus propietarios.
+
+## 1. Autorización mediante Google OAuth 2.0
+
+Crysantem utiliza el sistema oficial **OAuth 2.0 de Google** para que el propietario de un sitio pueda autorizar voluntariamente el acceso a determinados servicios de su Cuenta de Google.
+
+El usuario inicia sesión directamente en Google y decide qué permisos conceder mediante la pantalla de consentimiento de Google.
+
+Crysantem **no solicita, recibe ni almacena la contraseña de la Cuenta de Google**.
+
+Después de la autorización, Google puede proporcionar credenciales de autorización, incluyendo un **access token** y, cuando corresponda, un **refresh token**.
+
+El access token permite realizar solicitudes autorizadas a las APIs de Google durante su período de validez.
+
+El refresh token permite obtener nuevos access tokens cuando estos expiran, manteniendo la conexión autorizada sin requerir que el usuario vuelva a iniciar sesión y autorizar la aplicación continuamente.
+
+Estos tokens se utilizan exclusivamente para proporcionar las funcionalidades de Google que el usuario haya autorizado.
+
+## 2. Datos de Google a los que puede acceder Crysantem
+
+Los datos accesibles dependen de los permisos OAuth (scopes) concedidos y de las funciones contratadas.
+
+Según la configuración del sitio, Crysantem puede acceder a:
+
+### Google Calendar
+
+* Información necesaria para consultar disponibilidad.
+* Información necesaria para consultar eventos relacionados con la disponibilidad.
+* Información necesaria para crear, modificar o cancelar eventos cuando dicha función esté habilitada.
+* Datos necesarios para gestionar las reservas realizadas desde el sitio web.
+
+### Gmail
+
+Cuando el plan contratado incluye Gmail, Crysantem puede acceder a los datos y realizar las operaciones permitidas por los scopes autorizados.
+
+Estos permisos pueden utilizarse para:
+
+* Enviar correos electrónicos relacionados con las funciones del sitio.
+* Enviar confirmaciones o notificaciones de reservas.
+* Ejecutar comunicaciones automatizadas configuradas por el propietario.
+* Realizar otras operaciones de Gmail únicamente cuando sean necesarias para una funcionalidad autorizada.
+
+### Google Drive
+
+Cuando una funcionalidad contratada requiere Drive, Crysantem puede acceder a los archivos que el usuario haya autorizado y que sean necesarios para proporcionar dicha funcionalidad.
+
+Estos archivos pueden incluir documentos, imágenes u otra información que el propietario haya decidido utilizar en su sitio o agente de IA.
+
+## 3. Finalidad del uso de los datos de Google
+
+Los datos obtenidos mediante las APIs de Google se utilizan **únicamente para proporcionar o mejorar las funcionalidades orientadas al usuario que forman parte de los servicios de Crysantem**.
+
+En particular, pueden utilizarse para:
+
+* Mostrar o gestionar la disponibilidad de la agenda.
+* Permitir que los visitantes soliciten o reserven citas.
+* Crear y gestionar eventos de Calendar.
+* Enviar confirmaciones y comunicaciones relacionadas con las funciones del sitio.
+* Permitir que el agente de IA utilice información o archivos autorizados por el propietario para responder o ejecutar las funciones configuradas.
+* Mantener y mejorar el funcionamiento, seguridad y fiabilidad de las integraciones de Google.
+* Mantener la conexión autorizada mediante access tokens y refresh tokens.
+
+Los datos de Google **no se utilizan para fines independientes de las funcionalidades de Crysantem**.
+
+## 4. Prohibición de determinados usos
+
+Crysantem no utiliza los datos obtenidos mediante las APIs de Google para:
+
+* Publicidad dirigida.
+* Publicidad personalizada.
+* Retargeting.
+* Venta de datos.
+* Venta o transferencia a corredores de datos.
+* Elaboración de perfiles publicitarios.
+* Determinar solvencia crediticia.
+* Préstamos o actividades similares.
+* Crear bases de datos independientes con datos de Google.
+* Entrenar modelos generales o no personalizados de inteligencia artificial o machine learning.
+
+Los datos obtenidos mediante Google Workspace APIs **no se utilizan para desarrollar, mejorar o entrenar modelos generales o no personalizados de inteligencia artificial o machine learning**.
+
+El uso de datos de Google por parte de Crysantem se limita a proporcionar y mejorar las funcionalidades del servicio que utiliza directamente el usuario.
+
+## 5. Uso de datos en agentes de inteligencia artificial
+
+Los agentes de IA proporcionados por Crysantem pueden utilizar información autorizada por el propietario para ejecutar las funciones específicas para las que fueron configurados.
+
+Por ejemplo, un agente puede consultar la disponibilidad de Calendar para permitir que un visitante solicite una cita.
+
+Esto no significa que los datos de Google se utilicen para entrenar el modelo de inteligencia artificial.
+
+Los datos de Google utilizados por una funcionalidad de un agente se procesan únicamente en la medida necesaria para proporcionar dicha funcionalidad.
+
+## 6. Access Tokens y Refresh Tokens
+
+Crysantem trata los access tokens y refresh tokens como información sensible.
+
+Los tokens se almacenan únicamente cuando es necesario para mantener la autorización y proporcionar las funciones contratadas.
+
+Los tokens no se muestran públicamente a los visitantes de los sitios web.
+
+El access token se utiliza para realizar solicitudes autorizadas a Google mientras sea válido.
+
+El refresh token se utiliza exclusivamente para obtener nuevos access tokens cuando sea necesario mantener la autorización.
+
+Crysantem no utiliza estos tokens para acceder a servicios de Google que no hayan sido autorizados por el usuario.
+
+## 7. Retención de datos de Google
+
+Crysantem conserva los datos de Google **únicamente durante el período necesario para proporcionar las funcionalidades autorizadas y mantener la operación del servicio**.
+
+Los access tokens se conservan únicamente mientras sean necesarios para realizar las operaciones autorizadas.
+
+Los refresh tokens podrán conservarse mientras el usuario mantenga activa la integración con Google y mientras sean necesarios para proporcionar las funciones contratadas.
+
+Los datos obtenidos de Calendar, Gmail o Drive se conservan únicamente cuando su almacenamiento sea necesario para proporcionar una funcionalidad del servicio.
+
+Cuando un dato de Google ya no sea necesario para proporcionar la funcionalidad correspondiente, Crysantem procederá a eliminarlo o dejará de conservarlo, salvo que exista una obligación legal o una necesidad legítima de seguridad que requiera una conservación adicional.
+
+## 8. Eliminación de datos y desconexión de Google
+
+El usuario puede revocar en cualquier momento el acceso concedido a Crysantem desde la configuración de seguridad de su Cuenta de Google.
+
+También puede solicitar a Crysantem la eliminación de los datos de Google asociados a su integración.
+
+Cuando se solicite la eliminación de los datos de Google, Crysantem eliminará los datos almacenados que ya no sean necesarios para prestar el servicio, incluyendo los tokens de autorización cuando la integración haya sido desconectada.
+
+La eliminación podrá estar sujeta a un período técnico limitado cuando sea necesario para completar copias de seguridad, procesos de seguridad o eliminación de sistemas. Una vez finalizado dicho período, los datos serán eliminados de acuerdo con los procedimientos aplicables de Crysantem.
+
+La revocación de la autorización también impedirá que Crysantem obtenga nuevos datos de Google mediante dicha autorización.
+
+## 9. Compartición y transferencia de datos de Google
+
+Crysantem **no vende los datos de Google ni los transfiere para fines publicitarios o independientes de la prestación de sus funcionalidades**.
+
+Los datos de Google únicamente podrán ser procesados por proveedores tecnológicos utilizados por Crysantem cuando dicho procesamiento sea necesario para proporcionar, mantener o proteger las funcionalidades autorizadas.
+
+Estos proveedores no reciben autorización para utilizar los datos de Google para sus propios fines publicitarios, comerciales o de entrenamiento de modelos de inteligencia artificial.
+
+Crysantem no transfiere datos de Google a terceros para crear perfiles publicitarios, vender información o entrenar modelos generales o no personalizados de IA/ML.
+
+## 10. Protección de los datos
+
+Crysantem aplica medidas técnicas y organizativas razonables para proteger los datos obtenidos mediante Google OAuth.
+
+Entre estas medidas se incluyen controles de acceso y mecanismos destinados a proteger las credenciales OAuth contra acceso o utilización no autorizados.
+
+Los access tokens y refresh tokens son tratados como credenciales sensibles y no se exponen deliberadamente en las interfaces públicas de los sitios web.
+
+Aunque Crysantem aplica medidas razonables de seguridad, ningún sistema conectado a Internet puede garantizar una seguridad absoluta.
+
+## 11. Integraciones según el plan
+
+Las funciones disponibles dependen del plan contratado.
+
+**Crysantem Cv1.3:** puede utilizar Google OAuth para conectar Google Calendar y proporcionar funciones relacionadas con agenda, disponibilidad y reservas.
+
+**Crysantem Cv1.4:** puede utilizar Google OAuth para conectar Google Calendar y Gmail y proporcionar funciones adicionales de agenda y comunicación.
+
+Google Drive puede utilizarse cuando una funcionalidad específica del servicio requiera acceso autorizado a archivos.
+
+Los scopes solicitados pueden variar según la funcionalidad concreta que el usuario decida habilitar.
+
+## 12. Control del usuario
+
+La conexión con Google es voluntaria.
+
+Antes de autorizar la aplicación, el usuario puede revisar los permisos solicitados en la pantalla de consentimiento de Google.
+
+El usuario mantiene el control sobre la autorización y puede revocarla desde su Cuenta de Google.
+
+Crysantem solo utilizará los permisos concedidos para proporcionar las funcionalidades correspondientes.
+
+## 13. Cumplimiento de las políticas de Google
+
+Crysantem utiliza las APIs de Google de acuerdo con las políticas aplicables de Google y limita el tratamiento de Google User Data a los usos permitidos por dichas políticas.
+
+Crysantem solicita los permisos necesarios para proporcionar las funciones correspondientes y evita utilizar los datos obtenidos mediante Google OAuth para fines incompatibles con esta política.
+
+Esta política será actualizada cuando cambien las funcionalidades, los tipos de datos tratados o la forma en que Crysantem utiliza las APIs de Google.
+
+---
+
+**Crysantem**
+Integraciones con Google mediante OAuth 2.0.

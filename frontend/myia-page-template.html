@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{businessName}} - Agente IA</title>
+  <link href="https://fonts.googleapis.com/css2?family={{fontFamily}}:wght@400;500;600;700&display=swap" rel="stylesheet">
+  {{titleFontLink}}
+  <style>
+    :root {
+      --green-main: #00ff8c;
+      --green-secondary: #00e67a;
+      --bg-main: #050505;
+      --bg-secondary: #101010;
+      --border: rgba(255, 255, 255, 0.1);
+      --border-light: rgba(255, 255, 255, 0.15);
+      --text-main: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --text-muted: rgba(255, 255, 255, 0.5);
+      --transition: all 0.3s ease;
+      --border-radius-sm: 4px;
+      --border-radius-md: 8px;
+      --border-radius-lg: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      {{backgroundStyle}}
+      font-family: {{fontFamily}}, sans-serif;
+      min-height: 100vh;
+      color: var(--text-main);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .logo {
+      width: {{logoSize}}px;
+      height: {{logoSize}}px;
+      object-fit: contain;
+    }
+    .title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      {{titleFontStyle}}
+      letter-spacing: -0.02em;
+    }
+    .chat-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .chat-box {
+      {{chatBoxStyle}}
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+    }
+    .chat-message {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .chat-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: {{chatBoxColor}};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: black;
+      flex-shrink: 0;
+    }
+    .chat-bubble {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 16px;
+      border-radius: var(--border-radius-md);
+      max-width: 400px;
+      transition: var(--transition);
+    }
+    .chat-input {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 12px;
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--text-main);
+      transition: var(--transition);
+    }
+    .chat-input input:focus {
+      outline: none;
+      border-color: var(--green-main);
+    }
+    .chat-input button {
+      padding: 12px 24px;
+      background: {{chatBoxColor}};
+      border: none;
+      border-radius: var(--border-radius-md);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .chat-input button:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      {{logoHtml}}
+      <h1 class="title">{{businessName}}</h1>
+    </div>
+
+    <div class="chat-container">
+      <div class="chat-box">
+        <div class="chat-message">
+          <div class="chat-avatar">AI</div>
+          <div class="chat-bubble">{{welcomeMessage}}</div>
+        </div>
+        <div class="chat-input">
+          <input type="text" placeholder="Escribe tu mensaje...">
+          <button>Enviar</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Powered by Crysantem Intelligence
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    // Aquí se conectará con n8n
+    const webhookUrl = '{{n8nWebhookUrl}}';
+
+    document.querySelector('.chat-input button').addEventListener('click', sendMessage);
+    document.querySelector('.chat-input input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    async function sendMessage() {
+      const input = document.querySelector('.chat-input input');
+      const message = input.value.trim();
+      if (!message) return;
+
+      // Agregar mensaje del usuario
+      addMessage(message, 'user');
+      input.value = '';
+
+      // Enviar a n8n
+      try {
+        const response = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message, userId: '{{userId}}' })
+        });
+        const data = await response.json();
+        addMessage(data.response, 'ai');
+      } catch (error) {
+        addMessage('Lo siento, hubo un error. Por favor intenta nuevamente.', 'ai');
+      }
+    }
+
+    function addMessage(text, type) {
+      const container = document.querySelector('.chat-box');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'chat-message';
+
+      if (type === 'ai') {
+        messageDiv.innerHTML = `
+          <div class="chat-avatar">AI</div>
+          <div class="chat-bubble">${marked.parse(text)}</div>
+        `;
+      } else {
+        messageDiv.innerHTML = `
+          <div class="chat-bubble" style="margin-left: auto;">${text}</div>
+        `;
+      }
+
+      container.insertBefore(messageDiv, container.querySelector('.chat-input'));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración del Prompt - MyIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=6.3">
+  <script src="js/config.js?v=6.3"></script>
+  <style>
+    .prompt-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      position: relative;
+    }
+
+    .prompt-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .prompt-header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .prompt-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      font-family: var(--font-display);
+    }
+
+    .prompt-subtitle {
+      color: var(--text-secondary);
+    }
+
+    .prompt-content {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .prompt-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-xl);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .prompt-card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      font-family: var(--font-display);
+    }
+
+    .prompt-card-description {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-textarea {
+      width: 100%;
+      padding: 16px;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      transition: all var(--transition);
+      min-height: 150px;
+      resize: vertical;
+      font-family: var(--font-body);
+      line-height: 1.6;
+    }
+
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--green-main);
+      box-shadow: 0 0 0 3px rgba(0, 255, 140, 0.1);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      transition: all var(--transition);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--green-main);
+      box-shadow: 0 0 0 3px rgba(0, 255, 140, 0.1);
+    }
+
+    .character-count {
+      text-align: right;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .character-count.warning {
+      color: #ffaa00;
+    }
+
+    .character-count.error {
+      color: #ff4444;
+    }
+
+    .prompt-examples {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      padding: 20px;
+      margin-top: 16px;
+    }
+
+    .prompt-examples-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .prompt-example {
+      background: rgba(0, 255, 140, 0.05);
+      border: 1px solid rgba(0, 255, 140, 0.2);
+      border-radius: var(--border-radius-sm);
+      padding: 12px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .prompt-example:hover {
+      background: rgba(0, 255, 140, 0.1);
+      border-color: var(--green-main);
+    }
+
+    .prompt-example:last-child {
+      margin-bottom: 0;
+    }
+
+    .prompt-example-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--green-main);
+      margin-bottom: 4px;
+    }
+
+    .prompt-example-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .btn-primary {
+      background: var(--green-main);
+      color: var(--bg-main);
+      padding: 14px 28px;
+      border: 1px solid var(--green-main);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-secondary);
+      border-color: var(--green-secondary);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-right: 12px;
+      font-family: var(--font-body);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--green-main);
+      color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .prompt-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .prompt-tips {
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--border-radius-md);
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    .prompt-tips-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #6366f1;
+      margin-bottom: 8px;
+    }
+
+    .prompt-tips-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .prompt-tips-list li {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 4px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .prompt-tips-list li::before {
+      content: '•';
+      color: #6366f1;
+      font-weight: 700;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .prompt-container {
+        padding: 100px 16px 20px;
+      }
+
+      .prompt-header {
+        margin-bottom: 24px;
+      }
+
+      .prompt-title {
+        font-size: 1.5rem;
+      }
+
+      .prompt-subtitle {
+        font-size: 0.9rem;
+      }
+
+      .prompt-content {
+        max-width: 100%;
+      }
+
+      .prompt-card {
+        padding: 20px;
+      }
+
+      .prompt-actions {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .prompt-actions button {
+        width: 100%;
+      }
+
+      .prompt-examples {
+        padding: 16px;
+      }
+
+      .prompt-example {
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .prompt-container {
+        padding: 80px 12px 16px;
+      }
+
+      .prompt-title {
+        font-size: 1.2rem;
+      }
+
+      .prompt-card {
+        padding: 16px;
+      }
+
+      .form-group label {
+        font-size: 0.85rem;
+      }
+
+      textarea {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="#demo" class="navbar-link">Demos</a>
+        <a href="#myia" class="navbar-link" style="color: var(--green-main);">MyIA</a>
+        <a href="#planes" class="navbar-link">Planes</a>
+        <a href="#portfolio" class="navbar-link">Portfolio</a>
+        <a href="#nosotros" class="navbar-link">Nosotros</a>
+        <a href="#faq" class="navbar-link">FAQ</a>
+        <a href="#contacto" class="navbar-link">Contacto</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="prompt-container">
+    <div class="container">
+      <div class="prompt-header">
+        <h1 class="prompt-title">Configuración del Prompt</h1>
+        <p class="prompt-subtitle">Define cómo debe comportarse tu agente de IA</p>
+      </div>
+
+      <div class="prompt-content">
+        <!-- Mensaje de Bienvenida -->
+        <div class="prompt-card">
+          <h3 class="prompt-card-title">Mensaje de Bienvenida</h3>
+          <p class="prompt-card-description">
+            El primer mensaje que tu agente mostrará a los usuarios. Debe ser amigable y establecer el tono de la conversación.
+          </p>
+          <div class="form-group">
+            <label class="form-label">Mensaje de bienvenida</label>
+            <textarea 
+              class="form-textarea" 
+              id="welcomeMessage" 
+              placeholder="Ej: Hola, soy el asistente virtual de [tu negocio]. ¿En qué puedo ayudarte hoy?"
+              maxlength="200"
+            ></textarea>
+            <div class="character-count" id="welcomeCount">0/200 caracteres</div>
+          </div>
+        </div>
+
+        <!-- System Prompt -->
+        <div class="prompt-card">
+          <h3 class="prompt-card-title">Instrucciones del Agente (System Prompt)</h3>
+          <p class="prompt-card-description">
+            Define el comportamiento, personalidad y conocimientos de tu agente. Este prompt guiará todas las respuestas de la IA.
+          </p>
+          <div class="form-group">
+            <label class="form-label">Nombre del negocio (para personalizar respuestas)</label>
+            <input type="text" class="form-input" id="businessNameInput" placeholder="Ej: Tienda de Ropa">
+          </div>
+          <div class="form-group">
+            <label class="form-label">System Prompt</label>
+            <textarea 
+              class="form-textarea" 
+              id="systemPrompt" 
+              placeholder="Describe cómo debe comportarse tu agente..."
+              maxlength="4000"
+            ></textarea>
+            <div class="character-count" id="promptCount">0/4000 caracteres</div>
+          </div>
+
+          <div class="prompt-tips">
+            <div class="prompt-tips-title">TIPS Tips para un buen prompt:</div>
+            <ul class="prompt-tips-list">
+              <li>Sé específico sobre el rol y personalidad del agente</li>
+              <li>Define el tono (formal, casual, amigable, profesional)</li>
+              <li>Instruye sobre qué información debe y no debe compartir</li>
+              <li>Especifica cómo manejar preguntas fuera de contexto</li>
+              <li>Incluye ejemplos de respuestas deseadas</li>
+            </ul>
+          </div>
+
+          <div class="prompt-examples">
+            <div class="prompt-examples-title">📝 Ejemplos de prompts:</div>
+            <div class="prompt-example" data-example="basic">
+              <div class="prompt-example-title">Básico - Atención al Cliente</div>
+              <div class="prompt-example-text">Eres un asistente virtual amable y profesional de [NOMBRE DEL NEGOCIO]. Ayuda a los clientes con información sobre productos, horarios y servicios. Sé conciso y directo en tus respuestas.</div>
+            </div>
+            <div class="prompt-example" data-example="sales">
+              <div class="prompt-example-title">Ventas - Consultor de Productos</div>
+              <div class="prompt-example-text">Eres un consultor de ventas experto de [NOMBRE DEL NEGOCIO]. Tu objetivo es ayudar a los clientes a encontrar el producto perfecto para sus necesidades. Pregunta sobre sus preferencias, presupuesto y caso de uso para hacer recomendaciones personalizadas.</div>
+            </div>
+            <div class="prompt-example" data-example="support">
+              <div class="prompt-example-title">Soporte Técnico</div>
+              <div class="prompt-example-text">Eres un especialista en soporte técnico de [NOMBRE DEL NEGOCIO]. Ayuda a los usuarios a resolver problemas técnicos paso a paso. Si no puedes resolver un problema, explica claramente qué información adicional necesitas o sugiere contactar a un especialista humano.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="prompt-footer">
+          <button class="btn-secondary" id="backBtn">← Volver al Diseño</button>
+          <button class="btn-primary" id="continueBtn">Continuar a Integraciones →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/myia-prompt.js?v=6.3"></script>
+</body>
+</html>

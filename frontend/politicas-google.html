@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Política de Privacidad de Google - Crysantem</title>
+  <meta name="description" content="Política de privacidad y uso de datos de Google para Crysantem">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    :root {
+      --color-bg: #0a0a0a;
+      --color-surface: #1a1a1a;
+      --color-white: #ffffff;
+      --color-text-secondary: #b8b8b8;
+      --color-green: #00ff88;
+      --spacing-md: 1.5rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 3rem;
+      --border-radius-xl: 20px;
+    }
+
+    .navbar-logo-img {
+      height: 60px;
+      width: auto;
+    }
+
+    .policy-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--spacing-xl);
+    }
+
+    .policy-content {
+      background: var(--color-surface);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--border-radius-xl);
+      padding: var(--spacing-xl);
+      box-shadow: 0 0 40px rgba(0, 255, 140, 0.05);
+    }
+
+    .policy-content h1 {
+      font-size: 2rem;
+      margin-bottom: var(--spacing-md);
+      color: var(--color-white);
+      font-weight: 700;
+    }
+
+    .policy-content h2 {
+      font-size: 1.5rem;
+      margin-top: var(--spacing-xl);
+      margin-bottom: var(--spacing-md);
+      color: var(--color-white);
+      font-weight: 600;
+    }
+
+    .policy-content h3 {
+      font-size: 1.25rem;
+      margin-top: var(--spacing-lg);
+      margin-bottom: var(--spacing-sm);
+      color: var(--color-white);
+      font-weight: 600;
+    }
+
+    .policy-content p {
+      margin-bottom: var(--spacing-md);
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+    }
+
+    .policy-content ul {
+      margin-bottom: var(--spacing-md);
+      padding-left: var(--spacing-lg);
+      color: var(--color-text-secondary);
+    }
+
+    .policy-content li {
+      margin-bottom: var(--spacing-sm);
+      line-height: 1.7;
+    }
+
+    .policy-content strong {
+      color: var(--color-white);
+      font-weight: 600;
+    }
+
+    .policy-content em {
+      color: var(--color-green);
+      font-style: normal;
+    }
+
+    .update-date {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-md);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-lg);
+      color: var(--color-green);
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .back-button:hover {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 768px) {
+      .policy-container {
+        padding: var(--spacing-md);
+      }
+
+      .policy-content {
+        padding: var(--spacing-lg);
+      }
+
+      .policy-content h1 {
+        font-size: 1.5rem;
+      }
+
+      .policy-content h2 {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="/" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="/" class="navbar-link">Inicio</a>
+        <a href="/#demo" class="navbar-link">Demo</a>
+        <a href="/#planes" class="navbar-link">Planes</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Cuenta ▾</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <a href="/dashboard" class="navbar-dropdown-item">Mi cuenta</a>
+            <a href="/dashboard" class="navbar-dropdown-item">Dashboard</a>
+            <button id="logoutBtn" class="navbar-dropdown-item">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section" style="min-height: calc(100vh - 80px); padding-top: 120px;">
+    <div class="container">
+      <a href="/" class="back-button">← Volver al inicio</a>
+      <div class="policy-container">
+        <div class="policy-content">
+          <h1>Política de Privacidad y Uso de Datos de Google</h1>
+          <p class="update-date"><strong>Última actualización:</strong> 7 de octubre de 2026</p>
+
+          <p>Esta política describe exclusivamente cómo <strong>Crysantem</strong> accede, utiliza, almacena, protege y elimina datos obtenidos mediante las APIs de Google utilizando <strong>OAuth 2.0</strong>.</p>
+
+          <p>Crysantem utiliza Google OAuth para conectar determinadas cuentas de Google con sitios web personalizados y agentes de inteligencia artificial contratados por sus propietarios.</p>
+
+          <h2>1. Autorización mediante Google OAuth 2.0</h2>
+
+          <p>Crysantem utiliza el sistema oficial <strong>OAuth 2.0 de Google</strong> para que el propietario de un sitio pueda autorizar voluntariamente el acceso a determinados servicios de su Cuenta de Google.</p>
+
+          <p>El usuario inicia sesión directamente en Google y decide qué permisos conceder mediante la pantalla de consentimiento de Google.</p>
+
+          <p>Crysantem <strong>no solicita, recibe ni almacena la contraseña de la Cuenta de Google</strong>.</p>
+
+          <p>Después de la autorización, Google puede proporcionar credenciales de autorización, incluyendo un <strong>access token</strong> y, cuando corresponda, un <strong>refresh token</strong>.</p>
+
+          <p>El access token permite realizar solicitudes autorizadas a las APIs de Google durante su período de validez.</p>
+
+          <p>El refresh token permite obtener nuevos access tokens cuando estos expiran, manteniendo la conexión autorizada sin requerir que el usuario vuelva a iniciar sesión y autorizar la aplicación continuamente.</p>
+
+          <p>Estos tokens se utilizan exclusivamente para proporcionar las funcionalidades de Google que el usuario haya autorizado.</p>
+
+          <h2>2. Datos de Google a los que puede acceder Crysantem</h2>
+
+          <p>Los datos accesibles dependen de los permisos OAuth (scopes) concedidos y de las funciones contratadas.</p>
+
+          <p>Según la configuración del sitio, Crysantem puede acceder a:</p>
+
+          <h3>Google Calendar</h3>
+
+          <ul>
+            <li>Información necesaria para consultar disponibilidad.</li>
+            <li>Información necesaria para consultar eventos relacionados con la disponibilidad.</li>
+            <li>Información necesaria para crear, modificar o cancelar eventos cuando dicha función esté habilitada.</li>
+            <li>Datos necesarios para gestionar las reservas realizadas desde el sitio web.</li>
+          </ul>
+
+          <h3>Gmail</h3>
+
+          <p>Cuando el plan contratado incluye Gmail, Crysantem puede acceder a los datos y realizar las operaciones permitidas por los scopes autorizados.</p>
+
+          <p>Estos permisos pueden utilizarse para:</p>
+
+          <ul>
+            <li>Enviar correos electrónicos relacionados con las funciones del sitio.</li>
+            <li>Enviar confirmaciones o notificaciones de reservas.</li>
+            <li>Ejecutar comunicaciones automatizadas configuradas por el propietario.</li>
+            <li>Realizar otras operaciones de Gmail únicamente cuando sean necesarias para una funcionalidad autorizada.</li>
+          </ul>
+
+          <h2>3. Finalidad del uso de los datos de Google</h2>
+
+          <p>Los datos obtenidos mediante las APIs de Google se utilizan <strong>únicamente para proporcionar o mejorar las funcionalidades orientadas al usuario que forman parte de los servicios de Crysantem</strong>.</p>
+
+          <p>En particular, pueden utilizarse para:</p>
+
+          <ul>
+            <li>Mostrar o gestionar la disponibilidad de la agenda.</li>
+            <li>Permitir que los visitantes soliciten o reserven citas.</li>
+            <li>Crear y gestionar eventos de Calendar.</li>
+            <li>Enviar confirmaciones y comunicaciones relacionadas con las funciones del sitio.</li>
+            <li>Permitir que el agente de IA utilice información o archivos autorizados por el propietario para responder o ejecutar las funciones configuradas.</li>
+            <li>Mantener y mejorar el funcionamiento, seguridad y fiabilidad de las integraciones de Google.</li>
+            <li>Mantener la conexión autorizada mediante access tokens y refresh tokens.</li>
+          </ul>
+
+          <p>Los datos de Google <strong>no se utilizan para fines independientes de las funcionalidades de Crysantem</strong>.</p>
+
+          <h2>4. Prohibición de determinados usos</h2>
+
+          <p>Crysantem no utiliza los datos obtenidos mediante las APIs de Google para:</p>
+
+          <ul>
+            <li>Publicidad dirigida.</li>
+            <li>Publicidad personalizada.</li>
+            <li>Retargeting.</li>
+            <li>Venta de datos.</li>
+            <li>Venta o transferencia a corredores de datos.</li>
+            <li>Elaboración de perfiles publicitarios.</li>
+            <li>Determinar solvencia crediticia.</li>
+            <li>Préstamos o actividades similares.</li>
+            <li>Crear bases de datos independientes con datos de Google.</li>
+            <li>Entrenar modelos generales o no personalizados de inteligencia artificial o machine learning.</li>
+          </ul>
+
+          <p>Los datos obtenidos mediante Google Workspace APIs <strong>no se utilizan para desarrollar, mejorar o entrenar modelos generales o no personalizados de inteligencia artificial o machine learning</strong>.</p>
+
+          <p>El uso de datos de Google por parte de Crysantem se limita a proporcionar y mejorar las funcionalidades del servicio que utiliza directamente el usuario.</p>
+
+          <h2>5. Uso de datos en agentes de inteligencia artificial</h2>
+
+          <p>Los agentes de IA proporcionados por Crysantem pueden utilizar información autorizada por el propietario para ejecutar las funciones específicas para las que fueron configurados.</p>
+
+          <p>Por ejemplo, un agente puede consultar la disponibilidad de Calendar para permitir que un visitante solicite una cita.</p>
+
+          <p>Esto no significa que los datos de Google se utilicen para entrenar el modelo de inteligencia artificial.</p>
+
+          <p>Los datos de Google utilizados por una funcionalidad de un agente se procesan únicamente en la medida necesaria para proporcionar dicha funcionalidad.</p>
+
+          <h2>6. Access Tokens y Refresh Tokens</h2>
+
+          <p>Crysantem trata los access tokens y refresh tokens como información sensible.</p>
+
+          <p>Los tokens se almacenan únicamente cuando es necesario para mantener la autorización y proporcionar las funciones contratadas.</p>
+
+          <p>Los tokens no se muestran públicamente a los visitantes de los sitios web.</p>
+
+          <p>El access token se utiliza para realizar solicitudes autorizadas a Google mientras sea válido.</p>
+
+          <p>El refresh token se utiliza exclusivamente para obtener nuevos access tokens cuando sea necesario mantener la autorización.</p>
+
+          <p>Crysantem no utiliza estos tokens para acceder a servicios de Google que no hayan sido autorizados por el usuario.</p>
+
+          <h2>7. Retención de datos de Google</h2>
+
+          <p>Crysantem conserva los datos de Google <strong>únicamente durante el período necesario para proporcionar las funcionalidades autorizadas y mantener la operación del servicio</strong>.</p>
+
+          <p>Los access tokens se conservan únicamente mientras sean necesarios para realizar las operaciones autorizadas.</p>
+
+          <p>Los refresh tokens podrán conservarse mientras el usuario mantenga activa la integración con Google y mientras sean necesarios para proporcionar las funciones contratadas.</p>
+
+          <p>Los datos obtenidos de Calendar o Gmail se conservan únicamente cuando su almacenamiento sea necesario para proporcionar una funcionalidad del servicio.</p>
+
+          <p>Cuando un dato de Google ya no sea necesario para proporcionar la funcionalidad correspondiente, Crysantem procederá a eliminarlo o dejará de conservarlo, salvo que exista una obligación legal o una necesidad legítima de seguridad que requiera una conservación adicional.</p>
+
+          <h2>8. Eliminación de datos y desconexión de Google</h2>
+
+          <p>El usuario puede revocar en cualquier momento el acceso concedido a Crysantem desde la configuración de seguridad de su Cuenta de Google.</p>
+
+          <p>También puede solicitar a Crysantem la eliminación de los datos de Google asociados a su integración.</p>
+
+          <p>Cuando se solicite la eliminación de los datos de Google, Crysantem eliminará los datos almacenados que ya no sean necesarios para prestar el servicio, incluyendo los tokens de autorización cuando la integración haya sido desconectada.</p>
+
+          <p>La eliminación podrá estar sujeta a un período técnico limitado cuando sea necesario para completar copias de seguridad, procesos de seguridad o eliminación de sistemas. Una vez finalizado dicho período, los datos serán eliminados de acuerdo con los procedimientos aplicables de Crysantem.</p>
+
+          <p>La revocación de la autorización también impedirá que Crysantem obtenga nuevos datos de Google mediante dicha autorización.</p>
+
+          <h2>9. Compartición y transferencia de datos de Google</h2>
+
+          <p>Crysantem <strong>no vende los datos de Google ni los transfiere para fines publicitarios o independientes de la prestación de sus funcionalidades</strong>.</p>
+
+          <p>Los datos de Google únicamente podrán ser procesados por proveedores tecnológicos utilizados por Crysantem cuando dicho procesamiento sea necesario para proporcionar, mantener o proteger las funcionalidades autorizadas.</p>
+
+          <p>Estos proveedores no reciben autorización para utilizar los datos de Google para sus propios fines publicitarios, comerciales o de entrenamiento de modelos de inteligencia artificial.</p>
+
+          <p>Crysantem no transfiere datos de Google a terceros para crear perfiles publicitarios, vender información o entrenar modelos generales o no personalizados de IA/ML.</p>
+
+          <h2>10. Protección de los datos</h2>
+
+          <p>Crysantem aplica medidas técnicas y organizativas razonables para proteger los datos obtenidos mediante Google OAuth.</p>
+
+          <p>Entre estas medidas se incluyen controles de acceso y mecanismos destinados a proteger las credenciales OAuth contra acceso o utilización no autorizados.</p>
+
+          <p>Los access tokens y refresh tokens son tratados como credenciales sensibles y no se exponen deliberadamente en las interfaces públicas de los sitios web.</p>
+
+          <p>Aunque Crysantem aplica medidas razonables de seguridad, ningún sistema conectado a Internet puede garantizar una seguridad absoluta.</p>
+
+          <h2>11. Integraciones según el plan</h2>
+
+          <p>Las funciones disponibles dependen del plan contratado.</p>
+
+          <p><strong>Crysantem Cv1.3:</strong> puede utilizar Google OAuth para conectar Google Calendar y proporcionar funciones relacionadas con agenda, disponibilidad y reservas.</p>
+
+          <p><strong>Crysantem Cv1.4:</strong> puede utilizar Google OAuth para conectar Google Calendar y Gmail y proporcionar funciones adicionales de agenda y comunicación.</p>
+
+          <p>Los scopes solicitados pueden variar según la funcionalidad concreta que el usuario decida habilitar.</p>
+
+          <h2>12. Control del usuario</h2>
+
+          <p>La conexión con Google es voluntaria.</p>
+
+          <p>Antes de autorizar la aplicación, el usuario puede revisar los permisos solicitados en la pantalla de consentimiento de Google.</p>
+
+          <p>El usuario mantiene el control sobre la autorización y puede revocarla desde su Cuenta de Google.</p>
+
+          <p>Crysantem solo utilizará los permisos concedidos para proporcionar las funcionalidades correspondientes.</p>
+
+          <h2>13. Cumplimiento de las políticas de Google</h2>
+
+          <p>Crysantem utiliza las APIs de Google de acuerdo con las políticas aplicables de Google y limita el tratamiento de Google User Data a los usos permitidos por dichas políticas.</p>
+
+          <p>Crysantem solicita los permisos necesarios para proporcionar las funciones correspondientes y evita utilizar los datos obtenidos mediante Google OAuth para fines incompatibles con esta política.</p>
+
+          <p>Esta política será actualizada cuando cambien las funcionalidades, los tipos de datos tratados o la forma en que Crysantem utiliza las APIs de Google.</p>
+
+          <hr style="border: none; border-top: 1px solid rgba(255, 255, 255, 0.06); margin: var(--spacing-xl) 0;">
+
+          <p><strong>Crysantem</strong><br>Integraciones con Google mediante OAuth 2.0.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="/">Inicio</a>
+        <a href="/#demo">Probá Crysantem</a>
+        <a href="/#planes">Planes</a>
+        <a href="/#portfolio">Portfolio</a>
+        <a href="/#faq">FAQ</a>
+        <a href="/#contacto">Contacto</a>
+        <a href="politicas-google.html">Política de Google</a>
+      </div>
+      <p class="footer-copyright">
+        2026 Crysantem. Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const navbarToggle = document.querySelector('.navbar-toggle');
+    const navbarLinks = document.querySelector('.navbar-links');
+    const authBtn = document.getElementById('authBtn');
+    const authDropdown = document.getElementById('authDropdown');
+
+    if (navbarToggle) {
+      navbarToggle.addEventListener('click', () => {
+        navbarLinks.classList.toggle('active');
+      });
+    }
+
+    authBtn?.addEventListener('click', () => {
+      authDropdown.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!authBtn?.contains(e.target) && !authDropdown?.contains(e.target)) {
+        authDropdown?.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

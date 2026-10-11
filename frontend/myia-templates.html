@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selecciona una Plantilla - MyIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=6.3">
+  <script src="js/config.js?v=6.3"></script>
+  <style>
+    .templates-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      position: relative;
+    }
+
+    .templates-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .templates-header {
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .templates-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      font-family: var(--font-display);
+      letter-spacing: -0.02em;
+    }
+
+    .templates-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--spacing-lg);
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .template-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-xl);
+      transition: all var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .template-card:hover {
+      border-color: var(--green-main);
+      transform: translateY(-4px);
+    }
+
+    .template-card.selected {
+      border-color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .template-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    .template-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      font-family: var(--font-display);
+    }
+
+    .template-description {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+    }
+
+    .template-features {
+      list-style: none;
+      margin: 16px 0;
+    }
+
+    .template-features li {
+      color: var(--text-secondary);
+      padding: 4px 0;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .template-features li::before {
+      content: '✓';
+      color: var(--green-main);
+      font-weight: 600;
+    }
+
+    .template-badge {
+      position: absolute;
+      top: -12px;
+      right: 16px;
+      background: linear-gradient(135deg, var(--green-main), var(--green-secondary));
+      color: var(--bg-main);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .skip-template {
+      text-align: center;
+      margin-top: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .skip-template a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color var(--transition);
+    }
+
+    .skip-template a:hover {
+      color: var(--green-main);
+    }
+
+    .back-btn {
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-right: 12px;
+      font-family: var(--font-body);
+    }
+
+    .back-btn:hover {
+      border-color: var(--green-main);
+      color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .continue-btn {
+      background: var(--green-main);
+      color: var(--bg-main);
+      padding: 14px 28px;
+      border: 1px solid var(--green-main);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .continue-btn:hover {
+      background: var(--green-secondary);
+      border-color: var(--green-secondary);
+      transform: translateY(-1px);
+    }
+
+    .continue-btn:disabled {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+      border-color: var(--border);
+      cursor: not-allowed;
+      transform: none;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="#demo" class="navbar-link">Demos</a>
+        <a href="#myia" class="navbar-link" style="color: var(--green-main);">MyIA</a>
+        <a href="#planes" class="navbar-link">Planes</a>
+        <a href="#portfolio" class="navbar-link">Portfolio</a>
+        <a href="#nosotros" class="navbar-link">Nosotros</a>
+        <a href="#faq" class="navbar-link">FAQ</a>
+        <a href="#contacto" class="navbar-link">Contacto</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="templates-container">
+    <div class="container">
+      <div class="templates-header">
+        <button class="back-btn" id="backBtn">← Volver</button>
+        <h1 class="templates-title">Selecciona una Plantilla</h1>
+        <p class="templates-subtitle">O elige "Personalizado" para crear desde cero</p>
+      </div>
+
+      <div class="templates-grid">
+        <div class="template-card" data-template="custom">
+          <div class="template-icon">🎨</div>
+          <h3 class="template-name">Personalizado</h3>
+          <p class="template-description">Crea tu bot desde cero con total libertad</p>
+          <ul class="template-features">
+            <li>Configuración manual completa</li>
+            <li>Todas las opciones disponibles</li>
+            <li>Ideal para necesidades específicas</li>
+          </ul>
+        </div>
+
+        <div class="template-card" data-template="restaurant">
+          <div class="template-icon">🍽️</div>
+          <h3 class="template-name">Restaurante</h3>
+          <p class="template-description">Gestión de reservas, menú y horarios</p>
+          <ul class="template-features">
+            <li>Reservas automáticas</li>
+            <li>Menú interactivo</li>
+            <li>Integración con Calendar</li>
+            <li>Plan recomendado: Automatiza</li>
+          </ul>
+        </div>
+
+        <div class="template-card" data-template="gym">
+          <div class="template-icon">💪</div>
+          <h3 class="template-name">Gimnasio</h3>
+          <p class="template-description">Clases, horarios y membresías</p>
+          <ul class="template-features">
+            <li>Horarios de clases</li>
+            <li>Inscripciones</li>
+            <li>Plan recomendado: Asiste</li>
+          </ul>
+        </div>
+
+        <div class="template-card" data-template="medical">
+          <div class="template-icon">🏥</div>
+          <h3 class="template-name">Consultorio Médico</h3>
+          <p class="template-description">Turnos, disponibilidad y recordatorios</p>
+          <ul class="template-features">
+            <li>Gestión de turnos</li>
+            <li>Disponibilidad en tiempo real</li>
+            <li>Recordatorios automáticos</li>
+            <li>Plan recomendado: Automatiza</li>
+          </ul>
+        </div>
+
+        <div class="template-card" data-template="ecommerce">
+          <div class="template-icon">🛒</div>
+          <h3 class="template-name">E-commerce</h3>
+          <p class="template-description">Productos, stock y pedidos</p>
+          <ul class="template-features">
+            <li>Catálogo de productos</li>
+            <li>Consultas de stock</li>
+            <li>Plan recomendado: Asiste</li>
+          </ul>
+        </div>
+
+        <div class="template-card" data-template="agency">
+          <div class="template-icon">🏠</div>
+          <h3 class="template-name">Inmobiliaria</h3>
+          <p class="template-description">Propiedades, visitas y contactos</p>
+          <ul class="template-features">
+            <li>Propiedades disponibles</li>
+            <li>Agendar visitas</li>
+            <li>Plan recomendado: Asiste</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="skip-template">
+        <a href="myia-plans.html">Saltar plantillas y elegir plan →</a>
+      </div>
+
+      <div style="text-align: center; margin-top: 32px; position: relative; z-index: 1;">
+        <button id="continueBtn" class="continue-btn" disabled>Continuar →</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/myia-templates.js?v=6.3"></script>
+</body>
+</html>

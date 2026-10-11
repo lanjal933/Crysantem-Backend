@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago Exitoso - MyIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=6.3">
+  <script src="js/config.js?v=6.3"></script>
+  <style>
+    .payment-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .payment-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 48px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(0, 255, 136, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .success-icon svg {
+      width: 40px;
+      height: 40px;
+      stroke: var(--green-main);
+    }
+
+    .payment-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      font-family: var(--font-display);
+    }
+
+    .payment-subtitle {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .action-btn {
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--green-main);
+      color: var(--bg-main);
+      border: none;
+      border-radius: var(--border-radius-md);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-bottom: 12px;
+    }
+
+    .action-btn:hover {
+      background: var(--green-dark);
+      transform: translateY(-2px);
+    }
+
+    .secondary-btn {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .secondary-btn:hover {
+      background: var(--bg-main);
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+    </div>
+  </nav>
+
+  <div class="payment-container">
+    <div class="payment-card">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="payment-title">¡Pago Exitoso!</h1>
+      <p class="payment-subtitle">
+        Tu pago ha sido procesado correctamente. Tu automatización está siendo configurada.
+      </p>
+      <button class="action-btn" onclick="redirectToSummary()">
+        Continuar a Configuración
+      </button>
+      <button class="action-btn secondary-btn" onclick="goToDashboard()">
+        Ir al Dashboard
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function redirectToSummary() {
+      window.location.href = 'myia-summary.html';
+    }
+
+    function goToDashboard() {
+      window.location.href = 'dashboard.html';
+    }
+  </script>
+</body>
+</html>

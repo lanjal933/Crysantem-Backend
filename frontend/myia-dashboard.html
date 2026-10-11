@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyIA Dashboard - Crysantem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;500;600;700&family=Lato:wght@400;500;700&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;500;600;700&family=Merriweather:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .dashboard-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      position: relative;
+    }
+
+    .dashboard-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      font-family: var(--font-display);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: var(--spacing-xl);
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-sidebar {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-lg);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-section {
+      margin-bottom: 30px;
+    }
+
+    .sidebar-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .sidebar-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 16px;
+      font-family: var(--font-display);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      transition: all var(--transition);
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--green-main);
+      box-shadow: 0 0 0 3px rgba(0, 255, 140, 0.1);
+    }
+
+    .form-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .color-picker-wrapper {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .color-picker {
+      width: 50px;
+      height: 40px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .dashboard-main {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-lg);
+    }
+
+    .preview-section {
+      margin-bottom: 30px;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .preview-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-main);
+      font-family: var(--font-display);
+    }
+
+    .preview-container {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 20px;
+      min-height: 400px;
+    }
+
+    .preview-frame {
+      width: 100%;
+      height: 500px;
+      border: none;
+      border-radius: 8px;
+      background: #000;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      background: var(--green-main);
+      color: var(--bg-main);
+      padding: 12px 24px;
+      border: 1px solid var(--green-main);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .btn-primary:hover {
+      background: var(--green-secondary);
+      border-color: var(--green-secondary);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-main);
+      padding: 12px 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--green-main);
+      color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .design-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .design-card {
+      background: var(--bg-main);
+      border: 2px solid var(--border);
+      border-radius: var(--border-radius-md);
+      padding: 16px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .design-card:hover {
+      border-color: var(--green-main);
+    }
+
+    .design-card.selected {
+      border-color: var(--green-main);
+      background: rgba(0, 255, 140, 0.1);
+    }
+
+    .design-card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .design-card-preview {
+      height: 80px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .range-slider {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .apps-section {
+      margin-bottom: 30px;
+    }
+
+    .apps-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .app-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      padding: 16px;
+      transition: all var(--transition);
+    }
+
+    .app-card:hover {
+      border-color: var(--green-main);
+      transform: translateY(-2px);
+    }
+
+    .app-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .app-card-slug {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .app-card-status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      margin-bottom: 12px;
+    }
+
+    .app-card-status.active {
+      background: rgba(0, 255, 140, 0.2);
+      color: var(--green-main);
+    }
+
+    .app-card-status.inactive {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+
+    .app-card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .app-card-actions button {
+      flex: 1;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .app-card-actions .btn-edit {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .app-card-actions .btn-edit:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-light);
+    }
+
+    .app-card-actions .btn-view {
+      background: var(--green-main);
+      color: var(--bg-main);
+      border: 1px solid var(--green-main);
+    }
+
+    .app-card-actions .btn-view:hover {
+      background: var(--green-secondary);
+      border-color: var(--green-secondary);
+    }
+  </style>
+</head>
+  <body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="#demo" class="navbar-link">Demos</a>
+        <a href="#myia" class="navbar-link" style="color: var(--green-main);">MyIA</a>
+        <a href="#planes" class="navbar-link">Planes</a>
+        <a href="#portfolio" class="navbar-link">Portfolio</a>
+        <a href="#nosotros" class="navbar-link">Nosotros</a>
+        <a href="#faq" class="navbar-link">FAQ</a>
+        <a href="#contacto" class="navbar-link">Contacto</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    <div class="container">
+      <div class="dashboard-header">
+        <h1 class="dashboard-title">MyIA Dashboard</h1>
+        <button class="btn-secondary" id="backBtn">← Volver al inicio</button>
+      </div>
+
+      <div class="dashboard-grid">
+      <!-- Sidebar de configuración -->
+      <div class="dashboard-sidebar">
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Información del Negocio</h3>
+          <div class="form-group">
+            <label class="form-label">Nombre del negocio</label>
+            <input type="text" class="form-input" id="businessName" placeholder="Tu empresa" maxlength="50">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Slug (URL)</label>
+            <input type="text" class="form-input" id="slug" placeholder="tu-empresa" maxlength="40">
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Logo</h3>
+          <div class="form-group">
+            <label class="form-label">Subir logo (PNG/JPG)</label>
+            <input type="file" id="logoFile" accept="image/png, image/jpeg" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">O URL del logo</label>
+            <input type="text" class="form-input" id="logoUrl" placeholder="https://...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tamaño del logo</label>
+            <input type="range" class="range-slider" id="logoSize" min="50" max="200" value="100">
+            <span id="logoSizeValue">100px</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Fondo</h3>
+          <div class="form-group">
+            <label class="form-label">Tipo de fondo</label>
+            <select class="form-select" id="backgroundType">
+              <option value="solid">Liso</option>
+              <option value="gradient">Degradado</option>
+              <option value="glow">Luminoso</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Color de fondo</label>
+            <div class="color-picker-wrapper">
+              <input type="color" class="color-picker" id="backgroundColor" value="#050505">
+              <input type="text" class="form-input" id="backgroundColorText" value="#050505">
+            </div>
+          </div>
+          <div class="form-group" id="gradientGroup" style="display: none;">
+            <label class="form-label">Color secundario (degradado)</label>
+            <div class="color-picker-wrapper">
+              <input type="color" class="color-picker" id="gradientColor" value="#00ff8c">
+              <input type="text" class="form-input" id="gradientColorText" value="#00ff8c">
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Tipografía</h3>
+          <div class="form-group">
+            <label class="form-label">Fuente principal</label>
+            <select class="form-select" id="fontFamily">
+              <option value="Inter">Inter</option>
+              <option value="Playfair Display">Playfair Display</option>
+              <option value="Roboto">Roboto</option>
+              <option value="Open Sans">Open Sans</option>
+              <option value="Lato">Lato</option>
+              <option value="Montserrat">Montserrat</option>
+              <option value="Poppins">Poppins</option>
+              <option value="Raleway">Raleway</option>
+              <option value="Source Sans Pro">Source Sans Pro</option>
+              <option value="Merriweather">Merriweather</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fuente del título (opcional)</label>
+            <select class="form-select" id="titleFont">
+              <option value="">Igual que principal</option>
+              <option value="Playfair Display">Playfair Display</option>
+              <option value="Roboto">Roboto</option>
+              <option value="Montserrat">Montserrat</option>
+              <option value="Poppins">Poppins</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Caja de Chat</h3>
+          <div class="form-group">
+            <label class="form-label">Diseño</label>
+            <select class="form-select" id="chatBoxDesign">
+              <option value="modern">Moderno</option>
+              <option value="classic">Clásico</option>
+              <option value="minimal">Minimal</option>
+              <option value="neon">Neón</option>
+              <option value="glass">Glass</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Color de acento</label>
+            <div class="color-picker-wrapper">
+              <input type="color" class="color-picker" id="chatBoxColor" value="#00ff8c">
+              <input type="text" class="form-input" id="chatBoxColorText" value="#00ff8c">
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Diseño de Página</h3>
+          <div class="design-cards">
+            <div class="design-card selected" data-design="design1">
+              <div class="design-card-title">Diseño 1</div>
+              <div class="design-card-preview">Centrado</div>
+            </div>
+            <div class="design-card" data-design="design2">
+              <div class="design-card-title">Diseño 2</div>
+              <div class="design-card-preview">Izquierda</div>
+            </div>
+            <div class="design-card" data-design="design3">
+              <div class="design-card-title">Diseño 3</div>
+              <div class="design-card-preview">Derecha</div>
+            </div>
+            <div class="design-card" data-design="design4">
+              <div class="design-card-title">Diseño 4</div>
+              <div class="design-card-preview">Grid</div>
+            </div>
+            <div class="design-card" data-design="design5">
+              <div class="design-card-title">Diseño 5</div>
+              <div class="design-card-preview">Full</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn-primary" id="saveBtn">Guardar Diseño</button>
+          <button class="btn-secondary" id="continueBtn">Continuar a Prompt →</button>
+        </div>
+      </div>
+
+      <!-- Área principal -->
+      <div class="dashboard-main">
+        <div class="apps-section">
+          <div class="preview-header">
+            <h2 class="preview-title">Mis Apps</h2>
+            <button class="btn-primary" id="newAppBtn">+ Nueva App</button>
+          </div>
+          <div id="appsList" class="apps-list">
+            <p style="color: rgba(255, 255, 255, 0.5);">Cargando tus apps...</p>
+          </div>
+        </div>
+
+        <div class="preview-section">
+          <div class="preview-header">
+            <h2 class="preview-title">Vista Previa en Vivo</h2>
+            <button class="btn-secondary" id="openPreviewBtn">Abrir en nueva pestaña</button>
+          </div>
+          <div class="preview-container">
+            <iframe id="previewFrame" class="preview-frame" src="about:blank"></iframe>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">Estado</h3>
+          <div class="form-group">
+            <label class="form-label">
+              <input type="checkbox" id="isActive"> Página activa (pública)
+            </label>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
+            URL pública: <span id="publicUrl" style="color: var(--green-main);">/myia/[tu-slug]</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <script src="js/myia-dashboard.js"></script>
+</body>
+</html>

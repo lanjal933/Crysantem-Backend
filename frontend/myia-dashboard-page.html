@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - MyIA</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/config.js"></script>
+  <style>
+    .dashboard-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      position: relative;
+    }
+
+    .dashboard-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .dashboard-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: var(--text-main);
+      font-family: var(--font-display);
+    }
+
+    .dashboard-subtitle {
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    .dashboard-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+      transition: all var(--transition);
+    }
+
+    .metric-card:hover {
+      border-color: var(--green-main);
+      transform: translateY(-2px);
+    }
+
+    .metric-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(0, 255, 136, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .metric-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .metric-change {
+      font-size: 0.85rem;
+      margin-top: 8px;
+    }
+
+    .metric-change.positive {
+      color: var(--green-main);
+    }
+
+    .metric-change.negative {
+      color: #ff4444;
+    }
+
+    .charts-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .chart-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+    }
+
+    .chart-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      font-family: var(--font-display);
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+    }
+
+    .quick-actions {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .quick-actions-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      font-family: var(--font-display);
+    }
+
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .quick-action {
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      padding: 16px;
+      text-align: center;
+      transition: all var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--text-main);
+    }
+
+    .quick-action:hover {
+      border-color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
+    .quick-action-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .quick-action-label {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .message-limit-warning {
+      background: rgba(255, 68, 68, 0.1);
+      border: 1px solid rgba(255, 68, 68, 0.3);
+      border-radius: var(--border-radius-md);
+      padding: 16px 24px;
+      margin-bottom: 20px;
+      color: #ff4444;
+      font-weight: 500;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-info {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-info-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 20px;
+      font-family: var(--font-display);
+    }
+
+    .page-info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-info-item:last-child {
+      border-bottom: none;
+    }
+
+    .page-info-label {
+      color: var(--text-secondary);
+    }
+
+    .page-info-value {
+      color: var(--text-main);
+      font-weight: 500;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-secondary);
+    }
+
+    .error {
+      background: rgba(255, 68, 68, 0.1);
+      border: 1px solid rgba(255, 68, 68, 0.3);
+      border-radius: var(--border-radius-md);
+      padding: 20px;
+      text-align: center;
+      color: #ff6b6b;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 100px 16px 20px;
+      }
+
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .dashboard-title {
+        font-size: 1.5rem;
+      }
+
+      .dashboard-actions {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .dashboard-actions button {
+        width: 100%;
+      }
+
+      .metrics-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .charts-section {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-actions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dashboard-container {
+        padding: 80px 12px 16px;
+      }
+
+      .dashboard-title {
+        font-size: 1.2rem;
+      }
+
+      .metric-card {
+        padding: 16px;
+      }
+
+      .metric-value {
+        font-size: 1.5rem;
+      }
+
+      .chart-card {
+        padding: 16px;
+      }
+
+      .chart-container {
+        height: 250px;
+      }
+    }
+  </style>
+</head>
+<body class="myia-page">
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="myia-home.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="myia-home.html" class="navbar-link">Mis Páginas</a>
+        <a href="index.html" class="navbar-link">Inicio</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container dashboard-container">
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title" id="pageTitle">Dashboard</h1>
+        <p class="dashboard-subtitle" id="pageSlug">crysantem.tech/...</p>
+      </div>
+      <div class="dashboard-actions">
+        <a id="viewPageBtn" href="#" target="_blank" class="btn btn-primary">Ver Página</a>
+        <a id="editPageBtn" href="#" class="btn btn-secondary">Editar</a>
+      </div>
+    </div>
+
+    <div id="loadingMessage" class="loading">Cargando estadísticas...</div>
+
+    <div id="dashboardContent" style="display: none;">
+      <!-- Métricas principales -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-icon">💬</div>
+          <div class="metric-value" id="totalMessages">0</div>
+          <div class="metric-label">Mensajes Totales</div>
+          <div class="metric-change positive">↑ 12% vs semana anterior</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">👥</div>
+          <div class="metric-value" id="uniqueUsers">0</div>
+          <div class="metric-label">Usuarios Únicos</div>
+          <div class="metric-change positive">↑ 8% vs semana anterior</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-value" id="totalTokens">0</div>
+          <div class="metric-label">Mensajes Usados</div>
+          <div class="metric-change negative">↓ 5% vs semana anterior</div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon">⏱️</div>
+          <div class="metric-value" id="avgResponseTime">0s</div>
+          <div class="metric-label">Tiempo de Respuesta Promedio</div>
+          <div class="metric-change positive">↑ 3% más rápido</div>
+        </div>
+      </div>
+
+      <!-- Advertencia de límite de mensajes -->
+      <div id="messageLimitWarning" class="message-limit-warning" style="display: none;"></div>
+
+      <!-- Gráficos -->
+      <div class="charts-section">
+        <div class="chart-card">
+          <h3 class="chart-title">Mensajes por Día</h3>
+          <div class="chart-container">
+            <canvas id="messagesChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h3 class="chart-title">Usuarios por Día</h3>
+          <div class="chart-container">
+            <canvas id="usersChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acciones rápidas -->
+      <div class="quick-actions">
+        <h3 class="quick-actions-title">Acciones Rápidas</h3>
+        <div class="quick-actions-grid">
+          <a id="viewPageAction" href="#" target="_blank" class="quick-action">
+            <div class="quick-action-icon">👁️</div>
+            <div class="quick-action-label">Ver Página</div>
+          </a>
+          <a id="editPageAction" href="#" class="quick-action">
+            <div class="quick-action-icon">✏️</div>
+            <div class="quick-action-label">Editar Configuración</div>
+          </a>
+          <a id="copyLinkAction" href="#" class="quick-action">
+            <div class="quick-action-icon">🔗</div>
+            <div class="quick-action-label">Copiar Link</div>
+          </a>
+          <a id="downloadLogsAction" href="#" class="quick-action">
+            <div class="quick-action-icon">📊</div>
+            <div class="quick-action-label">Descargar Logs</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Información de la página -->
+      <div class="page-info">
+        <h3 class="page-info-title">Información de la Página</h3>
+        <div class="page-info-item">
+          <span class="page-info-label">Nombre del Negocio</span>
+          <span class="page-info-value" id="businessName">-</span>
+        </div>
+        <div class="page-info-item">
+          <span class="page-info-label">Plan</span>
+          <span class="page-info-value" id="planName">-</span>
+        </div>
+        <div class="page-info-item">
+          <span class="page-info-label">Modelo de IA</span>
+          <span class="page-info-value" id="aiModel">-</span>
+        </div>
+        <div class="page-info-item">
+          <span class="page-info-label">Estado</span>
+          <span class="page-info-value" id="isActive">-</span>
+        </div>
+        <div class="page-info-item">
+          <span class="page-info-label">Fecha de Creación</span>
+          <span class="page-info-value" id="createdAt">-</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/myia-dashboard-page.js?v=6.3"></script>
+</body>
+</html>

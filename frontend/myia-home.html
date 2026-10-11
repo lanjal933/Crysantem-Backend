@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Apps - MyIA Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=6.3">
+  <script src="js/config.js?v=6.3"></script>
+  <style>
+    .home-container {
+      min-height: 100vh;
+      background: var(--bg-main);
+      padding: 120px 20px 40px;
+      position: relative;
+    }
+
+    .home-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .home-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .home-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      font-family: var(--font-display);
+      letter-spacing: -0.02em;
+    }
+
+    .home-subtitle {
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    .btn-create {
+      background: var(--green-main);
+      color: var(--bg-main);
+      padding: 14px 28px;
+      border: 1px solid var(--green-main);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .btn-create:hover {
+      background: var(--green-secondary);
+      border-color: var(--green-secondary);
+      transform: translateY(-1px);
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: var(--spacing-lg);
+      margin-top: var(--spacing-xl);
+      position: relative;
+      z-index: 1;
+    }
+
+    .app-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-lg);
+      transition: all var(--transition);
+    }
+
+    .app-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-2px);
+    }
+
+    .app-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .app-card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      font-family: var(--font-display);
+    }
+
+    .app-card-slug {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .app-card-status {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .app-card-status.active {
+      background: rgba(0, 255, 136, 0.2);
+      color: var(--green-main);
+    }
+
+    .app-card-status.inactive {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+
+    .app-card-plan {
+      display: inline-block;
+      padding: 4px 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--border-radius-sm);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .app-card-ai {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .app-card-ai-badge {
+      padding: 2px 8px;
+      background: rgba(99, 102, 241, 0.2);
+      border-radius: var(--border-radius-sm);
+      color: #6366f1;
+      font-size: 0.75rem;
+    }
+
+    .app-card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .app-card-actions button {
+      flex: 1;
+      min-width: 80px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: var(--border-radius-md);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .app-card-actions .btn-edit {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .app-card-actions .btn-edit:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--border-light);
+    }
+
+    .app-card-actions .btn-view {
+      background: var(--green-main);
+      color: var(--bg-main);
+      border: 1px solid var(--green-main);
+    }
+
+    .app-card-actions .btn-view:hover {
+      background: var(--green-secondary);
+      border-color: var(--green-secondary);
+    }
+
+    .app-card-actions .btn-technical {
+      background: rgba(99, 102, 241, 0.1);
+      color: #6366f1;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .app-card-actions .btn-technical:hover {
+      background: rgba(99, 102, 241, 0.2);
+    }
+
+    .app-card-actions .btn-delete {
+      background: rgba(255, 68, 68, 0.1);
+      color: #ff4444;
+      border: 1px solid rgba(255, 68, 68, 0.3);
+    }
+
+    .app-card-actions .btn-delete:hover {
+      background: rgba(255, 68, 68, 0.2);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      background: var(--bg-secondary);
+      border: 1px dashed var(--border);
+      border-radius: var(--border-radius-lg);
+    }
+
+    .empty-state-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      opacity: 0.5;
+    }
+
+    .empty-state-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      font-family: var(--font-display);
+    }
+
+    .empty-state-text {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .back-btn {
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 14px 28px;
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .back-btn:hover {
+      border-color: var(--green-main);
+      color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
+        <span>CRYSANTEM</span>
+      </a>
+      <div class="navbar-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="navbar-links">
+        <a href="#demo" class="navbar-link">Demos</a>
+        <a href="#myia" class="navbar-link" style="color: var(--green-main);">MyIA</a>
+        <a href="#planes" class="navbar-link">Planes</a>
+        <a href="#portfolio" class="navbar-link">Portfolio</a>
+        <a href="#nosotros" class="navbar-link">Nosotros</a>
+        <a href="#faq" class="navbar-link">FAQ</a>
+        <a href="#contacto" class="navbar-link">Contacto</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+          <div id="authDropdown" class="navbar-dropdown">
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="home-container">
+    <div class="container">
+      <div class="home-header">
+        <div>
+          <h1 class="home-title">Mis Apps</h1>
+          <p class="home-subtitle">Gestiona tus páginas y agentes de IA</p>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button class="back-btn" id="backBtn">← Volver al inicio</button>
+          <button class="btn-create" id="createBtn">+ Crear Nueva Página</button>
+        </div>
+      </div>
+
+      <div id="appsGrid" class="apps-grid">
+        <p style="color: var(--text-secondary);">Cargando tus apps...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/myia-home.js?v=6.3"></script>
+</body>
+</html>
