@@ -25,12 +25,12 @@ const PLAN_PRICES = {
     messagesLimit: '5.000 mensajes/mes'
   },
   intelligence: {
-    name: '04 - Enterprise',
-    monthly: 'Custom',
-    annual: 'Custom',
-    annualTotal: 'Custom',
+    name: '04 - Crysantem Intelligence',
+    monthly: '$190.000/mes',
+    annual: '$158.333/mes (anual)',
+    annualTotal: '$1.900.000',
     aiModel: 'Gemini Pro',
-    messagesLimit: 'Ajustados a medida'
+    messagesLimit: 'Ilimitado'
   }
 };
 
