@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       // Crear suscripción en el backend
-      const API_URL = window.API_CONFIG?.backendUrl || 'https://api.crysantem.tech';
+      const API_URL = window.API_CONFIG?.backendUrl || 'https://crysantem-backend.onrender.com';
       const response = await fetch(`${API_URL}/api/myia/create-subscription`, {
         method: 'POST',
         headers: {

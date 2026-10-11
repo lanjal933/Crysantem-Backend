@@ -621,7 +621,7 @@ ${integrationsConfig.functions.prompt}
 
     // Paso 2: Determinar webhook según el plan
     const plan = config.plan || 'responde';
-    const API_URL = window.API_CONFIG?.backendUrl || 'https://api.crysantem.tech';
+    const API_URL = window.API_CONFIG?.backendUrl || 'https://crysantem-backend.onrender.com';
     const webhookUrl = `${API_URL}/api/myia/webhook/test`;
     addLog(`Plan seleccionado: ${plan}`, 'info');
     addLog(`Webhook a invocar: ${webhookUrl}`, 'info');
