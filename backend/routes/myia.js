@@ -1354,6 +1354,9 @@ router.get('/test', (req, res) => {
 // Crear suscripción dinámica (con cobro inicial + mensual)
 router.post('/create-subscription', generalLimiter, async (req, res) => {
   try {
+    console.log('=== REQUEST RECIBIDO ===');
+    console.log('Body completo:', JSON.stringify(req.body, null, 2));
+
     const { plan, pageId, userId, clickId, payerEmail, billingType = 'monthly' } = req.body;
 
     console.log('=== CREANDO SUSCRIPCIÓN MERCADO PAGO ===');
@@ -1363,6 +1366,8 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
     console.log('Payer Email:', payerEmail);
     console.log('Click ID (Tapfiliate):', clickId);
     console.log('Billing Type:', billingType);
+    console.log('MP_ACCESS_TOKEN configurado:', !!process.env.MP_ACCESS_TOKEN);
+    console.log('APP_URL:', process.env.APP_URL);
 
     // Precios de planes (en pesos argentinos) - NUEVO MODELO SaaS MRR
     const PLAN_PRICES = {
