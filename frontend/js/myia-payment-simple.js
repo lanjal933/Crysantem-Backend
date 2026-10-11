@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('mercadopagoBtn').addEventListener('click', async () => {
     console.log('Botón de pago clickeado');
 
-    // Solicitar email del pagador (requerido para suscripciones)
-    const payerEmail = prompt('Por favor, ingresa tu email para la suscripción de Mercado Pago:');
+    // Obtener email del input
+    const payerEmail = document.getElementById('payerEmail').value;
 
     if (!payerEmail || !payerEmail.includes('@')) {
       alert('Email inválido. Por favor ingresa un email válido.');
