@@ -131,6 +131,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('Configuración cargada desde backend:', config);
       } else {
         console.error('Error al cargar configuración:', result.error);
+        // Si es 404, limpiar localStorage y usar builderConfig
+        if (response.status === 404) {
+          console.log('Configuración no encontrada (404), limpiando localStorage y usando builderConfig');
+          localStorage.removeItem('editingAppId');
+          localStorage.removeItem('viewingAppId');
+          editingAppId = null;
+        }
       }
     } catch (error) {
       console.error('Error fetching config:', error);
