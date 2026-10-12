@@ -30,7 +30,7 @@ const PLAN_PRICES = {
     monthly: '$199/mes',
     aiModel: 'Gemini Pro',
     tokenLimit: '∞',
-    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/gmail.readonly']
+    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/gmail.send']
   }
 };
 
@@ -41,7 +41,7 @@ const SCOPE_NAMES = {
   'https://www.googleapis.com/auth/spreadsheets': 'Google Sheets (lectura/escritura)',
   'https://www.googleapis.com/auth/drive.readonly': 'Google Drive (solo lectura)',
   'https://www.googleapis.com/auth/calendar': 'Google Calendar',
-  'https://www.googleapis.com/auth/gmail.readonly': 'Gmail (solo lectura)'
+  'https://www.googleapis.com/auth/gmail.send': 'Gmail (envío de correos)'
 };
 
 document.addEventListener('DOMContentLoaded', () => {

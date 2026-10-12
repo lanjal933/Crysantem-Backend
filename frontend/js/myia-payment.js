@@ -51,7 +51,7 @@ const PLAN_PRICES = {
     aiModel: 'Gemini Pro',
     messagesLimit: 'Ajustados a medida',
     minimumMonths: '12 meses',
-    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/gmail.readonly']
+    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/gmail.send']
   }
 };
 
