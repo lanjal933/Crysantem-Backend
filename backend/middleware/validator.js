@@ -93,7 +93,7 @@ const myiaConfigValidation = [
     .isLength({ max: 100 }).withMessage('Nombre de negocio no puede exceder 100 caracteres')
     .escape(),
   body('config.slug')
-    .optional()
+    .optional({ checkFalsy: true })
     .trim()
     .matches(/^[a-z0-9-]+$/).withMessage('Slug solo puede contener letras minúsculas, números y guiones')
     .isLength({ min: 3, max: 50 }).withMessage('Slug debe tener entre 3 y 50 caracteres'),
