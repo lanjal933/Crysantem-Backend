@@ -372,8 +372,14 @@ async function createPage() {
   const config = JSON.parse(localStorage.getItem('builderConfig') || '{}');
   const userId = localStorage.getItem('userId');
   editingAppId = localStorage.getItem('editingAppId');
-  const plan = localStorage.getItem('selectedPlan');
+  const plan = localStorage.getItem('selectedPlan') || config.payment_plan || config.plan || 'responde';
   const isConfiguringUnpaidPage = localStorage.getItem('isConfiguringUnpaidPage') === 'true';
+  
+  console.log('=== PLAN EN CREATEPAGE ===');
+  console.log('selectedPlan desde localStorage:', localStorage.getItem('selectedPlan'));
+  console.log('config.payment_plan:', config.payment_plan);
+  console.log('config.plan:', config.plan);
+  console.log('plan final usado:', plan);
 
   // Si estamos configurando una página ya pagada, solo guardar y redirigir a myia-home
   if (isConfiguringUnpaidPage && editingAppId) {
@@ -623,7 +629,7 @@ ${integrationsConfig.functions.prompt}
     system_prompt: config.systemPrompt,
     ai_model: config.aiModel,
     character_limit: config.characterLimit,
-    plan: config.plan,
+    plan: plan, // Usar el plan calculado anteriormente
     social_links: config.socialLinks,
     is_active: config.is_active,
     // Agregar integraciones como JSONB
@@ -702,51 +708,11 @@ ${integrationsConfig.functions.prompt}
     addLog('Configuración guardada exitosamente', 'success');
     addLog(`ID de página: ${result.data?.id || 'N/A'}`, 'info');
 
-    // Paso 2: Determinar webhook según el plan
-    const plan = config.plan || 'responde';
-    const API_URL = window.API_CONFIG?.backendUrl || 'https://crysantem-backend.onrender.com';
-    const webhookUrl = `${API_URL}/api/myia/webhook/test`;
-    addLog(`Plan seleccionado: ${plan}`, 'info');
-    addLog(`Webhook a invocar: ${webhookUrl}`, 'info');
+    // Paso 2: Webhook de n8n deshabilitado temporalmente (endpoint no existe)
+    addLog('Webhook de n8n deshabilitado temporalmente', 'info');
 
-    // Paso 3: Enviar datos al webhook
-    addLog('Enviando datos al webhook...', 'info');
-    try {
-      const webhookPayload = {
-        action: editingAppId ? 'update' : 'create',
-        plan: plan,
-        pageId: result.data?.id,
-        userId: userId,
-        config: config,
-        timestamp: new Date().toISOString()
-      };
-
-      addLog(`Payload: ${JSON.stringify(webhookPayload, null, 2)}`, 'info');
-
-      const webhookResponse = await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(webhookPayload)
-      });
-
-      const webhookResult = await webhookResponse.json();
-
-      if (webhookResponse.ok && webhookResult.success) {
-        addLog('Webhook invocado exitosamente', 'success');
-        addLog(`Respuesta: ${JSON.stringify(webhookResult.data)}`, 'info');
-      } else {
-        addLog(`Webhook respondió con status: ${webhookResponse.status}`, 'warning');
-        addLog(`Error: ${webhookResult.error || 'Unknown'}`, 'warning');
-      }
-    } catch (webhookError) {
-      addLog('Error al invocar webhook (continuando de todos modos): ' + webhookError.message, 'warning');
-    }
-
-    // Paso 4: Generar HTML de la página
-    addLog('Generando HTML de la página...', 'info');
-    try {
-      const htmlResponse = await fetch(`https://crysantem-backend.onrender.com/api/myia/render/${config.slug}`);
-      if (htmlResponse.ok) {
+    // Paso 3: Generación de HTML deshabilitada temporalmente (endpoint no existe)
+    addLog('Generación de HTML deshabilitada temporalmente', 'info');
         addLog('HTML generado exitosamente', 'success');
       } else {
         addLog('Error al generar HTML', 'warning');
