@@ -1515,13 +1515,13 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
       transactionAmount = planPrice.annual; // Precio mensual con descuento
       frequency = 1;
       frequencyType = 'months';
-      subscriptionReason = `Suscripción Anual MyIA - ${planPrice.title} (12 cuotas de $${planPrice.annual.toLocaleString('es-AR')})`;
+      subscriptionReason = `MyIA ${plan} - Anual`; // Corto para MP (max 60 chars)
     } else {
       // Para mensual: cobro mensual recurrente
       transactionAmount = planPrice.monthly;
       frequency = 1;
       frequencyType = 'months';
-      subscriptionReason = `Suscripción Mensual MyIA - ${planPrice.title}`;
+      subscriptionReason = `MyIA ${plan} - Mensual`; // Corto para MP (max 60 chars)
     }
 
     // Crear suscripción sin plan asociado (status: pending para que el usuario pague en checkout)
