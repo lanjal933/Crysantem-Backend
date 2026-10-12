@@ -1492,12 +1492,8 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
       return res.status(400).json({ success: false, error: 'Email del pagador es requerido para suscripciones' });
     }
 
-    // TEMPORAL: Usar email de prueba de Mercado Pago Sandbox para pruebas
-    let payerEmail = incomingPayerEmail;
-    if (userId === 'user') {
-      console.log('MODO PRUEBA: Usando email de prueba de Mercado Pago Sandbox');
-      payerEmail = 'test_payer_123456@testuser.com';
-    }
+    // Usar el email real del pagador (modo producción)
+    const payerEmail = incomingPayerEmail;
 
     // Calcular fecha de inicio y fin según tipo de facturación
     const startDate = new Date();
