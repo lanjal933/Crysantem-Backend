@@ -5,6 +5,15 @@ const { generalLimiter } = require('../middleware/rateLimiter');
 const { myiaConfigValidation } = require('../middleware/validator');
 const axios = require('axios');
 
+// Función simple para generar UUID
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -636,7 +645,8 @@ router.post('/mark-as-paid/:pageId', generalLimiter, async (req, res) => {
       const userId = req.body.userId || localStorage.getItem('userId') || 'user';
       const billingType = req.body.billingType || 'monthly';
       
-      const tempPageId = `myia-${plan}-${Date.now()}`;
+      const tempPageId = generateUUID();
+      const planPrices = {
       const planPrices = {
         responde: { monthly: 60000, annual: 50000, annualTotal: 600000, messagesLimit: 1000, minimumMonths: 3 },
         asiste: { monthly: 85000, annual: 70833, annualTotal: 850000, messagesLimit: 2500, minimumMonths: 3 },
