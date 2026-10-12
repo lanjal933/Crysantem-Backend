@@ -14,7 +14,7 @@ function normalizeSlug(slug) {
 document.addEventListener('DOMContentLoaded', async () => {
   // Verificar si estamos configurando una página ya pagada
   const isConfiguringUnpaidPage = localStorage.getItem('isConfiguringUnpaidPage') === 'true';
-  const editingAppId = localStorage.getItem('editingAppId');
+  let editingAppId = localStorage.getItem('editingAppId');
   
   if (isConfiguringUnpaidPage && editingAppId) {
     // Cambiar botón a "Desplegar"
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const paymentConfig = JSON.parse(localStorage.getItem('paymentConfig') || '{}');
   
   const viewingAppId = localStorage.getItem('viewingAppId');
-  const editingAppId = localStorage.getItem('editingAppId');
+  editingAppId = localStorage.getItem('editingAppId');
   const appId = viewingAppId || editingAppId;
 
   console.log('=== DEBUG RESUMEN ===');
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function createPage() {
   const config = JSON.parse(localStorage.getItem('builderConfig') || '{}');
   const userId = localStorage.getItem('userId');
-  const editingAppId = localStorage.getItem('editingAppId');
+  editingAppId = localStorage.getItem('editingAppId');
   const plan = localStorage.getItem('selectedPlan');
   const isConfiguringUnpaidPage = localStorage.getItem('isConfiguringUnpaidPage') === 'true';
 
