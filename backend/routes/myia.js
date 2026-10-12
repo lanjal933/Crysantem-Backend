@@ -1448,12 +1448,13 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
     console.log('APP_URL:', process.env.APP_URL);
 
     // Precios de planes (en pesos argentinos) - NUEVO MODELO SaaS MRR
+    // TEMPORAL: Modificado para prueba de $1 ARS en endpoint create-subscription
     const PLAN_PRICES = {
       responde: {
-        monthly: 60000,
-        annual: 50000,
-        annualTotal: 600000,
-        title: '01 - Responde',
+        monthly: 1, // TEMPORAL: $1 ARS para prueba
+        annual: 1, // TEMPORAL: $1 ARS para prueba
+        annualTotal: 12, // TEMPORAL: $12 ARS anuales
+        title: '01 - Responde (PRUEBA)',
         messagesLimit: 1000,
         minimumMonths: 3
       },
