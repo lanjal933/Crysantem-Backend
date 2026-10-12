@@ -117,12 +117,12 @@ async function continueToDesign() {
   localStorage.removeItem('coworkerSkipOAuth');
   localStorage.removeItem('isCoworker');
 
-  console.log('Flujo normal iniciado - coworkerSkipOAuth limpiado');
+  console.log('Flujo con pago al inicio iniciado');
   console.log('Plan seleccionado:', selectedPlan);
   console.log('Tipo de facturación:', billingType);
 
-  // Redirigir al constructor (myia-builder.html)
-  window.location.href = 'myia-builder.html';
+  // Redirigir al pago inmediatamente (myia-payment-simple.html)
+  window.location.href = 'myia-payment-simple.html';
 }
 
 // Event listeners

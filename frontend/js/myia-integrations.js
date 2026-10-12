@@ -785,7 +785,8 @@ function initEventListeners() {
   document.getElementById('continueBtn').addEventListener('click', () => {
     if (validateConfig()) {
       saveConfig();
-      window.location.href = 'myia-payment.html';
+      // Nuevo flujo: después de integraciones, ir a resumen (sin pago)
+      window.location.href = 'myia-summary.html';
     }
   });
 }
