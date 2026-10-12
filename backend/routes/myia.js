@@ -660,6 +660,65 @@ router.post('/mark-as-paid/:pageId', generalLimiter, async (req, res) => {
   }
 });
 
+// Crear página temporal después del pago (temporal hasta que el webhook funcione)
+router.post('/mark-as-paid/temp', generalLimiter, async (req, res) => {
+  try {
+    const { plan, userId, billingType } = req.body;
+
+    console.log('=== CREANDO PÁGINA TEMPORAL DESPUÉS DEL PAGO ===');
+    console.log('Plan:', plan);
+    console.log('User ID:', userId);
+    console.log('Billing Type:', billingType);
+
+    const tempPageId = `myia-${plan}-${Date.now()}`;
+    const planPrices = {
+      responde: { monthly: 60000, annual: 50000, annualTotal: 600000, messagesLimit: 1000, minimumMonths: 3 },
+      asiste: { monthly: 85000, annual: 70833, annualTotal: 850000, messagesLimit: 2500, minimumMonths: 3 },
+      automatiza: { monthly: 150000, annual: 125000, annualTotal: 1500000, messagesLimit: 5000, minimumMonths: 6 },
+      intelligence: { monthly: 190000, annual: 158333, annualTotal: 1900000, messagesLimit: 0, minimumMonths: 12 }
+    };
+    const planPrice = planPrices[plan] || planPrices.responde;
+
+    const { error: insertError } = await supabase
+      .from('myia_page_config')
+      .insert({
+        id: tempPageId,
+        user_id: userId,
+        slug: `myia-${tempPageId}`,
+        page_name: `MyIA ${plan} - Pendiente de configuración`,
+        payment_status: 'paid',
+        subscription_status: 'authorized',
+        payment_plan: plan,
+        billing_type: billingType,
+        subscription_id: `temp-${Date.now()}`,
+        is_active: true,
+        messages_limit: planPrice.messagesLimit,
+        minimum_months: planPrice.minimumMonths,
+        payment_date: new Date().toISOString(),
+        created_at: new Date().toISOString()
+      });
+
+    if (insertError) {
+      console.error('Error al crear página temporal:', insertError);
+      return res.status(500).json({
+        success: false,
+        error: 'Error al crear página temporal',
+        details: insertError.message
+      });
+    }
+
+    console.log('Página temporal creada exitosamente:', tempPageId);
+    res.json({ success: true, pageId: tempPageId, message: 'Página creada exitosamente' });
+  } catch (error) {
+    console.error('Error creando página temporal:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al crear página temporal',
+      details: error.message
+    });
+  }
+});
+
 // Verificar si un email es coworker permitido (Crysantem COWORKERS)
 router.get('/check-coworker/:email', async (req, res) => {
   try {

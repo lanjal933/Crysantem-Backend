@@ -122,9 +122,47 @@
   </div>
 
   <script>
-    function redirectToSummary() {
-      // Nuevo flujo: después del pago, ir a myia-home
-      window.location.href = 'myia-home.html';
+    async function redirectToSummary() {
+      // Nuevo flujo: crear página en Supabase inmediatamente después del pago
+      try {
+        const plan = localStorage.getItem('selectedPlan');
+        const userId = localStorage.getItem('userId');
+        const billingType = localStorage.getItem('billingType') || 'monthly';
+        
+        if (!plan || !userId) {
+          alert('Error: No hay plan o usuario. Por favor inicia el flujo nuevamente.');
+          window.location.href = 'myia-plans.html';
+          return;
+        }
+
+        // Crear página vacía en Supabase
+        const response = await fetch('https://crysantem-backend.onrender.com/api/myia/mark-as-paid/temp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+          },
+          body: JSON.stringify({
+            plan,
+            userId,
+            billingType
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          alert('Página creada exitosamente');
+          window.location.href = 'myia-home.html';
+        } else {
+          alert('Error al crear página: ' + result.error);
+          window.location.href = 'myia-home.html';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al crear página');
+        window.location.href = 'myia-home.html';
+      }
     }
 
     function goToDashboard() {
