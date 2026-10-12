@@ -1448,13 +1448,12 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
     console.log('APP_URL:', process.env.APP_URL);
 
     // Precios de planes (en pesos argentinos) - NUEVO MODELO SaaS MRR
-    // TEMPORAL: Modificado para prueba de $15 ARS (mínimo permitido por Mercado Pago)
     const PLAN_PRICES = {
       responde: {
-        monthly: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
-        annual: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
-        annualTotal: 180, // TEMPORAL: $180 ARS anuales
-        title: '01 - Responde (PRUEBA)',
+        monthly: 60000,
+        annual: 50000,
+        annualTotal: 600000,
+        title: '01 - Responde',
         messagesLimit: 1000,
         minimumMonths: 3
       },
@@ -1475,10 +1474,10 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
         minimumMonths: 6
       },
       intelligence: {
-        monthly: 190000,
-        annual: 158333,
-        annualTotal: 1900000,
-        title: '04 - Crysantem Intelligence',
+        monthly: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
+        annual: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
+        annualTotal: 180, // TEMPORAL: $180 ARS anuales
+        title: '04 - Crysantem Intelligence (PRUEBA)',
         messagesLimit: 0,
         minimumMonths: 12
       }
@@ -1628,10 +1627,10 @@ router.post('/create-payment-preference', generalLimiter, async (req, res) => {
         minimumMonths: 6
       },
       intelligence: {
-        monthly: 190000,
-        annual: 158333,
-        annualTotal: 1900000,
-        title: '04 - Crysantem Intelligence',
+        monthly: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
+        annual: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
+        annualTotal: 180, // TEMPORAL: $180 ARS anuales
+        title: '04 - Crysantem Intelligence (PRUEBA)',
         messagesLimit: 0,
         minimumMonths: 12
       }
@@ -1757,6 +1756,13 @@ router.post('/mercadopago-webhook', async (req, res) => {
 
       // Actualizar estado en Supabase según el estado de la suscripción
       if (pageId) {
+        // Primero verificar si la página existe
+        const { data: existingPage, error: checkError } = await supabase
+          .from('myia_page_config')
+          .select('id')
+          .eq('id', pageId)
+          .single();
+
         let updateData = {
           subscription_id: subscription.id,
           subscription_status: subscription.status,
@@ -1786,15 +1792,39 @@ router.post('/mercadopago-webhook', async (req, res) => {
           console.log('Suscripción cancelada - Bot desactivado');
         }
 
-        const { error: updateError } = await supabase
-          .from('myia_page_config')
-          .update(updateData)
-          .eq('id', pageId);
+        // Si la página no existe, crearla con los datos disponibles
+        if (checkError || !existingPage) {
+          console.log('Página no existe, creando desde metadata de suscripción');
+          const insertData = {
+            id: pageId,
+            user_id: userId,
+            ...updateData,
+            slug: `myia-${pageId}`, // Slug temporal
+            page_name: `MyIA Page ${plan}`, // Nombre temporal
+            created_at: new Date().toISOString()
+          };
 
-        if (updateError) {
-          console.error('Error al actualizar estado de suscripción:', updateError);
+          const { error: insertError } = await supabase
+            .from('myia_page_config')
+            .insert(insertData);
+
+          if (insertError) {
+            console.error('Error al crear página desde suscripción:', insertError);
+          } else {
+            console.log('Página creada desde suscripción - Pagada y lista para editar');
+          }
         } else {
-          console.log('Estado de suscripción actualizado en Supabase');
+          // Si la página existe, solo actualizar el estado
+          const { error: updateError } = await supabase
+            .from('myia_page_config')
+            .update(updateData)
+            .eq('id', pageId);
+
+          if (updateError) {
+            console.error('Error al actualizar estado de suscripción:', updateError);
+          } else {
+            console.log('Estado de suscripción actualizado en Supabase');
+          }
         }
       }
 
