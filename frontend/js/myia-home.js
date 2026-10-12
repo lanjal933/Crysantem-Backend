@@ -34,10 +34,10 @@ async function loadUserApps() {
     }
 
     // Obtener userId del token
-    const responseProfile = await fetch('/api/auth/profile', {
+    const responseProfile = await fetch('https://crysantem-backend.onrender.com/api/auth/profile', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
-    
+
     const profileResult = await responseProfile.json();
     if (!profileResult.user) {
       showAuthRequired();
