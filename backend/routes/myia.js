@@ -1456,11 +1456,7 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
         transaction_amount: transactionAmount,
         currency_id: 'ARS'
       },
-      back_url: {
-        success: `${process.env.APP_URL}/myia-payment-success.html`,
-        failure: `${process.env.APP_URL}/myia-payment-failure.html`,
-        pending: `${process.env.APP_URL}/myia-payment-pending.html`
-      },
+      back_url: `${process.env.APP_URL}/myia-payment-success.html`,
       status: 'pending', // Usuario pagará en checkout
       metadata: {
         plan: plan,

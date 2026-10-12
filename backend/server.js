@@ -9,8 +9,8 @@ const { generalLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
 
-// Trust proxy para Render (resuelve warning de rate-limiter)
-app.set('trust proxy', true);
+// Trust proxy específico para Render (1 nivel de proxy)
+app.set('trust proxy', 1);
 
 // Log variables de entorno al inicio
 console.log('=== VARIABLES DE ENTORTE ===');
