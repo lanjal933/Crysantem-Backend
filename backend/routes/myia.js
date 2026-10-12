@@ -1495,6 +1495,43 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
     // Usar el email real del pagador (modo producción)
     const payerEmail = incomingPayerEmail;
 
+    // Si no hay pageId, crear la página en Supabase con estado pending_payment
+    let finalPageId = pageId;
+    if (!pageId) {
+      console.log('No hay pageId, creando página en Supabase con estado pending_payment');
+      const tempPageId = `myia-${plan}-${Date.now()}`;
+      const { data: newPage, error: insertError } = await supabase
+        .from('myia_page_config')
+        .insert({
+          id: tempPageId,
+          user_id: userId,
+          slug: `myia-${tempPageId}`,
+          page_name: `MyIA ${plan} - Pendiente de pago`,
+          payment_status: 'pending_payment',
+          payment_plan: plan,
+          billing_type: billingType,
+          subscription_status: 'pending',
+          is_active: false,
+          messages_limit: planPrice.messagesLimit,
+          minimum_months: planPrice.minimumMonths,
+          created_at: new Date().toISOString()
+        })
+        .select()
+        .single();
+
+      if (insertError) {
+        console.error('Error al crear página pendiente de pago:', insertError);
+        return res.status(500).json({
+          success: false,
+          error: 'Error al crear página pendiente de pago',
+          details: insertError.message
+        });
+      }
+
+      finalPageId = tempPageId;
+      console.log('Página creada con ID:', finalPageId);
+    }
+
     // Calcular fecha de inicio y fin según tipo de facturación
     const startDate = new Date();
     const endDate = new Date();
@@ -1527,7 +1564,7 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
     // Crear suscripción sin plan asociado (status: pending para que el usuario pague en checkout)
     const subscriptionData = {
       reason: subscriptionReason,
-      external_reference: pageId || `plan_${plan}_${Date.now()}`,
+      external_reference: finalPageId,
       payer_email: payerEmail,
       auto_recurring: {
         frequency: frequency,
@@ -1541,7 +1578,7 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
       status: 'pending', // Usuario pagará en checkout
       metadata: {
         plan: plan,
-        pageId: pageId,
+        pageId: finalPageId,
         userId: userId,
         clickId: clickId || null, // Click ID de Tapfiliate
         billing_type: billingType,
@@ -1575,7 +1612,8 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
       subscriptionId: response.data.id,
       initPoint: response.data.init_point,
       sandboxInitPoint: response.data.sandbox_init_point,
-      billingType: billingType
+      billingType: billingType,
+      pageId: finalPageId // Enviar el pageId al frontend
     });
   } catch (error) {
     console.error('Error al crear suscripción:', error);
