@@ -33,10 +33,20 @@ async function loadUserApps() {
       return;
     }
 
+    console.log('Token encontrado en localStorage');
+
     // Obtener userId del token
     const responseProfile = await fetch('https://crysantem-backend.onrender.com/api/auth/profile', {
       headers: { 'Authorization': `Bearer ${token}` }
     });
+
+    console.log('Response status:', responseProfile.status);
+
+    if (responseProfile.status === 403) {
+      console.error('Token inválido o expirado');
+      showAuthRequired('Tu sesión ha expirado. Por favor inicia sesión nuevamente.');
+      return;
+    }
 
     const profileResult = await responseProfile.json();
     if (!profileResult.user) {
@@ -65,7 +75,7 @@ async function loadUserApps() {
   }
 }
 
-function showAuthRequired() {
+function showAuthRequired(message = 'Inicia sesión para ver tus apps') {
   document.getElementById('appsGrid').innerHTML = `
     <div class="empty-state">
       <div class="empty-state-icon">
@@ -74,14 +84,22 @@ function showAuthRequired() {
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       </div>
-      <h3 class="empty-state-title">Inicia sesión para ver tus apps</h3>
-      <p class="empty-state-text">Necesitas estar autenticado con Google para gestionar tus páginas.</p>
-      <button class="btn-create" id="authBackBtn">Ir al inicio</button>
+      <h3 class="empty-state-title">Sesión requerida</h3>
+      <p class="empty-state-text">${message}</p>
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <button class="btn-create" id="authLoginBtn">Iniciar Sesión con Google</button>
+        <button class="back-btn" id="authBackBtn">Ir al inicio</button>
+      </div>
     </div>
   `;
   
   document.getElementById('authBackBtn').addEventListener('click', () => {
     window.location.href = 'index.html';
+  });
+
+  document.getElementById('authLoginBtn').addEventListener('click', () => {
+    // Redirigir a index.html con parámetro para iniciar login
+    window.location.href = 'index.html?login=true';
   });
 }
 
