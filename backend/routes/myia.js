@@ -557,9 +557,17 @@ router.get('/config-by-id/:id', async (req, res) => {
       .from('myia_page_config')
       .select('*')
       .eq('id', id)
+      .limit(1)
       .single();
 
-    if (error) throw error;
+    if (error) {
+      console.error('Error getting config by id:', error);
+      // Si no se encuentra, devolver error específico
+      if (error.code === 'PGRST116') {
+        return res.status(404).json({ success: false, error: 'Configuración no encontrada' });
+      }
+      throw error;
+    }
 
     res.json({ success: true, data });
   } catch (error) {
