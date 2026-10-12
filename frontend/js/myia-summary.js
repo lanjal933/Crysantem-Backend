@@ -713,15 +713,8 @@ ${integrationsConfig.functions.prompt}
 
     // Paso 3: Generación de HTML deshabilitada temporalmente (endpoint no existe)
     addLog('Generación de HTML deshabilitada temporalmente', 'info');
-        addLog('HTML generado exitosamente', 'success');
-      } else {
-        addLog('Error al generar HTML', 'warning');
-      }
-    } catch (htmlError) {
-      addLog('Error al generar HTML: ' + htmlError.message, 'warning');
-    }
 
-    // Paso 5: Finalizar
+    // Paso 4: Finalizar
     addLog('Proceso completado exitosamente', 'success');
     addLog('Redirigiendo a dashboard...', 'info');
 
