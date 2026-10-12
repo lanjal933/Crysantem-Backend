@@ -620,6 +620,46 @@ router.post('/edit-page/:pageId', generalLimiter, async (req, res) => {
   }
 });
 
+// Marcar página como pagada manualmente (temporal hasta que el webhook funcione)
+router.post('/mark-as-paid/:pageId', generalLimiter, async (req, res) => {
+  try {
+    const { pageId } = req.params;
+
+    console.log('=== MARCANDO PÁGINA COMO PAGADA ===');
+    console.log('Page ID:', pageId);
+
+    const { error: updateError } = await supabase
+      .from('myia_page_config')
+      .update({
+        payment_status: 'paid',
+        subscription_status: 'authorized',
+        is_active: true,
+        payment_date: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', pageId);
+
+    if (updateError) {
+      console.error('Error al marcar como pagada:', updateError);
+      return res.status(500).json({
+        success: false,
+        error: 'Error al marcar como pagada',
+        details: updateError.message
+      });
+    }
+
+    console.log('Página marcada como pagada exitosamente');
+    res.json({ success: true, message: 'Página marcada como pagada exitosamente' });
+  } catch (error) {
+    console.error('Error marcando como pagada:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al marcar como pagada',
+      details: error.message
+    });
+  }
+});
+
 // Verificar si un email es coworker permitido (Crysantem COWORKERS)
 router.get('/check-coworker/:email', async (req, res) => {
   try {
