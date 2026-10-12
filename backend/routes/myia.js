@@ -647,7 +647,6 @@ router.post('/mark-as-paid/:pageId', generalLimiter, async (req, res) => {
       
       const tempPageId = generateUUID();
       const planPrices = {
-      const planPrices = {
         responde: { monthly: 60000, annual: 50000, annualTotal: 600000, messagesLimit: 1000, minimumMonths: 3 },
         asiste: { monthly: 85000, annual: 70833, annualTotal: 850000, messagesLimit: 2500, minimumMonths: 3 },
         automatiza: { monthly: 150000, annual: 125000, annualTotal: 1500000, messagesLimit: 5000, minimumMonths: 6 },
