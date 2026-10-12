@@ -1,3 +1,16 @@
+// Función para normalizar slug
+function normalizeSlug(slug) {
+  if (!slug) return slug;
+  
+  return slug
+    .toLowerCase() // Convertir a minúsculas
+    .replace(/\s+/g, '-') // Espacios a guiones
+    .replace(/[._]/g, '-') // Puntos y guiones bajos a guiones
+    .replace(/[^a-z0-9-]/g, '') // Eliminar caracteres no válidos
+    .replace(/-+/g, '-') // Múltiples guiones a uno solo
+    .replace(/^-|-$/g, ''); // Eliminar guiones al inicio y final
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   // Verificar si viene del OAuth callback con token y plan
   const urlParams = new URLSearchParams(window.location.search);
@@ -579,6 +592,12 @@ ${integrationsConfig.functions.prompt}
 
   try {
     addLog('Iniciando creación de página...', 'info');
+
+    // Normalizar slug si existe
+    if (configSnakeCase.slug) {
+      configSnakeCase.slug = normalizeSlug(configSnakeCase.slug);
+      addLog(`Slug normalizado: ${configSnakeCase.slug}`, 'info');
+    }
 
     // Paso 1: Guardar configuración en Supabase
     addLog('Guardando configuración en base de datos...', 'info');
