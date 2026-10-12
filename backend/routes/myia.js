@@ -21,6 +21,84 @@ const PLAN_WEBHOOKS = {
   intelligence: process.env.WEBHOOK_INTELLIGENCE || 'https://n8n-n8n.f6ppdc.easypanel.host/webhook/bd0ee850-a7a8-469c-a05d-93e389938b38'
 };
 
+// Aceptar términos y condiciones
+router.post('/accept-terms', generalLimiter, async (req, res) => {
+  try {
+    const { userId, termsVersion } = req.body;
+
+    if (!userId) {
+      return res.status(400).json({ success: false, error: 'userId es requerido' });
+    }
+
+    const version = termsVersion || '2026-10-12';
+
+    // Obtener IP y User Agent
+    const ipAddress = req.ip || req.connection.remoteAddress;
+    const userAgent = req.headers['user-agent'];
+
+    console.log('Registrando aceptación de términos:', { userId, version, ipAddress });
+
+    // Insertar aceptación en la tabla
+    const { data, error } = await supabase
+      .from('terms_acceptances')
+      .insert({
+        user_id: userId,
+        terms_version: version,
+        ip_address: ipAddress,
+        user_agent: userAgent
+      })
+      .select()
+      .single();
+
+    if (error) {
+      // Si el error es por violación de unicidad (ya aceptó), está bien
+      if (error.code === '23505') {
+        console.log('Usuario ya había aceptado esta versión de términos');
+        return res.json({ success: true, message: 'Términos ya aceptados anteriormente' });
+      }
+      console.error('Error al guardar aceptación:', error);
+      return res.status(500).json({ success: false, error: error.message });
+    }
+
+    console.log('Aceptación registrada exitosamente:', data);
+    res.json({ success: true, message: 'Términos aceptados exitosamente', data });
+  } catch (error) {
+    console.error('Error en accept-terms:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Verificar si el usuario aceptó los términos
+router.get('/check-terms/:userId', generalLimiter, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { version = '2026-10-12' } = req.query;
+
+    console.log('Verificando aceptación de términos:', { userId, version });
+
+    const { data, error } = await supabase
+      .from('terms_acceptances')
+      .select('*')
+      .eq('user_id', userId)
+      .eq('terms_version', version)
+      .single();
+
+    if (error) {
+      if (error.code === 'PGRST116') {
+        // No se encontró aceptación
+        return res.json({ success: true, accepted: false });
+      }
+      console.error('Error al verificar aceptación:', error);
+      return res.status(500).json({ success: false, error: error.message });
+    }
+
+    res.json({ success: true, accepted: true, data });
+  } catch (error) {
+    console.error('Error en check-terms:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Eliminar página (borrado completo de la base de datos)
 router.delete('/delete/:id', generalLimiter, async (req, res) => {
   try {
