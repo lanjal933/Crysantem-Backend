@@ -628,6 +628,57 @@ router.post('/mark-as-paid/:pageId', generalLimiter, async (req, res) => {
     console.log('=== MARCANDO PÁGINA COMO PAGADA ===');
     console.log('Page ID:', pageId);
 
+    // Si pageId es "temp", crear nueva página en lugar de actualizar
+    if (pageId === 'temp') {
+      console.log('Page ID es "temp", creando nueva página desde cero');
+      
+      const plan = req.body.plan || localStorage.getItem('selectedPlan') || 'responde';
+      const userId = req.body.userId || localStorage.getItem('userId') || 'user';
+      const billingType = req.body.billingType || 'monthly';
+      
+      const tempPageId = `myia-${plan}-${Date.now()}`;
+      const planPrices = {
+        responde: { monthly: 60000, annual: 50000, annualTotal: 600000, messagesLimit: 1000, minimumMonths: 3 },
+        asiste: { monthly: 85000, annual: 70833, annualTotal: 850000, messagesLimit: 2500, minimumMonths: 3 },
+        automatiza: { monthly: 150000, annual: 125000, annualTotal: 1500000, messagesLimit: 5000, minimumMonths: 6 },
+        intelligence: { monthly: 190000, annual: 158333, annualTotal: 1900000, messagesLimit: 0, minimumMonths: 12 }
+      };
+      const planPrice = planPrices[plan] || planPrices.responde;
+
+      const { error: insertError } = await supabase
+        .from('myia_page_config')
+        .insert({
+          id: tempPageId,
+          user_id: userId,
+          slug: `myia-${tempPageId}`,
+          page_name: `MyIA ${plan} - Pendiente de configuración`,
+          payment_status: 'paid',
+          subscription_status: 'authorized',
+          payment_plan: plan,
+          billing_type: billingType,
+          subscription_id: `temp-${Date.now()}`,
+          is_active: true,
+          messages_limit: planPrice.messagesLimit,
+          minimum_months: planPrice.minimumMonths,
+          payment_date: new Date().toISOString(),
+          created_at: new Date().toISOString()
+        });
+
+      if (insertError) {
+        console.error('Error al crear página desde "temp":', insertError);
+        return res.status(500).json({
+          success: false,
+          error: 'Error al crear página',
+          details: insertError.message
+        });
+      }
+
+      console.log('Página creada desde "temp" exitosamente:', tempPageId);
+      res.json({ success: true, pageId: tempPageId, message: 'Página creada exitosamente' });
+      return;
+    }
+
+    // Caso normal: actualizar página existente
     const { error: updateError } = await supabase
       .from('myia_page_config')
       .update({
