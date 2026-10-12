@@ -544,7 +544,7 @@
 
     function editApp(appId) {
       localStorage.setItem('editingAppId', appId);
-      window.location.href = 'myia-builder.html';
+      window.location.href = `myia-editor.html?pageId=${appId}`;
     }
 
     function viewApp(slug) {

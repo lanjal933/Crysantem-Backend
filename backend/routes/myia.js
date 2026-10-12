@@ -559,6 +559,67 @@ router.get('/config-by-id/:id', async (req, res) => {
   }
 });
 
+// Editar página (solo para páginas ya pagadas)
+router.post('/edit-page/:pageId', generalLimiter, async (req, res) => {
+  try {
+    const { pageId } = req.params;
+    const updateData = req.body;
+
+    console.log('=== EDITANDO PÁGINA ===');
+    console.log('Page ID:', pageId);
+    console.log('Update Data:', JSON.stringify(updateData, null, 2));
+
+    // Verificar que la página existe y está pagada
+    const { data: existingPage, error: checkError } = await supabase
+      .from('myia_page_config')
+      .select('id, payment_status')
+      .eq('id', pageId)
+      .single();
+
+    if (checkError || !existingPage) {
+      return res.status(404).json({
+        success: false,
+        error: 'Página no encontrada'
+      });
+    }
+
+    if (existingPage.payment_status !== 'paid') {
+      return res.status(403).json({
+        success: false,
+        error: 'Esta página no está pagada. Debes completar el pago antes de editar.'
+      });
+    }
+
+    // Actualizar la configuración
+    const { error: updateError } = await supabase
+      .from('myia_page_config')
+      .update({
+        ...updateData,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', pageId);
+
+    if (updateError) {
+      console.error('Error al actualizar página:', updateError);
+      return res.status(500).json({
+        success: false,
+        error: 'Error al actualizar página',
+        details: updateError.message
+      });
+    }
+
+    console.log('Página actualizada exitosamente');
+    res.json({ success: true, message: 'Página actualizada exitosamente' });
+  } catch (error) {
+    console.error('Error editando página:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Error al editar página',
+      details: error.message
+    });
+  }
+});
+
 // Verificar si un email es coworker permitido (Crysantem COWORKERS)
 router.get('/check-coworker/:email', async (req, res) => {
   try {
