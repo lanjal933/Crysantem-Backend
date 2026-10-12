@@ -447,8 +447,13 @@
       const grid = document.getElementById('appsGrid');
       
       // Separar páginas configuradas de páginas sin configurar
-      const configuredApps = apps.filter(app => app.business_name && app.slug);
-      const unconfiguredApps = apps.filter(app => !app.business_name || !app.slug);
+      // Una página sin configurar tiene subscription_id pero no tiene business_name/slug reales
+      const configuredApps = apps.filter(app => app.business_name && app.slug && app.business_name !== '' && app.slug !== '');
+      const unconfiguredApps = apps.filter(app => app.subscription_id && (!app.business_name || !app.slug || app.business_name === '' || app.slug === ''));
+      
+      console.log('Apps totales:', apps.length);
+      console.log('Apps configuradas:', configuredApps.length);
+      console.log('Apps sin configurar:', unconfiguredApps.length);
       
       let html = '';
       
