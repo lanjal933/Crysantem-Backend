@@ -1435,13 +1435,13 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
     console.log('=== REQUEST RECIBIDO ===');
     console.log('Body completo:', JSON.stringify(req.body, null, 2));
 
-    const { plan, pageId, userId, clickId, payerEmail, billingType = 'monthly' } = req.body;
+    const { plan, pageId, userId, clickId, payerEmail: incomingPayerEmail, billingType = 'monthly' } = req.body;
 
     console.log('=== CREANDO SUSCRIPCIÓN MERCADO PAGO ===');
     console.log('Plan:', plan);
     console.log('Page ID:', pageId);
     console.log('User ID:', userId);
-    console.log('Payer Email:', payerEmail);
+    console.log('Payer Email:', incomingPayerEmail);
     console.log('Click ID (Tapfiliate):', clickId);
     console.log('Billing Type:', billingType);
     console.log('MP_ACCESS_TOKEN configurado:', !!process.env.MP_ACCESS_TOKEN);
@@ -1488,11 +1488,12 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
       return res.status(400).json({ success: false, error: 'Plan inválido' });
     }
 
-    if (!payerEmail) {
+    if (!incomingPayerEmail) {
       return res.status(400).json({ success: false, error: 'Email del pagador es requerido para suscripciones' });
     }
 
     // TEMPORAL: Usar email de prueba de Mercado Pago Sandbox para pruebas
+    let payerEmail = incomingPayerEmail;
     if (userId === 'user') {
       console.log('MODO PRUEBA: Usando email de prueba de Mercado Pago Sandbox');
       payerEmail = 'test_payer_123456@testuser.com';
