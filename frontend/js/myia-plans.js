@@ -121,8 +121,8 @@ async function continueToDesign() {
   console.log('Plan seleccionado:', selectedPlan);
   console.log('Tipo de facturación:', billingType);
 
-  // Redirigir al pago inmediatamente (myia-payment-simple.html)
-  window.location.href = 'myia-payment-simple.html';
+  // Redirigir al pago inmediatamente (myia-payment.html)
+  window.location.href = 'myia-payment.html';
 }
 
 // Event listeners
