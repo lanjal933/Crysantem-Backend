@@ -446,7 +446,40 @@
     function renderAppsList(apps) {
       const grid = document.getElementById('appsGrid');
       
-      grid.innerHTML = apps.map(app => {
+      // Separar páginas configuradas de páginas sin configurar
+      const configuredApps = apps.filter(app => app.business_name && app.slug);
+      const unconfiguredApps = apps.filter(app => !app.business_name || !app.slug);
+      
+      let html = '';
+      
+      // Primero mostrar páginas sin configurar (pagadas pero sin datos)
+      if (unconfiguredApps.length > 0) {
+        html += unconfiguredApps.map(app => {
+          const planName = getPlanName(app.payment_plan || app.plan);
+          
+          return `
+          <div class="app-card" style="border: 2px solid var(--green-main); background: rgba(0, 255, 136, 0.05);">
+            <div class="app-card-header">
+              <div>
+                <h3 class="app-card-title">⚡ Nueva Página Sin Configurar</h3>
+                <div class="app-card-slug">Pagado - Plan: ${planName}</div>
+              </div>
+              <span class="app-card-status active">Pagado</span>
+            </div>
+            
+            <div style="text-align: center; padding: 24px 0;">
+              <p style="color: var(--text-secondary); margin-bottom: 20px;">Esta página está pagada pero aún no has configurado el diseño, prompt e integraciones.</p>
+              <button class="btn-create" data-app-id="${app.id}" data-action="configure" style="font-size: 1.1rem; padding: 16px 32px;">
+                ⚙️ Configurar
+              </button>
+            </div>
+          </div>
+          `;
+        }).join('');
+      }
+      
+      // Luego mostrar páginas configuradas
+      html += configuredApps.map(app => {
         const statusClass = app.is_active ? 'active' : (app.payment_status === 'pending_payment' ? 'pending' : 'inactive');
         const statusText = app.is_active ? 'Activo' : (app.payment_status === 'pending_payment' ? 'Pendiente de pago' : 'Inactivo');
         
@@ -488,6 +521,8 @@
         </div>
       `;
       }).join('');
+      
+      grid.innerHTML = html;
 
       // Agregar event listeners a los botones
       grid.querySelectorAll('[data-action="edit"]').forEach(btn => {
@@ -508,6 +543,10 @@
 
       grid.querySelectorAll('[data-action="mark-paid"]').forEach(btn => {
         btn.addEventListener('click', () => markAsPaid(btn.dataset.appId));
+      });
+
+      grid.querySelectorAll('[data-action="configure"]').forEach(btn => {
+        btn.addEventListener('click', () => configureApp(btn.dataset.appId));
       });
     }
 
@@ -622,6 +661,12 @@
         console.error('Error marking as paid:', error);
         alert('Error al marcar como pagada');
       }
+    }
+
+    function configureApp(appId) {
+      localStorage.setItem('editingAppId', appId);
+      localStorage.setItem('isConfiguringUnpaidPage', 'true');
+      window.location.href = 'myia-builder.html';
     }
 
     // Inicializar

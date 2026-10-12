@@ -43,6 +43,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadSavedConfig();
   initEventListeners();
   updatePreview();
+  
+  // Verificar si estamos configurando una página ya pagada
+  const isConfiguringUnpaidPage = localStorage.getItem('isConfiguringUnpaidPage') === 'true';
+  const summaryBtn = document.getElementById('summaryBtn');
+  
+  if (isConfiguringUnpaidPage) {
+    summaryBtn.textContent = '⚡ Desplegar';
+    summaryBtn.classList.add('btn-deploy');
+  }
 });
 
 function loadTemplateConfig() {
@@ -249,7 +258,17 @@ function initEventListeners() {
   }
   
   if (summaryBtn) {
-    summaryBtn.addEventListener('click', goToSummary);
+    summaryBtn.addEventListener('click', () => {
+      const isConfiguringUnpaidPage = localStorage.getItem('isConfiguringUnpaidPage') === 'true';
+      
+      if (isConfiguringUnpaidPage) {
+        // Nuevo flujo: guardar y desplegar, redirigir a myia-home
+        saveAndDeploy();
+      } else {
+        // Flujo normal: ir a prompt
+        goToSummary();
+      }
+    });
   }
   
   // Botón de limpiar cache
@@ -831,6 +850,30 @@ function goToSummary() {
   // Redirigir a configuración de prompt (Siguiente paso)
   // Todos (incluyendo coworkers) pasan por prompt, pero coworkers saltan integraciones y payment
   window.location.href = 'myia-prompt.html';
+}
+
+async function saveAndDeploy() {
+  try {
+    const editingAppId = localStorage.getItem('editingAppId');
+    
+    if (!editingAppId) {
+      alert('Error: No se encontró el ID de la página');
+      return;
+    }
+
+    // Guardar configuración
+    localStorage.setItem('builderConfig', JSON.stringify(builderConfig));
+    
+    // Limpiar flags
+    localStorage.removeItem('isConfiguringUnpaidPage');
+    localStorage.removeItem('editingAppId');
+    
+    alert('Configuración guardada. Ahora completa el prompt, integraciones y despliega desde el resumen.');
+    window.location.href = 'myia-prompt.html';
+  } catch (error) {
+    console.error('Error deploying:', error);
+    alert('Error al guardar configuración');
+  }
 }
 
 // Limpiar cache de MyIA

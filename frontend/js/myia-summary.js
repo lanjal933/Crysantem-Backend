@@ -12,6 +12,19 @@ function normalizeSlug(slug) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // Verificar si estamos configurando una página ya pagada
+  const isConfiguringUnpaidPage = localStorage.getItem('isConfiguringUnpaidPage') === 'true';
+  const editingAppId = localStorage.getItem('editingAppId');
+  
+  if (isConfiguringUnpaidPage && editingAppId) {
+    // Cambiar botón a "Desplegar"
+    const createBtn = document.getElementById('createBtn');
+    if (createBtn) {
+      createBtn.textContent = '⚡ Desplegar';
+      createBtn.classList.add('btn-deploy');
+    }
+  }
+
   // Verificar si viene del OAuth callback con token y plan
   const urlParams = new URLSearchParams(window.location.search);
   const oauthToken = urlParams.get('token');
@@ -353,6 +366,50 @@ async function createPage() {
   const userId = localStorage.getItem('userId');
   const editingAppId = localStorage.getItem('editingAppId');
   const plan = localStorage.getItem('selectedPlan');
+  const isConfiguringUnpaidPage = localStorage.getItem('isConfiguringUnpaidPage') === 'true';
+
+  // Si estamos configurando una página ya pagada, solo guardar y redirigir a myia-home
+  if (isConfiguringUnpaidPage && editingAppId) {
+    try {
+      addLog('Guardando configuración de página pagada...', 'info');
+      
+      const payload = {
+        userId,
+        config: {
+          ...configSnakeCase,
+          id: editingAppId,
+          is_active: true
+        }
+      };
+
+      const response = await fetch('https://crysantem-backend.onrender.com/api/myia/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        addLog('Página desplegada exitosamente', 'success');
+        
+        // Limpiar flags
+        localStorage.removeItem('isConfiguringUnpaidPage');
+        localStorage.removeItem('editingAppId');
+        
+        alert('Página desplegada exitosamente');
+        window.location.href = 'myia-home.html';
+      } else {
+        addLog('Error al desplegar: ' + result.error, 'error');
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Error deploying:', error);
+      addLog('Error al desplegar: ' + error.message, 'error');
+      alert('Error al desplegar: ' + error.message);
+    }
+    return;
+  }
 
   // Generar super prompt según el plan
   const promptConfig = JSON.parse(localStorage.getItem('promptConfig') || '{}');
