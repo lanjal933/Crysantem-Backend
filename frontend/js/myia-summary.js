@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Convertir snake_case de la base de datos a camelCase
         config = {
           id: result.data.id,
-          businessName: result.data.business_name,
+          businessName: result.data.business_name || promptConfig.businessName || '',
           slug: result.data.slug,
           logoUrl: result.data.logo_url,
           logoSize: result.data.logo_size,
@@ -120,13 +120,14 @@ document.addEventListener('DOMContentLoaded', async () => {
           showFooter: result.data.show_footer,
           splitImage: result.data.split_image,
           splitText: result.data.split_text,
-          welcomeMessage: result.data.welcome_message,
-          systemPrompt: result.data.system_prompt,
+          welcomeMessage: result.data.welcome_message || promptConfig.welcomeMessage || '',
+          systemPrompt: result.data.system_prompt || promptConfig.systemPrompt || '',
           aiModel: result.data.ai_model,
           characterLimit: result.data.character_limit,
           plan: result.data.plan,
           socialLinks: result.data.social_links,
-          is_active: result.data.is_active
+          is_active: result.data.is_active,
+          integrations_config: result.data.integrations_config || integrationsConfig
         };
         console.log('Configuración cargada desde backend:', config);
       } else {
