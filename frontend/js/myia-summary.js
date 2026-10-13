@@ -99,28 +99,29 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       if (result.success && result.data) {
         // Convertir snake_case de la base de datos a camelCase
+        // builderConfig tiene PRIORIDAD sobre el backend (valores nuevos sobre valores viejos)
         config = {
           id: result.data.id,
-          businessName: result.data.business_name || builderConfig.businessName || '',
-          slug: result.data.slug,
-          botName: result.data.bot_name || builderConfig.botName || 'Asistente',
-          headerSubtitle: result.data.header_subtitle || builderConfig.headerSubtitle || '',
-          botAvatar: result.data.bot_avatar || builderConfig.botAvatar || '',
-          chatTheme: result.data.chat_theme || builderConfig.chatTheme || 'dark',
-          messageBubbleColor: result.data.message_bubble_color || builderConfig.messageBubbleColor || '#00ff88',
-          userBubbleColor: result.data.user_bubble_color || builderConfig.userBubbleColor || '#333333',
-          backgroundType: result.data.background_type || builderConfig.backgroundType || 'solid',
-          backgroundColor: result.data.background_color || builderConfig.backgroundColor || '#0d0d0d',
-          backgroundGradient: result.data.background_gradient || builderConfig.backgroundGradient || null,
-          backgroundImage: result.data.background_image || builderConfig.backgroundImage || null,
-          welcomeMessage: result.data.welcome_message || promptConfig.welcomeMessage || 'Hola, ¿en qué puedo ayudarte?',
-          systemPrompt: result.data.system_prompt || promptConfig.systemPrompt || '',
+          businessName: builderConfig.businessName || result.data.business_name || '',
+          slug: builderConfig.slug || result.data.slug,
+          botName: builderConfig.botName || result.data.bot_name || 'Asistente',
+          headerSubtitle: builderConfig.headerSubtitle || result.data.header_subtitle || '',
+          botAvatar: builderConfig.botAvatar || result.data.bot_avatar || '',
+          chatTheme: builderConfig.chatTheme || result.data.chat_theme || 'dark',
+          messageBubbleColor: builderConfig.messageBubbleColor || result.data.message_bubble_color || '#00ff88',
+          userBubbleColor: builderConfig.userBubbleColor || result.data.user_bubble_color || '#333333',
+          backgroundType: builderConfig.backgroundType || result.data.background_type || 'solid',
+          backgroundColor: builderConfig.backgroundColor || result.data.background_color || '#0d0d0d',
+          backgroundGradient: builderConfig.backgroundGradient || result.data.background_gradient || null,
+          backgroundImage: builderConfig.backgroundImage || result.data.background_image || null,
+          welcomeMessage: promptConfig.welcomeMessage || result.data.welcome_message || 'Hola, ¿en qué puedo ayudarte?',
+          systemPrompt: promptConfig.systemPrompt || result.data.system_prompt || '',
           aiModel: result.data.ai_model || 'gemini-flash',
-          plan: result.data.plan || selectedPlan || 'responde',
+          plan: selectedPlan || result.data.plan || 'responde',
           is_active: result.data.is_active,
-          integrations_config: result.data.integrations_config || integrationsConfig
+          integrations_config: integrationsConfig || result.data.integrations_config
         };
-        console.log('Configuración cargada desde backend:', config);
+        console.log('Configuración cargada (builderConfig tiene prioridad):', config);
       } else {
         console.error('Error al cargar configuración:', result.error);
         // Si es 404, limpiar localStorage y usar builderConfig
