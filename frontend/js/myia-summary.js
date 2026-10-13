@@ -101,31 +101,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Convertir snake_case de la base de datos a camelCase
         config = {
           id: result.data.id,
-          businessName: result.data.business_name || promptConfig.businessName || '',
+          businessName: result.data.business_name || chatConfig.businessName || '',
           slug: result.data.slug,
-          logoUrl: result.data.logo_url,
-          logoSize: result.data.logo_size,
-          backgroundType: result.data.background_type,
-          backgroundColor: result.data.background_color,
-          backgroundGradient: result.data.background_gradient,
-          glowColor: result.data.glow_color,
-          fontFamily: result.data.font_family,
-          titleFont: result.data.title_font,
-          chatBoxDesign: result.data.chat_box_design,
-          chatPosition: result.data.chat_position,
-          borderRadius: result.data.border_radius,
-          chatBoxColor: result.data.chat_box_color,
-          headerTheme: result.data.header_theme,
-          pageDesign: result.data.page_design,
-          showFooter: result.data.show_footer,
-          splitImage: result.data.split_image,
-          splitText: result.data.split_text,
-          welcomeMessage: result.data.welcome_message || promptConfig.welcomeMessage || '',
+          botName: result.data.bot_name || chatConfig.botName || 'Asistente',
+          headerSubtitle: result.data.header_subtitle || chatConfig.headerSubtitle || '',
+          botAvatar: result.data.bot_avatar || chatConfig.botAvatar || '',
+          chatTheme: result.data.chat_theme || chatConfig.chatTheme || 'dark',
+          messageBubbleColor: result.data.message_bubble_color || chatConfig.messageBubbleColor || '#00ff88',
+          userBubbleColor: result.data.user_bubble_color || chatConfig.userBubbleColor || '#333333',
+          backgroundType: result.data.background_type || chatConfig.backgroundType || 'solid',
+          backgroundColor: result.data.background_color || chatConfig.backgroundColor || '#0d0d0d',
+          backgroundGradient: result.data.background_gradient || chatConfig.backgroundGradient || null,
+          backgroundImage: result.data.background_image || chatConfig.backgroundImage || null,
+          welcomeMessage: result.data.welcome_message || promptConfig.welcomeMessage || 'Hola, ¿en qué puedo ayudarte?',
           systemPrompt: result.data.system_prompt || promptConfig.systemPrompt || '',
-          aiModel: result.data.ai_model,
-          characterLimit: result.data.character_limit,
+          aiModel: result.data.ai_model || 'gemini-flash',
           plan: result.data.plan,
-          socialLinks: result.data.social_links,
           is_active: result.data.is_active,
           integrations_config: result.data.integrations_config || integrationsConfig
         };
@@ -224,7 +215,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  document.getElementById('summaryWelcome').textContent = config.welcomeMessage || '-';
+  const welcomeEl = document.getElementById('summaryWelcome');
+  if (welcomeEl) welcomeEl.textContent = config.welcomeMessage || '-';
+  
+  const promptEl = document.getElementById('summaryPrompt');
+  if (promptEl) promptEl.textContent = config.systemPrompt || '-';
   document.getElementById('summaryPrompt').textContent = config.systemPrompt || '-';
 
   // Mostrar integraciones
@@ -584,10 +579,11 @@ ${integrationsConfig.functions.prompt}
   console.log('Super prompt generado:', superPrompt);
   console.log('config.superPrompt asignado:', config.superPrompt);
 
-  // Validación de campos obligatorios
+  // Validación de campos obligatorios (formato de chat)
   const requiredFields = {
     businessName: config.businessName,
     slug: config.slug,
+    botName: config.botName,
     welcomeMessage: config.welcomeMessage,
     systemPrompt: config.systemPrompt
   };
