@@ -262,6 +262,17 @@
             avatarContainer.innerHTML = '🤖';
           }
           
+          // Fondo
+          const chatContainer = document.getElementById('chat-container');
+          if (config.background_type === 'solid') {
+            chatContainer.style.background = config.background_color || '#0d0d0d';
+          } else if (config.background_type === 'gradient') {
+            const colors = (config.background_gradient || '#0d0d0d,#1a1a1a').split(',');
+            chatContainer.style.background = `linear-gradient(to top, ${colors[0]}, ${colors[1]})`;
+          } else if (config.background_type === 'image' && config.background_image) {
+            chatContainer.style.background = `url(${config.background_image}) center/cover`;
+          }
+          
           // Tema
           if (config.chat_theme === 'light') {
             document.getElementById('chat-container').classList.add('theme-light');

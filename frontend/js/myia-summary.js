@@ -189,12 +189,40 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Nuevos campos de chat
-  document.getElementById('summaryBotName').textContent = config.botName || 'Asistente';
-  document.getElementById('summaryHeaderSubtitle').textContent = config.headerSubtitle || '-';
-  document.getElementById('summaryBotAvatar').textContent = config.botAvatar ? 'Configurado' : 'Por defecto';
-  document.getElementById('summaryChatTheme').textContent = config.chatTheme === 'dark' ? 'Oscuro' : 'Claro';
-  document.getElementById('summaryMessageBubbleColor').textContent = config.messageBubbleColor || '#00ff88';
-  document.getElementById('summaryUserBubbleColor').textContent = config.userBubbleColor || '#333333';
+  const botNameEl = document.getElementById('summaryBotName');
+  const headerSubtitleEl = document.getElementById('summaryHeaderSubtitle');
+  const botAvatarEl = document.getElementById('summaryBotAvatar');
+  const chatThemeEl = document.getElementById('summaryChatTheme');
+  const messageBubbleColorEl = document.getElementById('summaryMessageBubbleColor');
+  const userBubbleColorEl = document.getElementById('summaryUserBubbleColor');
+  
+  if (botNameEl) botNameEl.textContent = config.botName || 'Asistente';
+  if (headerSubtitleEl) headerSubtitleEl.textContent = config.headerSubtitle || '-';
+  if (botAvatarEl) botAvatarEl.textContent = config.botAvatar ? 'Configurado' : 'Por defecto';
+  if (chatThemeEl) chatThemeEl.textContent = config.chatTheme === 'dark' ? 'Oscuro' : 'Claro';
+  if (messageBubbleColorEl) messageBubbleColorEl.textContent = config.messageBubbleColor || '#00ff88';
+  if (userBubbleColorEl) userBubbleColorEl.textContent = config.userBubbleColor || '#333333';
+
+  // Fondo
+  const backgroundTypeEl = document.getElementById('summaryBackgroundType');
+  const backgroundValueEl = document.getElementById('summaryBackgroundValue');
+  
+  if (backgroundTypeEl) {
+    const typeNames = { solid: 'Color Sólido', gradient: 'Degradado', image: 'Imagen' };
+    backgroundTypeEl.textContent = typeNames[config.background_type] || 'Color Sólido';
+  }
+  
+  if (backgroundValueEl) {
+    if (config.background_type === 'solid') {
+      backgroundValueEl.textContent = config.background_color || '#0d0d0d';
+    } else if (config.background_type === 'gradient') {
+      backgroundValueEl.textContent = config.background_gradient || '#0d0d0d → #1a1a1a';
+    } else if (config.background_type === 'image') {
+      backgroundValueEl.textContent = config.background_image ? 'Configurado' : 'No configurado';
+    } else {
+      backgroundValueEl.textContent = '-';
+    }
+  }
 
   document.getElementById('summaryWelcome').textContent = config.welcomeMessage || '-';
   document.getElementById('summaryPrompt').textContent = config.systemPrompt || '-';
@@ -604,6 +632,11 @@ ${integrationsConfig.functions.prompt}
     chat_theme: config.chatTheme || 'dark',
     message_bubble_color: config.messageBubbleColor || '#00ff88',
     user_bubble_color: config.userBubbleColor || '#333333',
+    // Fondo
+    background_type: config.backgroundType || 'solid',
+    background_color: config.backgroundColor || '#0d0d0d',
+    background_gradient: config.backgroundGradient || null,
+    background_image: config.backgroundImage || null,
     // Campos de prompt
     welcome_message: config.welcomeMessage || 'Hola, ¿en qué puedo ayudarte?',
     system_prompt: config.systemPrompt || '',

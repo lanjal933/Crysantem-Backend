@@ -7,7 +7,11 @@ let chatConfig = {
   botAvatar: '',
   chatTheme: 'dark',
   messageBubbleColor: '#00ff88',
-  userBubbleColor: '#333333'
+  userBubbleColor: '#333333',
+  backgroundType: 'solid', // solid, gradient, image
+  backgroundColor: '#0d0d0d',
+  backgroundGradient: '#0d0d0d,#1a1a1a',
+  backgroundImage: ''
 };
 
 // Inicializar
@@ -115,6 +119,77 @@ function initEventListeners() {
       reader.readAsDataURL(file);
     }
   });
+
+  // Background type
+  document.getElementById('backgroundType').addEventListener('change', (e) => {
+    chatConfig.backgroundType = e.target.value;
+    
+    // Mostrar/ocultar grupos según el tipo
+    document.getElementById('solidColorGroup').style.display = e.target.value === 'solid' ? 'block' : 'none';
+    document.getElementById('gradientGroup').style.display = e.target.value === 'gradient' ? 'block' : 'none';
+    document.getElementById('imageGroup').style.display = e.target.value === 'image' ? 'block' : 'none';
+    
+    saveAndUpdatePreview();
+  });
+
+  // Background color (solid)
+  ['backgroundColor', 'gradientStart', 'gradientEnd'].forEach(id => {
+    const colorInput = document.getElementById(id);
+    const valueInput = document.getElementById(id + 'Value');
+    
+    if (colorInput && valueInput) {
+      colorInput.addEventListener('input', (e) => {
+        const key = id === 'backgroundColor' ? 'backgroundColor' : 
+                    id === 'gradientStart' ? 'backgroundGradient' : null;
+        if (key === 'backgroundColor') {
+          chatConfig.backgroundColor = e.target.value;
+          valueInput.value = e.target.value;
+        } else if (id === 'gradientStart') {
+          const end = document.getElementById('gradientEnd').value;
+          chatConfig.backgroundGradient = `${e.target.value},${end}`;
+        } else if (id === 'gradientEnd') {
+          const start = document.getElementById('gradientStart').value;
+          chatConfig.backgroundGradient = `${start},${e.target.value}`;
+        }
+        saveAndUpdatePreview();
+      });
+      
+      valueInput.addEventListener('input', (e) => {
+        const key = id === 'backgroundColor' ? 'backgroundColor' : 
+                    id === 'gradientStart' ? 'backgroundGradient' : null;
+        if (key === 'backgroundColor') {
+          chatConfig.backgroundColor = e.target.value;
+          colorInput.value = e.target.value;
+        } else if (id === 'gradientStart') {
+          const end = document.getElementById('gradientEndValue').value;
+          chatConfig.backgroundGradient = `${e.target.value},${end}`;
+        } else if (id === 'gradientEnd') {
+          const start = document.getElementById('gradientStartValue').value;
+          chatConfig.backgroundGradient = `${start},${e.target.value}`;
+        }
+        saveAndUpdatePreview();
+      });
+    }
+  });
+
+  // Background image
+  document.getElementById('backgroundImage').addEventListener('input', (e) => {
+    chatConfig.backgroundImage = e.target.value;
+    saveAndUpdatePreview();
+  });
+
+  document.getElementById('backgroundImageFile').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        chatConfig.backgroundImage = event.target.result;
+        document.getElementById('backgroundImage').value = event.target.result;
+        saveAndUpdatePreview();
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 }
 
 function saveAndUpdatePreview() {
@@ -155,7 +230,18 @@ function updatePreview() {
   
   // Actualizar tema
   if (chatConfig.chatTheme === 'light') {
-    chatPreview.style.background = '#f5f5f5';
+    // Aplicar fondo según tipo
+    if (chatConfig.backgroundType === 'solid') {
+      chatPreview.style.background = chatConfig.backgroundColor || '#f5f5f5';
+    } else if (chatConfig.backgroundType === 'gradient') {
+      const colors = (chatConfig.backgroundGradient || '#f5f5f5,#e0e0e0').split(',');
+      chatPreview.style.background = `linear-gradient(to top, ${colors[0]}, ${colors[1]})`;
+    } else if (chatConfig.backgroundType === 'image' && chatConfig.backgroundImage) {
+      chatPreview.style.background = `url(${chatConfig.backgroundImage}) center/cover`;
+    } else {
+      chatPreview.style.background = '#f5f5f5';
+    }
+    
     document.querySelector('.chat-header').style.background = '#fff';
     document.querySelector('.chat-header').style.borderColor = '#ddd';
     document.querySelector('.chat-header-name').style.color = '#000';
@@ -166,7 +252,18 @@ function updatePreview() {
     document.querySelector('.chat-input input').style.borderColor = '#ddd';
     document.querySelector('.chat-input input').style.color = '#000';
   } else {
-    chatPreview.style.background = '#0d0d0d';
+    // Aplicar fondo según tipo (tema oscuro)
+    if (chatConfig.backgroundType === 'solid') {
+      chatPreview.style.background = chatConfig.backgroundColor || '#0d0d0d';
+    } else if (chatConfig.backgroundType === 'gradient') {
+      const colors = (chatConfig.backgroundGradient || '#0d0d0d,#1a1a1a').split(',');
+      chatPreview.style.background = `linear-gradient(to top, ${colors[0]}, ${colors[1]})`;
+    } else if (chatConfig.backgroundType === 'image' && chatConfig.backgroundImage) {
+      chatPreview.style.background = `url(${chatConfig.backgroundImage}) center/cover`;
+    } else {
+      chatPreview.style.background = '#0d0d0d';
+    }
+    
     document.querySelector('.chat-header').style.background = '#1a1a1a';
     document.querySelector('.chat-header').style.borderColor = '#333';
     document.querySelector('.chat-header-name').style.color = '#fff';

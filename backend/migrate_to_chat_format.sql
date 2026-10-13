@@ -31,7 +31,11 @@ ADD COLUMN IF NOT EXISTS bot_avatar TEXT,
 ADD COLUMN IF NOT EXISTS header_subtitle TEXT,
 ADD COLUMN IF NOT EXISTS chat_theme TEXT DEFAULT 'dark',
 ADD COLUMN IF NOT EXISTS message_bubble_color TEXT DEFAULT '#00ff88',
-ADD COLUMN IF NOT EXISTS user_bubble_color TEXT DEFAULT '#333333';
+ADD COLUMN IF NOT EXISTS user_bubble_color TEXT DEFAULT '#333333',
+ADD COLUMN IF NOT EXISTS background_type TEXT DEFAULT 'solid',
+ADD COLUMN IF NOT EXISTS background_color TEXT DEFAULT '#0d0d0d',
+ADD COLUMN IF NOT EXISTS background_gradient TEXT,
+ADD COLUMN IF NOT EXISTS background_image TEXT;
 
 -- Paso 3: Actualizar business_name para que sea el nombre del chat (opcional)
 -- Si business_name es null, usar el valor de bot_name por defecto

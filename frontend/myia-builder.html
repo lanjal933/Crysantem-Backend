@@ -323,6 +323,41 @@
             <input type="text" id="userBubbleColorValue" class="color-value" value="#333333">
           </div>
         </div>
+
+        <div class="form-group">
+          <label class="form-label">Tipo de Fondo</label>
+          <select id="backgroundType" class="form-input">
+            <option value="solid">Color Sólido</option>
+            <option value="gradient">Degradado</option>
+            <option value="image">Imagen</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="solidColorGroup">
+          <label class="form-label">Color de Fondo</label>
+          <div class="color-picker-wrapper">
+            <input type="color" id="backgroundColor" class="color-picker" value="#0d0d0d">
+            <input type="text" id="backgroundColorValue" class="color-value" value="#0d0d0d">
+          </div>
+        </div>
+
+        <div class="form-group" id="gradientGroup" style="display: none;">
+          <label class="form-label">Degradado (Abajo → Arriba)</label>
+          <div class="color-picker-wrapper" style="margin-bottom: 8px;">
+            <input type="color" id="gradientStart" class="color-picker" value="#0d0d0d">
+            <input type="text" id="gradientStartValue" class="color-value" value="#0d0d0d">
+          </div>
+          <div class="color-picker-wrapper">
+            <input type="color" id="gradientEnd" class="color-picker" value="#1a1a1a">
+            <input type="text" id="gradientEndValue" class="color-value" value="#1a1a1a">
+          </div>
+        </div>
+
+        <div class="form-group" id="imageGroup" style="display: none;">
+          <label class="form-label">URL de Imagen de Fondo</label>
+          <input type="text" id="backgroundImage" class="form-input" placeholder="https://...">
+          <input type="file" id="backgroundImageFile" accept="image/*" style="margin-top: 8px;">
+        </div>
       </div>
 
       <div class="preview-section">
