@@ -1,15 +1,15 @@
 // === PRODUCTION CONFIGURATION ===
 // URL del backend en Render
-if (typeof BACKEND_API_URL === 'undefined') {
-  var BACKEND_API_URL = 'https://crysantem-backend.onrender.com';
+if (!window.BACKEND_API_URL) {
+  window.BACKEND_API_URL = 'https://crysantem-backend.onrender.com';
 }
 
 // Para desarrollo local, descomentar la siguiente línea:
-// var BACKEND_API_URL = window.location.origin;
+// window.BACKEND_API_URL = window.location.origin;
 
-if (typeof API_CONFIG === 'undefined') {
-  var API_CONFIG = {
-    backendUrl: BACKEND_API_URL,
+if (!window.API_CONFIG) {
+  window.API_CONFIG = {
+    backendUrl: window.BACKEND_API_URL,
     endpoints: {
       auth: {
         register: '/api/auth/register',

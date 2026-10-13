@@ -18,11 +18,11 @@ function updateAuthUI() {
   const userEmail = localStorage.getItem('userEmail');
 
   if (authToken) {
-    authBtn.textContent = userEmail || 'Account';
-    authDropdown.style.display = 'block';
+    if (authBtn) authBtn.textContent = userEmail || 'Account';
+    if (authDropdown) authDropdown.style.display = 'block';
   } else {
-    authBtn.textContent = 'Account';
-    authDropdown.style.display = 'none';
+    if (authBtn) authBtn.textContent = 'Account';
+    if (authDropdown) authDropdown.style.display = 'none';
   }
 }
 

@@ -101,18 +101,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Convertir snake_case de la base de datos a camelCase
         config = {
           id: result.data.id,
-          businessName: result.data.business_name || chatConfig.businessName || '',
+          businessName: result.data.business_name || builderConfig.businessName || '',
           slug: result.data.slug,
-          botName: result.data.bot_name || chatConfig.botName || 'Asistente',
-          headerSubtitle: result.data.header_subtitle || chatConfig.headerSubtitle || '',
-          botAvatar: result.data.bot_avatar || chatConfig.botAvatar || '',
-          chatTheme: result.data.chat_theme || chatConfig.chatTheme || 'dark',
-          messageBubbleColor: result.data.message_bubble_color || chatConfig.messageBubbleColor || '#00ff88',
-          userBubbleColor: result.data.user_bubble_color || chatConfig.userBubbleColor || '#333333',
-          backgroundType: result.data.background_type || chatConfig.backgroundType || 'solid',
-          backgroundColor: result.data.background_color || chatConfig.backgroundColor || '#0d0d0d',
-          backgroundGradient: result.data.background_gradient || chatConfig.backgroundGradient || null,
-          backgroundImage: result.data.background_image || chatConfig.backgroundImage || null,
+          botName: result.data.bot_name || builderConfig.botName || 'Asistente',
+          headerSubtitle: result.data.header_subtitle || builderConfig.headerSubtitle || '',
+          botAvatar: result.data.bot_avatar || builderConfig.botAvatar || '',
+          chatTheme: result.data.chat_theme || builderConfig.chatTheme || 'dark',
+          messageBubbleColor: result.data.message_bubble_color || builderConfig.messageBubbleColor || '#00ff88',
+          userBubbleColor: result.data.user_bubble_color || builderConfig.userBubbleColor || '#333333',
+          backgroundType: result.data.background_type || builderConfig.backgroundType || 'solid',
+          backgroundColor: result.data.background_color || builderConfig.backgroundColor || '#0d0d0d',
+          backgroundGradient: result.data.background_gradient || builderConfig.backgroundGradient || null,
+          backgroundImage: result.data.background_image || builderConfig.backgroundImage || null,
           welcomeMessage: result.data.welcome_message || promptConfig.welcomeMessage || 'Hola, ¿en qué puedo ayudarte?',
           systemPrompt: result.data.system_prompt || promptConfig.systemPrompt || '',
           aiModel: result.data.ai_model || 'gemini-flash',
@@ -260,9 +260,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Verificar valores después de cargar
   setTimeout(() => {
     console.log('=== VERIFICACIÓN POST-CARGA ===');
-    console.log('summaryBusinessName.textContent:', document.getElementById('summaryBusinessName').textContent);
-    console.log('summarySlug.textContent:', document.getElementById('summarySlug').textContent);
-    console.log('summaryBackground.textContent:', document.getElementById('summaryBackground').textContent);
+    const summaryBusinessName = document.getElementById('summaryBusinessName');
+    const summarySlug = document.getElementById('summarySlug');
+    const summaryBackground = document.getElementById('summaryBackground');
+    
+    console.log('summaryBusinessName.textContent:', summaryBusinessName ? summaryBusinessName.textContent : 'NULL');
+    console.log('summarySlug.textContent:', summarySlug ? summarySlug.textContent : 'NULL');
+    console.log('summaryBackground.textContent:', summaryBackground ? summaryBackground.textContent : 'NULL');
   }, 100);
 
   // Verificar si es coworker (para omitir OAuth)
@@ -386,6 +390,28 @@ async function createPage() {
   console.log('config.payment_plan:', config.payment_plan);
   console.log('config.plan:', config.plan);
   console.log('plan final usado:', plan);
+
+  // Convertir config a snake_case antes de usarlo
+  const configSnakeCase = {
+    business_name: config.businessName,
+    slug: config.slug,
+    bot_name: config.botName,
+    header_subtitle: config.headerSubtitle,
+    bot_avatar: config.botAvatar,
+    chat_theme: config.chatTheme,
+    message_bubble_color: config.messageBubbleColor,
+    user_bubble_color: config.userBubbleColor,
+    background_type: config.backgroundType,
+    background_color: config.backgroundColor,
+    background_gradient: config.backgroundGradient,
+    background_image: config.backgroundImage,
+    welcome_message: config.welcomeMessage,
+    system_prompt: config.systemPrompt,
+    ai_model: config.aiModel,
+    plan: plan,
+    is_active: true,
+    integrations_config: config.integrations_config
+  };
 
   // Si estamos configurando una página ya pagada, solo guardar y redirigir a myia-home
   if (isConfiguringUnpaidPage && editingAppId) {
@@ -611,40 +637,15 @@ ${integrationsConfig.functions.prompt}
   console.log('config.payment_plan:', config.payment_plan);
   console.log('config.payment_method:', config.payment_method);
   console.log('config.google_connected:', config.google_connected);
-  
-  const configSnakeCase = {
-    business_name: config.businessName,
-    slug: config.slug,
-    logo_url: config.logoUrl,
-    logo_size: config.logoSize,
-    background_type: config.backgroundType,
-    background_color: config.backgroundColor,
-    background_gradient: config.backgroundGradient,
-    glow_color: config.glowColor,
-    // Nuevas columnas de chat
-    bot_name: config.botName || 'Asistente',
-    bot_avatar: config.botAvatar || null,
-    header_subtitle: config.headerSubtitle || null,
-    chat_theme: config.chatTheme || 'dark',
-    message_bubble_color: config.messageBubbleColor || '#00ff88',
-    user_bubble_color: config.userBubbleColor || '#333333',
-    // Fondo
-    background_type: config.backgroundType || 'solid',
-    background_color: config.backgroundColor || '#0d0d0d',
-    background_gradient: config.backgroundGradient || null,
-    background_image: config.backgroundImage || null,
-    // Campos de prompt
-    welcome_message: config.welcomeMessage || 'Hola, ¿en qué puedo ayudarte?',
-    system_prompt: config.systemPrompt || '',
-    // Modelo de IA
-    ai_model: config.aiModel || 'gemini-flash',
-    // Plan
-    plan: plan,
-    // Integraciones
-    integrations_config: config.integrations_config || null,
-    // Estado
-    is_active: config.is_active || true
-  };
+
+  // Actualizar configSnakeCase con valores completos
+  configSnakeCase.logo_url = config.logoUrl;
+  configSnakeCase.logo_size = config.logoSize;
+  configSnakeCase.glow_color = config.glowColor;
+  configSnakeCase.super_prompt = config.superPrompt;
+  configSnakeCase.payment_plan = config.payment_plan;
+  configSnakeCase.payment_method = config.payment_method;
+  configSnakeCase.google_connected = config.google_connected;
 
   console.log('Config en camelCase:', config);
   console.log('Config en snake_case:', configSnakeCase);
