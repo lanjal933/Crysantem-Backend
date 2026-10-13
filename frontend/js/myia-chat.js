@@ -130,8 +130,9 @@ async function sendToBackend(message, config) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        slug: config.slug,
-        message: message
+        pageId: config.id,
+        message: message,
+        plan: config.plan
       })
     });
     
