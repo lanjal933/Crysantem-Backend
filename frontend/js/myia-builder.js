@@ -52,6 +52,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     summaryBtn.textContent = '⚡ Desplegar';
     summaryBtn.classList.add('btn-deploy');
   }
+  
+  // Asegurar que el plan seleccionado esté en builderConfig
+  const selectedPlan = localStorage.getItem('selectedPlan');
+  if (selectedPlan && !builderConfig.plan) {
+    builderConfig.plan = selectedPlan;
+    console.log('Plan establecido en builderConfig:', selectedPlan);
+    saveAndUpdatePreview();
+  }
 });
 
 function loadTemplateConfig() {
