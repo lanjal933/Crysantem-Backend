@@ -35,13 +35,15 @@ async function loadChat() {
       document.title = config.business_name || 'MyIA Chat';
       console.log('Business name:', config.business_name);
       
-      // Nombre del bot
-      const botName = config.bot_name || 'Asistente';
+      // Nombre del bot (usar business_name como fallback si bot_name es default)
+      const botName = config.bot_name === 'Asistente' && config.business_name 
+        ? config.business_name 
+        : (config.bot_name || 'Asistente');
       document.getElementById('chatBotName').textContent = botName;
       console.log('Bot name:', botName);
       
-      // Subtítulo
-      const subtitle = config.header_subtitle || '';
+      // Subtítulo (usar business_name como fallback si está vacío)
+      const subtitle = config.header_subtitle || config.business_name || '';
       document.getElementById('chatSubtitle').textContent = subtitle;
       console.log('Subtitle:', subtitle);
       
