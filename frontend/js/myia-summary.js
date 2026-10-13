@@ -383,10 +383,14 @@ async function createPage() {
   const config = JSON.parse(localStorage.getItem('builderConfig') || '{}');
   const userId = localStorage.getItem('userId');
   editingAppId = localStorage.getItem('editingAppId');
-  const plan = localStorage.getItem('selectedPlan') || config.payment_plan || config.plan || 'responde';
+  const paymentConfig = JSON.parse(localStorage.getItem('paymentConfig') || '{}');
+  
+  // Usar paymentPlan de paymentConfig, luego selectedPlan, luego config.plan, luego 'responde'
+  const plan = paymentConfig.paymentPlan || localStorage.getItem('selectedPlan') || config.payment_plan || config.plan || 'responde';
   const isConfiguringUnpaidPage = localStorage.getItem('isConfiguringUnpaidPage') === 'true';
   
   console.log('=== PLAN EN CREATEPAGE ===');
+  console.log('paymentConfig.paymentPlan:', paymentConfig.paymentPlan);
   console.log('selectedPlan desde localStorage:', localStorage.getItem('selectedPlan'));
   console.log('config.payment_plan:', config.payment_plan);
   console.log('config.plan:', config.plan);

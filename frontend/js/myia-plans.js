@@ -125,6 +125,9 @@ async function continueToDesign() {
   window.location.href = 'myia-payment.html';
 }
 
+// ========================================================================
+// MODO PRUEBA (TEMPORAL) - ELIMINAR ESTE BLOQUE COMPLETO CUANDO TERMINE
+// ========================================================================
 async function trialMode() {
   console.log('=== FUNCIÓN TRIAL MODE INICIADA ===');
   
@@ -167,6 +170,9 @@ async function trialMode() {
 
 // Hacer la función global para que funcione con onclick
 window.trialMode = trialMode;
+// ========================================================================
+// FIN MODO PRUEBA (TEMPORAL)
+// ========================================================================
 
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
