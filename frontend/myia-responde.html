@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyIA - Plan Responde</title>
+  <script src="js/config.js?v=8.0"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0d0d0d; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    #loading { text-align: center; color: #00ff88; }
+    #chat-container { width: 100%; max-width: 600px; height: 100vh; background: #0d0d0d; display: none; flex-direction: column; }
+    .chat-header { padding: 16px; background: #1a1a1a; border-bottom: 1px solid #333; display: flex; align-items: center; gap: 12px; }
+    .chat-avatar { width: 48px; height: 48px; border-radius: 50%; background: #00ff88; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; overflow: hidden; flex-shrink: 0; }
+    .chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .chat-header-info { flex: 1; min-width: 0; }
+    .chat-header-name { font-size: 1rem; font-weight: 600; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chat-header-subtitle { font-size: 0.8rem; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .message { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+    .message-bot { align-self: flex-start; background: #00ff88; color: #000; border-bottom-left-radius: 4px; }
+    .message-user { align-self: flex-end; background: #333333; color: #fff; border-bottom-right-radius: 4px; }
+    .chat-input { padding: 16px; background: #1a1a1a; border-top: 1px solid #333; display: flex; gap: 12px; }
+    .chat-input input { flex: 1; padding: 12px 16px; background: #0d0d0d; border: 1px solid #333; border-radius: 24px; color: #fff; font-size: 0.95rem; }
+    .chat-input input:focus { outline: none; border-color: #00ff88; }
+    .chat-input button { width: 48px; height: 48px; border-radius: 50%; background: #00ff88; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #000; }
+    .chat-input button:hover { background: #00cc6a; }
+    .theme-light { background: #f5f5f5; }
+    .theme-light .chat-header { background: #fff; border-color: #ddd; }
+    .theme-light .chat-header-name { color: #000; }
+    .theme-light .chat-header-subtitle { color: #666; }
+    .theme-light .chat-input { background: #fff; border-color: #ddd; }
+    .theme-light .chat-input input { background: #f5f5f5; border-color: #ddd; color: #000; }
+    @media (max-width: 768px) { #chat-container { max-width: 100%; height: 100vh; } }
+  </style>
+</head>
+<body>
+  <div id="loading"><p>Cargando chat...</p></div>
+  <div id="chat-container">
+    <div class="chat-header">
+      <div class="chat-avatar" id="chatAvatar">🤖</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name" id="chatBotName">Asistente</div>
+        <div class="chat-header-subtitle" id="chatSubtitle">Plan Responde</div>
+      </div>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="message message-bot" id="welcomeMessage">¡Hola! ¿En qué puedo ayudarte hoy?</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="messageInput" placeholder="Escribe un mensaje...">
+      <button id="sendButton">➤</button>
+    </div>
+  </div>
+  <script src="js/myia-chat.js?v=8.0"></script>
+</body>
+</html>

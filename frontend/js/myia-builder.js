@@ -80,6 +80,20 @@ function initEventListeners() {
     });
   });
 
+  // Normalizar slug automáticamente cuando el usuario escribe
+  document.getElementById('slug').addEventListener('input', (e) => {
+    const rawSlug = e.target.value;
+    const normalized = rawSlug
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[._]/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+    e.target.value = normalized;
+    chatConfig.slug = normalized;
+  });
+
   // Tema del chat
   document.getElementById('chatTheme').addEventListener('change', (e) => {
     chatConfig.chatTheme = e.target.value;

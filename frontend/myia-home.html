@@ -447,9 +447,9 @@
       const grid = document.getElementById('appsGrid');
       
       // Separar páginas configuradas de páginas sin configurar
-      // Una página sin configurar tiene subscription_id pero no tiene business_name/slug reales
+      // Una página sin configurar tiene payment_status='paid' pero no tiene business_name/slug reales
       const configuredApps = apps.filter(app => app.business_name && app.slug && app.business_name !== '' && app.slug !== '');
-      const unconfiguredApps = apps.filter(app => app.subscription_id && (!app.business_name || !app.slug || app.business_name === '' || app.slug === ''));
+      const unconfiguredApps = apps.filter(app => app.payment_status === 'paid' && (!app.business_name || !app.slug || app.business_name === '' || app.slug === ''));
       
       console.log('Apps totales:', apps.length);
       console.log('Apps configuradas:', configuredApps.length);

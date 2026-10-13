@@ -1,8 +1,7 @@
 // Configuración del prompt
 let promptConfig = {
   welcomeMessage: '',
-  systemPrompt: '',
-  businessName: ''
+  systemPrompt: ''
 };
 
 // Cargar configuración desde localStorage
@@ -12,7 +11,6 @@ function loadConfig() {
     promptConfig = JSON.parse(savedConfig);
     document.getElementById('welcomeMessage').value = promptConfig.welcomeMessage || '';
     document.getElementById('systemPrompt').value = promptConfig.systemPrompt || '';
-    document.getElementById('businessNameInput').value = promptConfig.businessName || '';
     updateCharacterCounts();
   } else {
     // Intentar cargar desde builderConfig si existe
@@ -21,11 +19,9 @@ function loadConfig() {
       const config = JSON.parse(builderConfig);
       promptConfig.welcomeMessage = config.welcomeMessage || 'Hola, ¿en qué puedo ayudarte?';
       promptConfig.systemPrompt = config.systemPrompt || '';
-      promptConfig.businessName = config.businessName || '';
       
       document.getElementById('welcomeMessage').value = promptConfig.welcomeMessage;
       document.getElementById('systemPrompt').value = promptConfig.systemPrompt;
-      document.getElementById('businessNameInput').value = promptConfig.businessName;
       updateCharacterCounts();
     }
   }

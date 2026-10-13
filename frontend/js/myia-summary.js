@@ -673,8 +673,11 @@ ${integrationsConfig.functions.prompt}
 
     // Normalizar slug si existe
     if (configSnakeCase.slug) {
-      configSnakeCase.slug = normalizeSlug(configSnakeCase.slug);
-      addLog(`Slug normalizado: ${configSnakeCase.slug}`, 'info');
+      // Agregar prefijo del plan al slug
+      const plan = configSnakeCase.plan || 'responde';
+      const normalizedSlug = normalizeSlug(configSnakeCase.slug);
+      configSnakeCase.slug = `${plan}-${normalizedSlug}`;
+      addLog(`Slug normalizado con prefijo: ${configSnakeCase.slug}`, 'info');
     }
 
     // Paso 1: Guardar configuración en Supabase
@@ -729,10 +732,15 @@ ${integrationsConfig.functions.prompt}
     const action = editingAppId ? 'actualizada' : 'creada';
     alert(`Página ${action} exitosamente`);
 
+    // Limpiar todo localStorage para iniciar nuevo flujo
     localStorage.removeItem('builderConfig');
     localStorage.removeItem('selectedPlan');
     localStorage.removeItem('planConfig');
     localStorage.removeItem('editingAppId');
+    localStorage.removeItem('promptConfig');
+    localStorage.removeItem('integrationsConfig');
+    localStorage.removeItem('paymentConfig');
+    localStorage.removeItem('isConfiguringUnpaidPage');
 
     setTimeout(() => {
       window.location.href = 'myia-home.html';
