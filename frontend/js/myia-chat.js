@@ -2,9 +2,9 @@
 // Carga configuración desde Supabase según el slug de la URL
 
 async function loadChat() {
-  // Obtener slug de la URL
+  // Obtener slug de la URL (última parte del path)
   const path = window.location.pathname;
-  const slug = path.replace('/', '').replace('/myia-', '');
+  const slug = path.split('/').pop();
   
   console.log('Slug:', slug);
   
