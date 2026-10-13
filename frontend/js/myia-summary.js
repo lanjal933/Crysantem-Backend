@@ -385,15 +385,14 @@ async function createPage() {
   editingAppId = localStorage.getItem('editingAppId');
   const paymentConfig = JSON.parse(localStorage.getItem('paymentConfig') || '{}');
   
-  // Usar paymentPlan de paymentConfig, luego selectedPlan, luego config.plan, luego 'responde'
-  const plan = paymentConfig.paymentPlan || localStorage.getItem('selectedPlan') || config.payment_plan || config.plan || 'responde';
+  // Usar paymentPlan de paymentConfig, luego config.plan, luego localStorage.selectedPlan, luego 'responde'
+  const plan = paymentConfig.paymentPlan || config.plan || localStorage.getItem('selectedPlan') || 'responde';
   const isConfiguringUnpaidPage = localStorage.getItem('isConfiguringUnpaidPage') === 'true';
   
   console.log('=== PLAN EN CREATEPAGE ===');
   console.log('paymentConfig.paymentPlan:', paymentConfig.paymentPlan);
-  console.log('selectedPlan desde localStorage:', localStorage.getItem('selectedPlan'));
-  console.log('config.payment_plan:', config.payment_plan);
   console.log('config.plan:', config.plan);
+  console.log('selectedPlan desde localStorage:', localStorage.getItem('selectedPlan'));
   console.log('plan final usado:', plan);
 
   // Convertir config a snake_case antes de usarlo
@@ -627,10 +626,13 @@ ${integrationsConfig.functions.prompt}
     console.log('=== MODO PRUEBA DETECTADO ===');
     config.payment_status = 'paid';
     config.payment_method = 'trial';
-    config.payment_plan = paymentConfig.paymentPlan || selectedPlan || config.plan || 'intelligence';
+    config.payment_plan = paymentConfig.paymentPlan || config.plan || 'intelligence';
     config.is_active = true;
     console.log('Configurado como pagado:', config.payment_status);
   }
+  
+  // Limpiar selectedPlan de localStorage para evitar errores
+  localStorage.removeItem('selectedPlan');
 
   const missingFields = Object.entries(requiredFields)
     .filter(([key, value]) => !value || value === '' || value === '-')
@@ -690,8 +692,7 @@ ${integrationsConfig.functions.prompt}
 
     // Normalizar slug si existe
     if (configSnakeCase.slug) {
-      // Agregar prefijo del plan al slug
-      const plan = selectedPlan || configSnakeCase.plan || 'responde';
+      // Agregar prefijo del plan al slug (usar la variable 'plan' ya calculada)
       const normalizedSlug = normalizeSlug(configSnakeCase.slug);
       configSnakeCase.slug = `${plan}-${normalizedSlug}`;
       configSnakeCase.plan = plan; // Asegurar que el plan esté establecido
@@ -700,7 +701,6 @@ ${integrationsConfig.functions.prompt}
       addLog(`Plan establecido: ${plan}`, 'info');
     } else {
       // Si no hay slug, asegurar que el plan esté establecido
-      const plan = selectedPlan || configSnakeCase.plan || 'responde';
       configSnakeCase.plan = plan;
       configSnakeCase.payment_plan = plan;
       addLog(`Plan establecido (sin slug): ${plan}`, 'info');
