@@ -231,9 +231,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (config.integrations_config.sheets && config.integrations_config.sheets.dbId) {
       integrationsList.push('[OK] Google Sheets configurado');
     }
-    if (config.integrations_config.drive && config.integrations_config.drive.folderId) {
-      integrationsList.push('[OK] Google Drive configurado');
-    }
     if (config.integrations_config.images && config.integrations_config.images.uploaded.length > 0) {
       integrationsList.push(`[OK] ${config.integrations_config.images.uploaded.length} imágenes cargadas`);
     }

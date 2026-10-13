@@ -11,7 +11,6 @@ const TEMPLATES = {
     integrations: {
       calendar: false,
       sheets: false,
-      drive: false,
       gmail: false
     },
     builderConfig: {}
@@ -38,7 +37,7 @@ Si no puedes reservar en el horario solicitado, sugiere alternativas cercanas.`,
     integrations: {
       calendar: true,
       sheets: true,
-      drive: false,
+
       gmail: false
     },
     builderConfig: {
@@ -70,7 +69,7 @@ Promueve la actividad física y el bienestar.`,
     integrations: {
       calendar: true,
       sheets: false,
-      drive: false,
+
       gmail: false
     },
     builderConfig: {
@@ -103,7 +102,7 @@ Prioriza la salud y el bienestar del paciente.`,
     integrations: {
       calendar: true,
       sheets: true,
-      drive: false,
+
       gmail: true
     },
     builderConfig: {
@@ -135,7 +134,7 @@ Haz recomendaciones personalizadas basadas en lo que el cliente busca.`,
     integrations: {
       calendar: false,
       sheets: true,
-      drive: false,
+
       gmail: false
     },
     builderConfig: {
@@ -166,7 +165,7 @@ Ayuda a encontrar la propiedad ideal para cada cliente.`,
     integrations: {
       calendar: true,
       sheets: true,
-      drive: false,
+
       gmail: false
     },
     builderConfig: {

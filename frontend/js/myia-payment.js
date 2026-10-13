@@ -31,7 +31,7 @@ const PLAN_PRICES = {
     aiModel: 'Gemini Flash',
     messagesLimit: 'Hasta 2.500 mensajes al mes',
     minimumMonths: '3 meses',
-    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.readonly']
+    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/spreadsheets']
   },
   automatiza: {
     name: '03 - Automatiza',
@@ -51,7 +51,7 @@ const PLAN_PRICES = {
     aiModel: 'Gemini Pro',
     messagesLimit: 'Ajustados a medida',
     minimumMonths: '12 meses',
-    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/gmail.send']
+    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/gmail.send']
   }
 };
 
@@ -182,9 +182,9 @@ function updatePlanSummary(plan) {
         'email': 'Email',
         'profile': 'Perfil',
         'https://www.googleapis.com/auth/spreadsheets': 'Google Sheets (lectura/escritura)',
-        'https://www.googleapis.com/auth/drive.readonly': 'Google Drive (solo lectura)',
         'https://www.googleapis.com/auth/calendar': 'Google Calendar',
-        'https://www.googleapis.com/auth/gmail.readonly': 'Gmail (solo lectura)'
+        'https://www.googleapis.com/auth/gmail.readonly': 'Gmail (solo lectura)',
+        'https://www.googleapis.com/auth/gmail.send': 'Gmail (envío)'
       };
       return `<p>[OK] ${scopeNames[scope] || scope}</p>`;
     }).join('');
