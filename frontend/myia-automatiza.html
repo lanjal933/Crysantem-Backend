@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MyIA - Plan Automatiza</title>
   <script src="/js/config.js?v=8.3"></script>
-  <script src="/js/markdown-renderer.js?v=6.1"></script>
+  <script src="/js/markdown-renderer.js?v=6.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Inter', sans-serif; background: #0d0d0d; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
@@ -63,6 +64,33 @@
     .message-bot h2 { font-size: 1.2em; }
     .message-bot h3 { font-size: 1.1em; }
     
+    /* Info boxes */
+    .info-box { padding: 12px 16px; border-radius: 8px; margin: 8px 0; display: flex; align-items: flex-start; gap: 12px; }
+    .info-icon { font-weight: bold; font-size: 0.9em; flex-shrink: 0; }
+    .info-content { flex: 1; }
+    .info-info { background: rgba(0, 100, 255, 0.2); border-left: 4px solid #0066ff; }
+    .info-success { background: rgba(0, 200, 100, 0.2); border-left: 4px solid #00c864; }
+    .info-warning { background: rgba(255, 180, 0, 0.2); border-left: 4px solid #ffb400; }
+    .info-error { background: rgba(255, 80, 80, 0.2); border-left: 4px solid #ff5050; }
+    .info-tip { background: rgba(150, 100, 255, 0.2); border-left: 4px solid #9664ff; }
+    
+    /* WhatsApp button */
+    .whatsapp-button { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #25D366; color: white; text-decoration: none; border-radius: 8px; margin: 8px 0; font-weight: 500; }
+    .whatsapp-button:hover { background: #20bd5a; }
+    
+    /* Plan cards */
+    .plan-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 16px; margin: 12px 0; }
+    .plan-highlight { background: rgba(0, 255, 136, 0.15); border: 2px solid #00ff88; }
+    .plan-header { margin-bottom: 12px; }
+    .plan-name { font-size: 1.2em; font-weight: 600; }
+    .plan-price { font-size: 1.1em; font-weight: 700; margin-top: 4px; }
+    .plan-features { list-style: none; padding: 0; margin: 0; }
+    .plan-features li { padding: 4px 0; }
+    
+    /* Chart container */
+    .chart-container { margin: 12px 0; }
+    .chart-container canvas { max-width: 100%; }
+    
     /* Responsive para tablets */
     @media (max-width: 1024px) {
       #chat-container { max-width: 100%; }
@@ -115,6 +143,6 @@
       <button id="sendButton">➤</button>
     </div>
   </div>
-  <script src="/js/myia-chat.js?v=8.6"></script>
+  <script src="/js/myia-chat.js?v=8.7"></script>
 </body>
 </html>

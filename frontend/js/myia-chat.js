@@ -172,6 +172,20 @@ async function sendToBackend(message, config) {
       
       messagesContainer.appendChild(botMessage);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      
+      // Inicializar gráficos pendientes si Chart.js está disponible
+      if (typeof Chart !== 'undefined' && window.pendingCharts && window.pendingCharts.length > 0) {
+        window.pendingCharts.forEach(chartData => {
+          const canvas = document.getElementById(chartData.id);
+          if (canvas) {
+            new Chart(canvas, {
+              type: chartData.type,
+              data: chartData.data
+            });
+          }
+        });
+        window.pendingCharts = [];
+      }
     }
   } catch (error) {
     console.error('Error al enviar mensaje:', error);

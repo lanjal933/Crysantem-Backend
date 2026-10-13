@@ -162,6 +162,9 @@ class MarkdownRenderer {
     // NO escapar HTML aquí - los componentes ya generan HTML seguro
     // Solo procesar markdown estándar
 
+    // Unordered lists (ANTES de line breaks)
+    html = this.processLists(html);
+
     // Headers
     html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
     html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
@@ -185,10 +188,7 @@ class MarkdownRenderer {
     // Images (ya procesadas con prefijo markdown:, pero procesamos las normales)
     html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="markdown-image">');
 
-    // Unordered lists
-    html = this.processLists(html);
-
-    // Line breaks
+    // Line breaks (DESPUÉS de procesar todo lo demás)
     html = html.replace(/\n/g, '<br>');
 
     return html;
