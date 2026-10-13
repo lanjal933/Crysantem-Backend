@@ -620,7 +620,7 @@ ${integrationsConfig.functions.prompt}
   };
 
   // Si estamos en modo trial, marcar como pagado automáticamente
-  const paymentConfig = JSON.parse(localStorage.getItem('paymentConfig') || '{}');
+  // Reutilizar paymentConfig ya declarado arriba
   console.log('Payment config:', paymentConfig);
   
   if (paymentConfig.paymentMethod === 'trial') {
