@@ -334,6 +334,26 @@
       transform: none;
     }
 
+    .trial-btn {
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 12px 24px;
+      border: 1px dashed var(--border);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+      margin-top: 12px;
+    }
+
+    .trial-btn:hover {
+      border-color: var(--green-main);
+      color: var(--green-main);
+      background: rgba(0, 255, 136, 0.05);
+    }
+
     .plans-footer {
       text-align: center;
       margin-top: 48px;
@@ -509,6 +529,7 @@
 
       <div class="plans-footer">
         <button id="continueBtn" class="continue-btn" disabled>Continuar con autenticación →</button>
+        <button id="trialBtn" class="trial-btn">🧪 Probar gratis (sin pago)</button>
       </div>
     </div>
   </div>

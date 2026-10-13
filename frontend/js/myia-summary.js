@@ -615,6 +615,16 @@ ${integrationsConfig.functions.prompt}
     systemPrompt: config.systemPrompt
   };
 
+  // Si estamos en modo trial, marcar como pagado automáticamente
+  const paymentConfig = JSON.parse(localStorage.getItem('paymentConfig') || '{}');
+  if (paymentConfig.paymentMethod === 'trial') {
+    console.log('=== MODO PRUEBA DETECTADO ===');
+    config.payment_status = 'paid';
+    config.payment_method = 'trial';
+    config.payment_plan = selectedPlan || config.plan;
+    config.is_active = true;
+  }
+
   const missingFields = Object.entries(requiredFields)
     .filter(([key, value]) => !value || value === '' || value === '-')
     .map(([key]) => key);

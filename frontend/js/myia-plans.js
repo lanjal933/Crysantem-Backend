@@ -125,6 +125,35 @@ async function continueToDesign() {
   window.location.href = 'myia-payment.html';
 }
 
+async function trialMode() {
+  // Si no hay plan seleccionado, usar 'responde' por defecto
+  const plan = selectedPlan || 'responde';
+  
+  // Guardar plan seleccionado (mensual por defecto)
+  localStorage.setItem('selectedPlan', plan);
+  localStorage.setItem('billingType', 'monthly');
+  localStorage.setItem('planConfig', JSON.stringify(planConfig[plan]));
+  
+  // Marcar como pago completado (simulado)
+  localStorage.setItem('paymentCompleted', 'true');
+  localStorage.setItem('paymentConfig', JSON.stringify({
+    paymentCompleted: true,
+    paymentMethod: 'trial',
+    paymentPlan: plan
+  }));
+  
+  // Limpiar flags
+  localStorage.removeItem('coworkerSkipOAuth');
+  localStorage.removeItem('isCoworker');
+  
+  console.log('=== MODO PRUEBA ===');
+  console.log('Plan:', plan);
+  console.log('Pago: Simulado (trial)');
+  
+  // Redirigir directamente al builder
+  window.location.href = 'myia-builder.html';
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
   // Agregar listeners a las tarjetas de planes
@@ -153,6 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const continueBtn = document.getElementById('continueBtn');
   if (continueBtn) {
     continueBtn.addEventListener('click', continueToDesign);
+  }
+
+  // Listener para el botón prueba (trial)
+  const trialBtn = document.getElementById('trialBtn');
+  if (trialBtn) {
+    trialBtn.addEventListener('click', trialMode);
   }
 
   // Listener para el botón volver
