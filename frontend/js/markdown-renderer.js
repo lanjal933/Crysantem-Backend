@@ -149,7 +149,8 @@ class MarkdownRenderer {
     const imageRegex = /!\[([^\]]*)\]\(markdown:([^\)]+)\)/g;
     
     return text.replace(imageRegex, (match, alt, filename) => {
-      return `![${alt}](IMG/imagenes_markdown/${filename})`;
+      // Usar ruta absoluta para que funcione desde cualquier URL
+      return `![${alt}](/IMG/imagenes_markdown/${filename})`;
     });
   }
 

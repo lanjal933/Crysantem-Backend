@@ -6,19 +6,26 @@ async function loadChat() {
   const path = window.location.pathname;
   const slug = path.split('/').pop();
   
-  console.log('Slug:', slug);
+  console.log('=== LOAD CHAT DEBUG ===');
+  console.log('Path completo:', path);
+  console.log('Slug extraído:', slug);
   
-  if (!slug) {
-    window.location.href = 'index.html';
+  if (!slug || slug === 'myia-responde.html' || slug === 'myia-asiste.html' || slug === 'myia-automatiza.html' || slug === 'myia-intelligence.html') {
+    console.log('Slug inválido o es nombre de archivo');
+    document.getElementById('loading').innerHTML = '<p>URL inválida</p>';
     return;
   }
 
   try {
+    console.log('Haciendo fetch a:', `https://crysantem-backend.onrender.com/api/myia/config-by-slug/${slug}`);
     const response = await fetch(`https://crysantem-backend.onrender.com/api/myia/config-by-slug/${slug}`);
     const result = await response.json();
+    
+    console.log('Respuesta del backend:', result);
 
     if (result.success && result.data) {
       const config = result.data;
+      console.log('Configuración cargada:', config);
       
       // Ocultar loading
       document.getElementById('loading').style.display = 'none';
@@ -26,64 +33,90 @@ async function loadChat() {
       
       // Aplicar configuración
       document.title = config.business_name || 'MyIA Chat';
+      console.log('Business name:', config.business_name);
       
       // Nombre del bot
-      document.getElementById('chatBotName').textContent = config.bot_name || 'Asistente';
+      const botName = config.bot_name || 'Asistente';
+      document.getElementById('chatBotName').textContent = botName;
+      console.log('Bot name:', botName);
       
       // Subtítulo
-      document.getElementById('chatSubtitle').textContent = config.header_subtitle || '';
+      const subtitle = config.header_subtitle || '';
+      document.getElementById('chatSubtitle').textContent = subtitle;
+      console.log('Subtitle:', subtitle);
       
       // Avatar
       const avatarContainer = document.getElementById('chatAvatar');
       if (config.bot_avatar) {
-        avatarContainer.innerHTML = `<img src="${config.bot_avatar}" alt="Bot">`;
+        avatarContainer.innerHTML = `<img src="${config.bot_avatar}" alt="Bot" onerror="this.parentElement.innerHTML='🤖'">`;
+        console.log('Avatar URL:', config.bot_avatar);
       } else {
         avatarContainer.innerHTML = '🤖';
+        console.log('Usando emoji por defecto');
       }
       
       // Fondo
       const chatContainer = document.getElementById('chat-container');
       if (config.background_type === 'solid') {
         chatContainer.style.background = config.background_color || '#0d0d0d';
+        console.log('Fondo sólido:', config.background_color);
       } else if (config.background_type === 'gradient') {
         const colors = (config.background_gradient || '#0d0d0d,#1a1a1a').split(',');
         chatContainer.style.background = `linear-gradient(to top, ${colors[0]}, ${colors[1]})`;
+        console.log('Fondo gradiente:', config.background_gradient);
       } else if (config.background_type === 'image' && config.background_image) {
         chatContainer.style.background = `url(${config.background_image}) center/cover`;
+        console.log('Fondo imagen:', config.background_image);
+      } else {
+        console.log('Fondo por defecto (no configurado)');
       }
       
       // Tema
       if (config.chat_theme === 'light') {
         document.getElementById('chat-container').classList.add('theme-light');
+        console.log('Tema claro');
+      } else {
+        console.log('Tema oscuro (por defecto)');
       }
       
       // Colores de burbujas
+      const botBubbleColor = config.message_bubble_color || '#00ff88';
+      const userBubbleColor = config.user_bubble_color || '#333333';
+      console.log('Color burbuja bot:', botBubbleColor);
+      console.log('Color burbuja usuario:', userBubbleColor);
+      
       const botMessages = document.querySelectorAll('.message-bot');
       const userMessages = document.querySelectorAll('.message-user');
       
       botMessages.forEach(msg => {
-        msg.style.background = config.message_bubble_color || '#00ff88';
-        msg.style.color = getContrastColor(config.message_bubble_color || '#00ff88');
+        msg.style.background = botBubbleColor;
+        msg.style.color = getContrastColor(botBubbleColor);
       });
       
       userMessages.forEach(msg => {
-        msg.style.background = config.user_bubble_color || '#333333';
-        msg.style.color = getContrastColor(config.user_bubble_color || '#333333');
+        msg.style.background = userBubbleColor;
+        msg.style.color = getContrastColor(userBubbleColor);
       });
       
       // Mensaje de bienvenida
       if (config.welcome_message) {
         document.getElementById('welcomeMessage').textContent = config.welcome_message;
+        console.log('Mensaje de bienvenida:', config.welcome_message);
+      } else {
+        console.log('Sin mensaje de bienvenida');
       }
       
       // Configurar envío de mensajes
       setupMessageSending(config);
     } else {
-      document.getElementById('loading').innerHTML = '<p>Chat no encontrado</p>';
+      console.log('Error: No se encontró configuración');
+      console.log('Success:', result.success);
+      console.log('Data:', result.data);
+      document.getElementById('loading').innerHTML = '<p>Chat no encontrado. Verifica que el slug sea correcto.</p>';
     }
   } catch (error) {
-    console.error('Error:', error);
-    document.getElementById('loading').innerHTML = '<p>Error al cargar el chat</p>';
+    console.error('Error al cargar el chat:', error);
+    document.getElementById('loading').innerHTML = '<p>Error al cargar el chat: ' + error.message + '</p>';
   }
 }
 
