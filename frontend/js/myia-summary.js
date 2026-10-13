@@ -233,20 +233,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     
     if (integrationsList.length > 0) {
-      integrationsSummary.innerHTML = integrationsList.map(item => 
+      integrationsSummary.innerHTML = integrationsList.map(item =>
         `<div style="padding: 4px 0; color: var(--text-main);">${item}</div>`
       ).join('');
     } else {
       integrationsSummary.innerHTML = '<p style="color: var(--text-muted);">Sin integraciones configuradas</p>';
     }
-  }
-
-  // Mostrar pago y autenticación
-  if (config.payment_plan) {
-    document.getElementById('summaryPaymentPlan').textContent = config.payment_plan || '-';
-    document.getElementById('summaryPaymentMethod').textContent = config.payment_method || '-';
-    document.getElementById('summaryGoogleConnected').textContent = config.google_connected ? 'Sí' : 'No';
-    document.getElementById('summaryGoogleEmail').textContent = paymentConfig.googleEmail || '-';
   }
 
   console.log('Datos cargados en el DOM');
