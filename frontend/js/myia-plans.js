@@ -18,7 +18,7 @@ const planConfig = {
     annualTotal: 850000,
     messagesLimit: 2500,
     minimumMonths: 3,
-    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.readonly']
+    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/spreadsheets']
   },
   automatiza: {
     aiModel: 'gemini-pro',
@@ -36,7 +36,7 @@ const planConfig = {
     annualTotal: 1900000,
     messagesLimit: 0, // Custom
     minimumMonths: 12,
-    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive.readonly', 'https://www.googleapis.com/auth/gmail.send']
+    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/gmail.send']
   }
 };
 

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cargando...</title>
+  <script src="js/config.js?v=7.0"></script>
+</head>
+<body>
+  <div id="loading" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background: #050505; color: #00ff88;">
+    <p>Cargando página...</p>
+  </div>
+  <div id="page-content"></div>
+
+  <script>
+    async function loadPage() {
+      // Obtener slug de la URL
+      const path = window.location.pathname;
+      const slug = path.replace('/', '').replace('/myia-', '');
+      
+      console.log('Slug:', slug);
+      
+      if (!slug) {
+        window.location.href = 'index.html';
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://crysantem-backend.onrender.com/api/myia/config-by-slug/${slug}`);
+        const result = await response.json();
+
+        if (result.success && result.data) {
+          const config = result.data;
+          
+          // Renderizar página basada en la configuración
+          document.getElementById('loading').style.display = 'none';
+          
+          const pageHtml = generatePageHtml(config);
+          document.getElementById('page-content').innerHTML = pageHtml;
+          
+          document.title = config.business_name || 'MyIA';
+        } else {
+          document.getElementById('loading').innerHTML = '<p>Página no encontrada</p>';
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('loading').innerHTML = '<p>Error al cargar la página</p>';
+      }
+    }
+
+    function generatePageHtml(config) {
+      // Generar HTML básico basado en la configuración
+      return `
+        <div style="min-height: 100vh; background: ${config.background_color || '#050505'}; padding: 40px 20px;">
+          <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <h1 style="color: #00ff88; font-size: 2rem; margin-bottom: 20px;">
+              ${config.business_name || 'MyIA'}
+            </h1>
+            <p style="color: #fff; margin-bottom: 40px;">
+              ${config.welcome_message || 'Hola, ¿en qué puedo ayudarte?'}
+            </p>
+            <div style="background: rgba(0, 255, 136, 0.1); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 12px; padding: 20px;">
+              <p style="color: #00ff88;">
+                Esta página está en configuración. El chat estará disponible pronto.
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    loadPage();
+  </script>
+</body>
+</html>

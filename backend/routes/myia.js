@@ -576,6 +576,33 @@ router.get('/config-by-id/:id', async (req, res) => {
   }
 });
 
+// Obtener configuración por slug
+router.get('/config-by-slug/:slug', async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    const { data, error } = await supabase
+      .from('myia_page_config')
+      .select('*')
+      .eq('slug', slug)
+      .limit(1);
+
+    if (error) {
+      console.error('Error getting config by slug:', error);
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ success: false, error: 'Página no encontrada' });
+    }
+
+    res.json({ success: true, data: data[0] });
+  } catch (error) {
+    console.error('Error getting config by slug:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Editar página (solo para páginas ya pagadas)
 router.post('/edit-page/:pageId', generalLimiter, async (req, res) => {
   try {

@@ -572,7 +572,7 @@ function downloadSheetsTemplate() {
 function validateConfig() {
   const plan = localStorage.getItem('selectedPlan');
   const availableIntegrations = PLAN_INTEGRATIONS[plan] || [];
-  
+
   // Validar integraciones requeridas según el plan
   if (availableIntegrations.includes('sheets')) {
     const dbId = document.getElementById('sheetsDbId').value.trim();
@@ -581,15 +581,7 @@ function validateConfig() {
       return false;
     }
   }
-  
-  if (availableIntegrations.includes('drive')) {
-    const folderId = document.getElementById('driveFolderId').value.trim();
-    if (!folderId) {
-      alert('Por favor configura el Drive Folder ID');
-      return false;
-    }
-  }
-  
+
   if (availableIntegrations.includes('calendar')) {
     const calendarId = document.getElementById('calendarId').value.trim();
     if (!calendarId) {
