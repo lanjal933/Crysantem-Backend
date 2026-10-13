@@ -345,71 +345,65 @@ router.post('/config', generalLimiter, myiaConfigValidation, async (req, res) =>
     let firstInsertError = null;
     let updateError = null;
 
-    // Intento 1: Con todas las columnas
+    // Intento 1: Solo columnas de formato CHAT (sin columnas viejas de diseño web)
     const fullUpdateData = {
       business_name: config.business_name,
       slug: config.slug,
-      logo_url: config.logo_url,
-      logo_size: config.logo_size,
+      bot_name: config.bot_name,
+      header_subtitle: config.header_subtitle,
+      bot_avatar: config.bot_avatar,
+      chat_theme: config.chat_theme,
+      message_bubble_color: config.message_bubble_color,
+      user_bubble_color: config.user_bubble_color,
       background_type: config.background_type,
       background_color: config.background_color,
       background_gradient: config.background_gradient,
-      glow_color: config.glow_color,
-      font_family: config.font_family,
-      title_font: config.title_font,
-      chat_mode: config.chat_mode || 'embedded',
-      chat_box_design: config.chat_box_design,
-      chat_position: config.chat_position,
-      border_radius: typeof config.border_radius === 'number' ? config.border_radius : 12,
-      chat_box_color: config.chat_box_color,
-      header_theme: config.header_theme,
-      page_design: config.page_design,
-      show_footer: config.show_footer,
-      split_image: config.split_image,
-      split_text: config.split_text,
+      background_image: config.background_image,
       welcome_message: config.welcome_message,
       system_prompt: config.system_prompt,
       ai_model: config.ai_model,
       character_limit: config.character_limit,
       plan: config.plan,
-      social_links: config.social_links,
       is_active: config.is_active,
       integrations_config: config.integrations_config || null,
-      agent_name: config.agent_name || 'Asistente Virtual',
-      agent_avatar: config.agent_avatar || null,
-      quick_prompts: config.quick_prompts || [],
-      lead_capture: config.lead_capture || 'none',
-      payment_plan: config.payment_plan || null,
-      payment_method: config.payment_method || null,
-      google_connected: config.google_connected || false,
-      super_prompt: config.super_prompt || null
+      super_prompt: config.super_prompt || null,
+      // Pagos
+      payment_plan: config.payment_plan,
+      payment_method: config.payment_method,
+      payment_status: config.payment_status,
+      subscription_id: config.subscription_id,
+      subscription_status: config.subscription_status,
+      billing_type: config.billing_type,
+      messages_limit: config.messages_limit,
+      minimum_months: config.minimum_months,
+      google_connected: config.google_connected
     };
 
     // Intento 2: Solo columnas básicas (CON INTEGRACIONES)
     const basicUpdateData = {
       business_name: config.business_name,
       slug: config.slug,
-      logo_url: config.logo_url,
-      logo_size: config.logo_size,
       background_type: config.background_type,
       background_color: config.background_color,
-      font_family: config.font_family,
-      chat_position: config.chat_position,
-      border_radius: config.border_radius,
-      chat_box_color: config.chat_box_color,
-      header_theme: config.header_theme,
+      bot_name: config.bot_name,
+      header_subtitle: config.header_subtitle,
+      bot_avatar: config.bot_avatar,
+      chat_theme: config.chat_theme,
+      message_bubble_color: config.message_bubble_color,
+      user_bubble_color: config.user_bubble_color,
+      background_image: config.background_image,
       welcome_message: config.welcome_message,
       system_prompt: config.system_prompt,
       ai_model: config.ai_model,
       character_limit: config.character_limit,
       plan: config.plan,
-      social_links: config.social_links,
       is_active: config.is_active,
       integrations_config: config.integrations_config || null,
+      super_prompt: config.super_prompt || null,
       payment_plan: config.payment_plan || null,
       payment_method: config.payment_method || null,
-      google_connected: config.google_connected || false,
-      super_prompt: config.super_prompt || null
+      payment_status: config.payment_status || null,
+      google_connected: config.google_connected || false
     };
 
     try {
@@ -1151,10 +1145,10 @@ function generatePageHTML(config, webhookUrl) {
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: ${getBackground()}; font-family: ${config.font_family || 'Inter'}; color: white; min-height: 100vh; }
+    body { background: ${getBackground()}; font-family: 'Inter', sans-serif; color: white; min-height: 100vh; }
     .container { min-height: 100vh; display: flex; flex-direction: column; padding: 40px; }
     .header { width: 100%; max-width: 800px; margin: 0 auto 40px; border-radius: 0; background: ${config.header_color || 'rgba(0,0,0,0.3)'}; display: flex; align-items: center; gap: 20px; padding: 20px; ${getHeaderStyle()} }
-    .logo { width: ${config.logo_size || 100}px; height: ${config.logo_size || 100}px; object-fit: contain; border-radius: 8px; }
+    .logo { width: 80px; height: 80px; object-fit: contain; border-radius: 8px; }
     h1 { font-family: ${titleFont}; font-size: ${config.header_title_size || '2rem'}; font-weight: 700; ${getHeaderStyle()} }
     .content { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; max-width: 800px; margin: 0 auto; }
     .chat-section { padding: 40px; background: rgba(0,0,0,0.1); border-radius: 12px; width: 100%; }

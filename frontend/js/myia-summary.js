@@ -395,6 +395,21 @@ async function createPage() {
   console.log('selectedPlan desde localStorage:', localStorage.getItem('selectedPlan'));
   console.log('plan final usado:', plan);
 
+  // Si estamos en modo trial, marcar como pagado automáticamente
+  console.log('Payment config:', paymentConfig);
+  
+  if (paymentConfig.paymentMethod === 'trial') {
+    console.log('=== MODO PRUEBA DETECTADO ===');
+    config.payment_status = 'paid';
+    config.payment_method = 'trial';
+    config.payment_plan = paymentConfig.paymentPlan || config.plan || 'intelligence';
+    config.is_active = true;
+    console.log('Configurado como pagado:', config.payment_status);
+  }
+  
+  // Limpiar selectedPlan de localStorage para evitar errores
+  localStorage.removeItem('selectedPlan');
+
   // Convertir config a snake_case antes de usarlo
   const configSnakeCase = {
     business_name: config.businessName,
@@ -414,7 +429,12 @@ async function createPage() {
     ai_model: config.aiModel,
     plan: plan,
     is_active: true,
-    integrations_config: config.integrations_config
+    integrations_config: config.integrations_config,
+    super_prompt: config.super_prompt || null,
+    // Pagos
+    payment_plan: config.payment_plan || paymentConfig.paymentPlan || null,
+    payment_method: config.payment_method || paymentConfig.paymentMethod || null,
+    payment_status: config.payment_status || paymentConfig.paymentStatus || null
   };
 
   // Si estamos configurando una página ya pagada, solo guardar y redirigir a myia-home
@@ -617,22 +637,6 @@ ${integrationsConfig.functions.prompt}
     welcomeMessage: config.welcomeMessage,
     systemPrompt: config.systemPrompt
   };
-
-  // Si estamos en modo trial, marcar como pagado automáticamente
-  // Reutilizar paymentConfig ya declarado arriba
-  console.log('Payment config:', paymentConfig);
-  
-  if (paymentConfig.paymentMethod === 'trial') {
-    console.log('=== MODO PRUEBA DETECTADO ===');
-    config.payment_status = 'paid';
-    config.payment_method = 'trial';
-    config.payment_plan = paymentConfig.paymentPlan || config.plan || 'intelligence';
-    config.is_active = true;
-    console.log('Configurado como pagado:', config.payment_status);
-  }
-  
-  // Limpiar selectedPlan de localStorage para evitar errores
-  localStorage.removeItem('selectedPlan');
 
   const missingFields = Object.entries(requiredFields)
     .filter(([key, value]) => !value || value === '' || value === '-')
