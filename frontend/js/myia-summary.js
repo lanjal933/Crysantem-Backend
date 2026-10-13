@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           welcomeMessage: result.data.welcome_message || promptConfig.welcomeMessage || 'Hola, ¿en qué puedo ayudarte?',
           systemPrompt: result.data.system_prompt || promptConfig.systemPrompt || '',
           aiModel: result.data.ai_model || 'gemini-flash',
-          plan: result.data.plan,
+          plan: result.data.plan || selectedPlan || 'responde',
           is_active: result.data.is_active,
           integrations_config: result.data.integrations_config || integrationsConfig
         };
@@ -652,10 +652,12 @@ ${integrationsConfig.functions.prompt}
 
   // Mostrar pantalla de carga
   const loadingOverlay = document.getElementById('loadingOverlay');
-  const loadingLog = document.getElementById('loadingLog');
   loadingOverlay.classList.add('active');
 
   function addLog(message, type = 'info') {
+    const loadingLog = document.getElementById('loadingLog');
+    if (!loadingLog) return;
+    
     const entry = document.createElement('div');
     entry.className = `log-entry ${type}`;
     entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
@@ -670,10 +672,19 @@ ${integrationsConfig.functions.prompt}
     // Normalizar slug si existe
     if (configSnakeCase.slug) {
       // Agregar prefijo del plan al slug
-      const plan = configSnakeCase.plan || 'responde';
+      const plan = selectedPlan || configSnakeCase.plan || 'responde';
       const normalizedSlug = normalizeSlug(configSnakeCase.slug);
       configSnakeCase.slug = `${plan}-${normalizedSlug}`;
+      configSnakeCase.plan = plan; // Asegurar que el plan esté establecido
+      configSnakeCase.payment_plan = plan; // También establecer payment_plan
       addLog(`Slug normalizado con prefijo: ${configSnakeCase.slug}`, 'info');
+      addLog(`Plan establecido: ${plan}`, 'info');
+    } else {
+      // Si no hay slug, asegurar que el plan esté establecido
+      const plan = selectedPlan || configSnakeCase.plan || 'responde';
+      configSnakeCase.plan = plan;
+      configSnakeCase.payment_plan = plan;
+      addLog(`Plan establecido (sin slug): ${plan}`, 'info');
     }
 
     // Paso 1: Guardar configuración en Supabase
