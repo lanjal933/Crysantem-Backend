@@ -126,8 +126,8 @@ async function continueToDesign() {
 }
 
 async function trialMode() {
-  // Si no hay plan seleccionado, usar 'responde' por defecto
-  const plan = selectedPlan || 'responde';
+  // Usar intelligence por defecto (o el plan seleccionado)
+  const plan = selectedPlan || 'intelligence';
   
   // Guardar plan seleccionado (mensual por defecto)
   localStorage.setItem('selectedPlan', plan);
@@ -149,6 +149,7 @@ async function trialMode() {
   console.log('=== MODO PRUEBA ===');
   console.log('Plan:', plan);
   console.log('Pago: Simulado (trial)');
+  console.log('Redirigiendo a builder...');
   
   // Redirigir directamente al builder
   window.location.href = 'myia-builder.html';

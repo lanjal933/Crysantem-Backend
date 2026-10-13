@@ -617,12 +617,15 @@ ${integrationsConfig.functions.prompt}
 
   // Si estamos en modo trial, marcar como pagado automáticamente
   const paymentConfig = JSON.parse(localStorage.getItem('paymentConfig') || '{}');
+  console.log('Payment config:', paymentConfig);
+  
   if (paymentConfig.paymentMethod === 'trial') {
     console.log('=== MODO PRUEBA DETECTADO ===');
     config.payment_status = 'paid';
     config.payment_method = 'trial';
-    config.payment_plan = selectedPlan || config.plan;
+    config.payment_plan = paymentConfig.paymentPlan || selectedPlan || config.plan || 'intelligence';
     config.is_active = true;
+    console.log('Configurado como pagado:', config.payment_status);
   }
 
   const missingFields = Object.entries(requiredFields)
