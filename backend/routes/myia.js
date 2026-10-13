@@ -649,8 +649,8 @@ router.post('/mark-as-paid/:pageId', generalLimiter, async (req, res) => {
     if (pageId === 'temp') {
       console.log('Page ID es "temp", creando nueva página desde cero');
       
-      const plan = req.body.plan || localStorage.getItem('selectedPlan') || 'responde';
-      const userId = req.body.userId || localStorage.getItem('userId') || 'user';
+      const plan = req.body.plan || 'responde';
+      const userId = req.body.userId || 'user';
       const billingType = req.body.billingType || 'monthly';
       
       const tempPageId = generateUUID();
