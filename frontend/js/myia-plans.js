@@ -126,17 +126,27 @@ async function continueToDesign() {
 }
 
 async function trialMode() {
+  console.log('=== FUNCIÓN TRIAL MODE INICIADA ===');
+  
   // Usar intelligence por defecto (o el plan seleccionado)
   const plan = selectedPlan || 'intelligence';
+  console.log('Plan a usar:', plan);
+  console.log('selectedPlan:', selectedPlan);
   
   // Guardar plan seleccionado (mensual por defecto)
   localStorage.setItem('selectedPlan', plan);
   localStorage.setItem('billingType', 'monthly');
   localStorage.setItem('planConfig', JSON.stringify(planConfig[plan]));
+  console.log('localStorage.setItem executed for plan:', plan);
   
   // Marcar como pago completado (simulado)
   localStorage.setItem('paymentCompleted', 'true');
   localStorage.setItem('paymentConfig', JSON.stringify({
+    paymentCompleted: true,
+    paymentMethod: 'trial',
+    paymentPlan: plan
+  }));
+  console.log('paymentConfig guardado:', JSON.stringify({
     paymentCompleted: true,
     paymentMethod: 'trial',
     paymentPlan: plan
@@ -146,7 +156,7 @@ async function trialMode() {
   localStorage.removeItem('coworkerSkipOAuth');
   localStorage.removeItem('isCoworker');
   
-  console.log('=== MODO PRUEBA ===');
+  console.log('=== MODO PRUEBA CONFIGURADO ===');
   console.log('Plan:', plan);
   console.log('Pago: Simulado (trial)');
   console.log('Redirigiendo a builder...');
@@ -188,7 +198,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Listener para el botón prueba (trial)
   const trialBtn = document.getElementById('trialBtn');
   if (trialBtn) {
-    trialBtn.addEventListener('click', trialMode);
+    trialBtn.addEventListener('click', () => {
+      console.log('=== BOTÓN PRUEBA CLICKEADO ===');
+      trialMode();
+    });
+    console.log('Botón prueba encontrado y listener agregado');
+  } else {
+    console.error('Botón prueba NO encontrado');
   }
 
   // Listener para el botón volver
