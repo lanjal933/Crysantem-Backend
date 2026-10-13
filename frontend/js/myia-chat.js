@@ -123,6 +123,20 @@ function setupMessageSending(config) {
 }
 
 async function sendToBackend(message, config) {
+  const messagesContainer = document.getElementById('chatMessages');
+  const sendButton = document.getElementById('sendButton');
+  
+  // Mostrar indicador de "escribiendo"
+  const typingIndicator = document.createElement('div');
+  typingIndicator.className = 'typing-indicator';
+  typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+  typingIndicator.style.background = config.message_bubble_color || '#00ff88';
+  messagesContainer.appendChild(typingIndicator);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+  // Deshabilitar botón de enviar
+  sendButton.disabled = true;
+  
   try {
     const response = await fetch('https://crysantem-backend.onrender.com/api/myia/chat-message', {
       method: 'POST',
@@ -138,20 +152,33 @@ async function sendToBackend(message, config) {
     
     const result = await response.json();
     
+    // Remover indicador de "escribiendo"
+    typingIndicator.remove();
+    
     if (result.success && result.response) {
-      // Agregar respuesta del bot
+      // Agregar respuesta del bot con markdown
       const botMessage = document.createElement('div');
       botMessage.className = 'message message-bot';
-      botMessage.textContent = result.response;
+      
+      // Renderizar markdown si el renderer está disponible
+      if (typeof markdownRenderer !== 'undefined') {
+        botMessage.innerHTML = markdownRenderer.render(result.response);
+      } else {
+        botMessage.textContent = result.response;
+      }
+      
       botMessage.style.background = config.message_bubble_color || '#00ff88';
       botMessage.style.color = getContrastColor(config.message_bubble_color || '#00ff88');
       
-      const messagesContainer = document.getElementById('chatMessages');
       messagesContainer.appendChild(botMessage);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
   } catch (error) {
     console.error('Error al enviar mensaje:', error);
+    typingIndicator.remove();
+  } finally {
+    // Rehabilitar botón de enviar
+    sendButton.disabled = false;
   }
 }
 
