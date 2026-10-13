@@ -1,5 +1,9 @@
 RewriteEngine On
 
+# No reescribir archivos estáticos (js, css, imágenes, etc.)
+RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ [NC]
+RewriteRule .* - [L]
+
 # Redirigir según el slug al archivo HTML correspondiente
 RewriteRule ^responde-.*$ myia-responde.html [L]
 RewriteRule ^asiste-.*$ myia-asiste.html [L]
