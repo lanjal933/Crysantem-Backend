@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Constructor MyIA</title>
+  <title>Constructor de Chat - MyIA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;500;600;700&family=Lato:wght@400;500;700&family=Montserrat:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Raleway:wght@400;500;600;700&family=Source+Sans+Pro:wght@400;500;600;700&family=Merriweather:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=6.3">
-  <script src="js/config.js?v=6.3"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=8.0">
+  <script src="js/config.js?v=8.0"></script>
   <style>
     .builder-container {
       min-height: 100vh;
@@ -47,133 +47,10 @@
       font-family: var(--font-display);
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .builder-container {
-        padding: 100px 16px 20px;
-      }
-
-      .builder-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-      }
-
-      .builder-title {
-        font-size: 1.2rem;
-      }
-
-      .builder-content {
-        grid-template-columns: 1fr;
-      }
-
-      .builder-sidebar {
-        position: fixed;
-        left: -100%;
-        top: 0;
-        height: 100vh;
-        width: 80%;
-        z-index: 1000;
-        transition: left 0.3s ease;
-        background: var(--bg-secondary);
-        padding: 20px;
-      }
-
-      .builder-sidebar.active {
-        left: 0;
-      }
-
-      .builder-sidebar-toggle {
-        display: block;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .builder-container {
-        padding: 80px 12px 16px;
-      }
-
-      .builder-title {
-        font-size: 1rem;
-      }
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: var(--border-radius-lg);
-      padding: 32px;
-      max-width: 500px;
-    }
-
-    .modal-content h2 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 16px;
-    }
-
-    .modal-content p {
-      color: var(--text-secondary);
-      margin-bottom: 16px;
-    }
-
-    .modal-content ul {
-      color: var(--text-secondary);
-      margin-left: 20px;
-      margin-bottom: 16px;
-    }
-
-    .modal-content li {
-      margin-bottom: 8px;
-    }
-
-    .builder-steps {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .step {
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    .step.active {
-      background: var(--green-main);
-      color: var(--bg-main);
-      border-color: var(--green-main);
-    }
-
-    .step.completed {
-      background: rgba(0, 255, 140, 0.2);
-      color: var(--green-main);
-      border-color: var(--green-main);
-    }
-
-    .builder-grid {
+    .builder-content {
       display: grid;
-      grid-template-columns: 350px 1fr;
-      gap: var(--spacing-lg);
+      grid-template-columns: 400px 1fr;
+      gap: 32px;
       position: relative;
       z-index: 1;
     }
@@ -182,504 +59,304 @@
       background: var(--bg-secondary);
       border: 1px solid var(--border);
       border-radius: var(--border-radius-lg);
-      padding: var(--spacing-lg);
-      max-height: 75vh;
-      overflow-y: auto;
-    }
-
-    .builder-main {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: var(--border-radius-lg);
-      padding: var(--spacing-lg);
-    }
-
-    .section-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--border);
-      font-family: var(--font-display);
+      padding: 24px;
+      height: fit-content;
     }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .form-label {
       display: block;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-bottom: 8px;
     }
 
-    .form-input,
-    .form-select,
-    .form-textarea {
+    .form-input {
       width: 100%;
-      padding: 10px;
+      padding: 12px 16px;
       background: var(--bg-main);
       border: 1px solid var(--border);
       border-radius: var(--border-radius-md);
       color: var(--text-main);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       transition: all var(--transition);
     }
 
-    .form-input:focus,
-    .form-select:focus,
-    .form-textarea:focus {
+    .form-input:focus {
+      outline: none;
+      border-color: var(--green-main);
+      box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+    }
+
+    .color-picker-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .color-picker {
+      width: 48px;
+      height: 48px;
+      border: none;
+      border-radius: var(--border-radius-md);
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .color-value {
+      flex: 1;
+      padding: 8px 12px;
+      background: var(--bg-main);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-md);
+      color: var(--text-main);
+      font-family: monospace;
+    }
+
+    .preview-section {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--border-radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-preview {
+      width: 100%;
+      max-width: 400px;
+      background: #0d0d0d;
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 600px;
+    }
+
+    .chat-header {
+      padding: 16px;
+      background: #1a1a1a;
+      border-bottom: 1px solid #333;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--green-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      overflow: hidden;
+    }
+
+    .chat-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .chat-header-info {
+      flex: 1;
+    }
+
+    .chat-header-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .chat-header-subtitle {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .message-bot {
+      align-self: flex-start;
+      background: var(--message-bubble-color, #00ff88);
+      color: #000;
+      border-bottom-left-radius: 4px;
+    }
+
+    .message-user {
+      align-self: flex-end;
+      background: var(--user-bubble-color, #333333);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-input {
+      padding: 16px;
+      background: #1a1a1a;
+      border-top: 1px solid #333;
+      display: flex;
+      gap: 12px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 12px 16px;
+      background: #0d0d0d;
+      border: 1px solid #333;
+      border-radius: 24px;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    .chat-input input:focus {
       outline: none;
       border-color: var(--green-main);
     }
 
-    .form-textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .ai-section {
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-
-    .ai-badge {
-      display: inline-block;
-      padding: 4px 8px;
-      background: rgba(99, 102, 241, 0.2);
-      border-radius: 4px;
-      font-size: 0.75rem;
-      color: #6366f1;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .character-bar {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      height: 8px;
-      margin-top: 8px;
-      overflow: hidden;
-    }
-
-    .character-bar-fill {
+    .chat-input button {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
       background: var(--green-main);
-      height: 100%;
-      transition: width var(--transition);
-    }
-
-    .character-text {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .btn-primary {
-      background: var(--green-main);
-      color: var(--bg-main);
-      padding: 12px 24px;
-      border: 1px solid var(--green-main);
-      border-radius: var(--border-radius-md);
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-family: var(--font-body);
-    }
-
-    .btn-primary:hover {
-      background: var(--green-secondary);
-      border-color: var(--green-secondary);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--text-main);
-      padding: 12px 24px;
-      border: 1px solid var(--border);
-      border-radius: var(--border-radius-md);
-      font-weight: 500;
-      cursor: pointer;
-      transition: all var(--transition);
-      font-family: var(--font-body);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--green-main);
-      color: var(--green-main);
-      background: rgba(0, 255, 136, 0.05);
-    }
-
-    .preview-frame {
-      width: 100%;
-      height: 500px;
       border: none;
-      border-radius: 8px;
-      background: #000;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
     }
 
-    @media (max-width: 1024px) {
-      .builder-grid {
+    @media (max-width: 768px) {
+      .builder-content {
         grid-template-columns: 1fr;
+      }
+
+      .chat-preview {
+        max-width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="container navbar-content">
-      <a href="index.html" class="navbar-logo">
-        <img src="images/New_Logo_White.png" alt="Crysantem" class="navbar-logo-img">
-        <span>CRYSANTEM</span>
-      </a>
-      <div class="navbar-toggle">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="navbar-links">
-        <a href="#demo" class="navbar-link">Demos</a>
-        <a href="#myia" class="navbar-link" style="color: var(--green-main);">MyIA</a>
-        <a href="#planes" class="navbar-link">Planes</a>
-        <a href="#portfolio" class="navbar-link">Portfolio</a>
-        <a href="#nosotros" class="navbar-link">Nosotros</a>
-        <a href="#faq" class="navbar-link">FAQ</a>
-        <a href="#contacto" class="navbar-link">Contacto</a>
-        <div class="navbar-auth">
-          <button id="authBtn" class="navbar-auth-btn">Account</button>
-          <div id="authDropdown" class="navbar-dropdown">
-            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
-          </div>
-        </div>
+  <div class="builder-container">
+    <div class="builder-header">
+      <h1 class="builder-title">Constructor de Chat</h1>
+      <div style="display: flex; gap: 12px;">
+        <button class="btn-secondary" id="cancelBtn">← Cancelar</button>
+        <button class="btn-primary" id="summaryBtn">Siguiente →</button>
       </div>
     </div>
-  </nav>
 
-  <div class="builder-container">
-    <div class="container">
-      <div class="builder-header">
-        <h1 class="builder-title">Constructor MyIA</h1>
-        <div style="display: flex; gap: 12px;">
-          <button class="btn-secondary" id="clearCacheBtn" style="background: rgba(255, 100, 100, 0.1); border-color: rgba(255, 100, 100, 0.3);">Limpiar Cache</button>
-          <button class="btn-secondary" id="cancelBtn">← Cancelar</button>
-          <button class="btn-primary" id="summaryBtn">Siguiente →</button>
-        </div>
-      </div>
-
-      <div class="builder-grid">
+    <div class="builder-content">
       <div class="builder-sidebar">
-        <!-- Negocio -->
-        <div class="section-title">Negocio</div>
-        <div class="form-group">
-          <label class="form-label">Nombre</label>
-          <input type="text" class="form-input" id="businessName" maxlength="50" placeholder="Tu empresa">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Slug (URL)</label>
-          <input type="text" class="form-input" id="slug" maxlength="40" placeholder="tu-empresa">
-        </div>
+        <h3 style="margin-bottom: 20px; color: var(--text-main);">Configuración del Chat</h3>
 
-        <!-- Logo -->
-        <div class="section-title" style="margin-top: 24px;">Logo</div>
         <div class="form-group">
-          <label class="form-label">Subir logo</label>
-          <input type="file" id="logoFile" accept="image/png, image/jpeg" class="form-input">
-        </div>
-        <div class="form-group">
-          <label class="form-label">O URL</label>
-          <input type="text" class="form-input" id="logoUrl" placeholder="https://...">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Tamaño</label>
-          <input type="range" id="logoSize" min="50" max="200" value="100" style="width: 100%;">
-          <span id="logoSizeValue" style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.5);">100px</span>
-        </div>
-
-        <!-- Fondo -->
-        <div class="section-title" style="margin-top: 24px;">Fondo</div>
-        <div class="form-group">
-          <label class="form-label">Tipo</label>
-          <select class="form-select" id="backgroundType">
-            <option value="solid">Liso</option>
-            <option value="gradient">Degradado</option>
-            <option value="glow">Luminoso (estilo Crysantem)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Color principal</label>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="color" id="backgroundColor" value="#050505" style="width: 50px; height: 40px; border: none; border-radius: 4px; cursor: pointer;">
-            <input type="text" class="form-input" id="backgroundColorText" value="#050505" style="flex: 1;">
-          </div>
-        </div>
-        <div class="form-group" id="gradientGroup" style="display: none;">
-          <label class="form-label">Color secundario (degradado)</label>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="color" id="gradientColor" value="#00ff8c" style="width: 50px; height: 40px; border: none; border-radius: 4px; cursor: pointer;">
-            <input type="text" class="form-input" id="gradientColorText" value="#00ff8c" style="flex: 1;">
-          </div>
-        </div>
-        <div class="form-group" id="glowGroup" style="display: none;">
-          <label class="form-label">Color de glow (efecto luminoso)</label>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="color" id="glowColor" value="#00ff8c" style="width: 50px; height: 40px; border: none; border-radius: 4px; cursor: pointer;">
-            <input type="text" class="form-input" id="glowColorText" value="#00ff8c" style="flex: 1;">
-          </div>
-        </div>
-
-        <!-- Tipografía -->
-        <div class="section-title" style="margin-top: 24px;">Tipografía</div>
-        <div class="form-group">
-          <label class="form-label">Fuente principal</label>
-          <select class="form-select" id="fontFamily">
-            <option value="Inter">Inter (Recomendado)</option>
-            <option value="Roboto">Roboto</option>
-            <option value="Open Sans">Open Sans</option>
-            <option value="Lato">Lato</option>
-            <option value="Montserrat">Montserrat</option>
-            <option value="Poppins">Poppins</option>
-          </select>
-        </div>
-
-        <!-- Chat -->
-        <div class="section-title" style="margin-top: 24px;">Caja de Chat</div>
-        <div class="form-group">
-          <label class="form-label">Modo de visualización</label>
-          <select class="form-select" id="chatMode">
-            <option value="embedded">Hero Embedded (Chat como cuerpo principal)</option>
-            <option value="floating">Widget Flotante (Burbuja en esquina)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Diseño</label>
-          <select class="form-select" id="chatBoxDesign">
-            <option value="modern">Moderno</option>
-            <option value="classic">Clásico</option>
-            <option value="minimal">Minimal</option>
-            <option value="neon">Neón</option>
-            <option value="glass">Glass</option>
-          </select>
+          <label class="form-label">Nombre del Chat (Business Name)</label>
+          <input type="text" id="businessName" class="form-input" placeholder="Mi Negocio">
         </div>
 
         <div class="form-group">
-          <label class="form-label">Radio de bordes (px)</label>
-          <input type="range" id="borderRadius" min="0" max="24" value="12" style="width: 100%;">
-          <span id="borderRadiusValue" style="font-size: 0.8rem; color: rgba(255, 255, 255, 0.5);">12px</span>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Color de acento</label>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <input type="color" id="chatBoxColor" value="#00ff8c" style="width: 50px; height: 40px; border: none; border-radius: 4px; cursor: pointer;">
-            <input type="text" class="form-input" id="chatBoxColorText" value="#00ff8c" style="flex: 1;">
-          </div>
-          <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
-            <button type="button" class="color-preset" data-color="#00ff8c" style="padding: 6px 12px; background: #00ff8c; border: none; border-radius: 4px; color: black; font-size: 0.75rem; cursor: pointer;">Verde</button>
-            <button type="button" class="color-preset" data-color="#6366f1" style="padding: 6px 12px; background: #6366f1; border: none; border-radius: 4px; color: white; font-size: 0.75rem; cursor: pointer;">Indigo</button>
-            <button type="button" class="color-preset" data-color="#ec4899" style="padding: 6px 12px; background: #ec4899; border: none; border-radius: 4px; color: white; font-size: 0.75rem; cursor: pointer;">Rosa</button>
-            <button type="button" class="color-preset" data-color="#f59e0b" style="padding: 6px 12px; background: #f59e0b; border: none; border-radius: 4px; color: black; font-size: 0.75rem; cursor: pointer;">Naranja</button>
-            <button type="button" class="color-preset" data-color="#06b6d4" style="padding: 6px 12px; background: #06b6d4; border: none; border-radius: 4px; color: black; font-size: 0.75rem; cursor: pointer;">Cian</button>
-            <button type="button" class="color-preset" data-color="#8b5cf6" style="padding: 6px 12px; background: #8b5cf6; border: none; border-radius: 4px; color: white; font-size: 0.75rem; cursor: pointer;">Violeta</button>
-          </div>
+          <label class="form-label">Slug (URL del chat)</label>
+          <input type="text" id="slug" class="form-input" placeholder="mi-chat">
         </div>
 
-        <!-- Agente IA -->
-        <div class="section-title" style="margin-top: 24px;">Agente IA</div>
         <div class="form-group">
-          <label class="form-label">Nombre del agente</label>
-          <input type="text" class="form-input" id="agentName" maxlength="30" placeholder="Asistente Virtual">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Avatar (URL)</label>
-          <input type="text" class="form-input" id="agentAvatar" placeholder="https://...">
+          <label class="form-label">Nombre del Bot</label>
+          <input type="text" id="botName" class="form-input" placeholder="Asistente">
         </div>
 
-        <!-- Quick Prompts -->
-        <div class="section-title" style="margin-top: 24px;">Preguntas Frecuentes (Quick Prompts)</div>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
-          Aparecen como botones sobre el chat para que el visitante arranque con una pregunta.
-        </p>
         <div class="form-group">
-          <label class="form-label">Pregunta 1</label>
-          <input type="text" class="form-input" id="quickPrompt1" maxlength="50" placeholder="¿Cuáles son tus horarios?">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Pregunta 2</label>
-          <input type="text" class="form-input" id="quickPrompt2" maxlength="50" placeholder="¿Cuánto cuestan tus servicios?">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Pregunta 3</label>
-          <input type="text" class="form-input" id="quickPrompt3" maxlength="50" placeholder="¿Dónde están ubicados?">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Pregunta 4 (opcional)</label>
-          <input type="text" class="form-input" id="quickPrompt4" maxlength="50" placeholder="¿Cómo puedo contactarte?">
+          <label class="form-label">Subtítulo del Header (Empresa)</label>
+          <input type="text" id="headerSubtitle" class="form-input" placeholder="Nombre de tu empresa">
         </div>
 
-        <!-- Captura de Leads -->
-        <div class="section-title" style="margin-top: 24px;">Captura de Leads</div>
         <div class="form-group">
-          <label class="form-label">Solicitar datos del visitante</label>
-          <select class="form-select" id="leadCapture">
-            <option value="none">No solicitar datos</option>
-            <option value="name">Solo nombre</option>
-            <option value="email">Solo email</option>
-            <option value="phone">Solo teléfono</option>
-            <option value="name_email">Nombre y email</option>
-            <option value="all">Nombre, email y teléfono</option>
-          </select>
-        </div>
-        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">
-          El chatbot solicitará estos datos mediante formulario inline en la conversación.
-        </p>
-
-        <!-- Diseño de Página -->
-        <div class="section-title" style="margin-top: 24px;">Diseño de Página</div>
-        <div style="margin-bottom: 16px;">
-          <div class="design-card selected" data-design="centered" style="padding: 16px; background: rgba(255,255,255,0.05); border: 2px solid #00ff8c; border-radius: 12px; cursor: pointer; font-size: 0.9rem; color: #fff; transition: all 0.3s ease;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-              <div style="font-size: 2rem;">🎯</div>
-              <div>
-                <div style="font-weight: 600;">Centrado</div>
-                <div style="font-size: 0.75rem; opacity: 0.6; margin-top: 2px;">Chat alineado al centro con branding minimalista</div>
-              </div>
-            </div>
-          </div>
+          <label class="form-label">Avatar del Bot (URL)</label>
+          <input type="text" id="botAvatar" class="form-input" placeholder="https://...">
+          <input type="file" id="botAvatarFile" accept="image/*" style="margin-top: 8px;">
         </div>
 
-        <!-- Opciones específicas del layout -->
-        <div id="layoutOptions" style="margin-top: 16px; padding: 16px; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
-          <div id="centeredOptions" style="display: block;">
-            <div class="form-group">
-              <label class="form-label">Ancho máximo del contenedor</label>
-              <select class="form-select" id="centeredWidth">
-                <option value="600">Estrecho (600px)</option>
-                <option value="800" selected>Medio (800px)</option>
-                <option value="1000">Ancho (1000px)</option>
-                <option value="1200">Muy ancho (1200px)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Espaciado vertical</label>
-              <select class="form-select" id="centeredSpacing">
-                <option value="compact">Compacto</option>
-                <option value="normal" selected>Normal</option>
-                <option value="relaxed">Relajado</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <!-- Header -->
-        <div class="section-title" style="margin-top: 24px;">Header</div>
         <div class="form-group">
-          <label class="form-label">Tema</label>
-          <select class="form-select" id="headerTheme">
+          <label class="form-label">Tema del Chat</label>
+          <select id="chatTheme" class="form-input">
             <option value="dark">Oscuro</option>
             <option value="light">Claro</option>
           </select>
         </div>
-        <div class="form-group">
-          <label class="form-label">Color de fondo</label>
-          <select class="form-select" id="headerColor">
-            <option value="rgba(0,0,0,0.3)" selected>Negro transparente</option>
-            <option value="rgba(255,255,255,0.1)">Blanco transparente</option>
-            <option value="rgba(0,0,0,0.5)">Negro más oscuro</option>
-            <option value="rgba(255,255,255,0.2)">Blanco más claro</option>
-            <option value="rgba(99,102,241,0.2)">Indigo</option>
-            <option value="rgba(0,255,140,0.2)">Verde</option>
-            <option value="rgba(236,72,153,0.2)">Rosa</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Tamaño del nombre</label>
-          <select class="form-select" id="headerTitleSize">
-            <option value="1.5rem">Pequeño</option>
-            <option value="2rem" selected>Medio</option>
-            <option value="2.5rem">Grande</option>
-            <option value="3rem">Muy grande</option>
-          </select>
-        </div>
 
-        <!-- Footer -->
-        <div class="section-title" style="margin-top: 24px;">Footer</div>
         <div class="form-group">
-          <label class="form-label">
-            <input type="checkbox" id="showFooter" checked> Mostrar footer "Powered by Crysantem"
-          </label>
-        </div>
-
-        <!-- Redes -->
-        <div class="section-title" style="margin-top: 24px;">Redes Sociales</div>
-        <div class="form-group">
-          <label class="form-label">Facebook</label>
-          <input type="text" class="form-input" id="facebookUrl" placeholder="https://facebook.com/tu-negocio">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Instagram</label>
-          <input type="text" class="form-input" id="instagramUrl" placeholder="https://instagram.com/tu-negocio">
-        </div>
-        <div class="form-group">
-          <label class="form-label">LinkedIn</label>
-          <input type="text" class="form-input" id="linkedinUrl" placeholder="https://linkedin.com/company/tu-negocio">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Twitter/X</label>
-          <input type="text" class="form-input" id="twitterUrl" placeholder="https://twitter.com/tu-negocio">
-        </div>
-
-        <!-- Mensajes -->
-        <div class="section-title" style="margin-top: 24px;">Consumo</div>
-        <div class="form-group">
-          <label class="form-label">Límite de mensajes mensuales</label>
-          <div class="character-bar">
-            <div class="character-bar-fill" id="characterBar" style="width: 0%;"></div>
+          <label class="form-label">Color de Mensajes del Bot</label>
+          <div class="color-picker-wrapper">
+            <input type="color" id="messageBubbleColor" class="color-picker" value="#00ff88">
+            <input type="text" id="messageBubbleColorValue" class="color-value" value="#00ff88">
           </div>
-          <div class="character-text" id="characterText">0 / 1,000 mensajes al mes</div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">
-            El límite de mensajes se define según el plan seleccionado.
-          </p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Color de Mensajes del Usuario</label>
+          <div class="color-picker-wrapper">
+            <input type="color" id="userBubbleColor" class="color-picker" value="#333333">
+            <input type="text" id="userBubbleColorValue" class="color-value" value="#333333">
+          </div>
         </div>
       </div>
 
-      <div class="builder-main">
-        <div class="section-title">Vista Previa</div>
-        <iframe id="previewFrame" class="preview-frame" src="about:blank"></iframe>
+      <div class="preview-section">
+        <h3 style="margin-bottom: 20px; color: var(--text-main);">Vista Previa</h3>
+        <div class="chat-preview" id="chatPreview">
+          <div class="chat-header">
+            <div class="chat-avatar" id="previewAvatar">
+              🤖
+            </div>
+            <div class="chat-header-info">
+              <div class="chat-header-name" id="previewBotName">Asistente</div>
+              <div class="chat-header-subtitle" id="previewSubtitle">Mi Empresa</div>
+            </div>
+          </div>
+          <div class="chat-messages">
+            <div class="message message-bot">
+              ¡Hola! ¿En qué puedo ayudarte hoy?
+            </div>
+            <div class="message message-user">
+              Necesito información sobre tus servicios
+            </div>
+            <div class="message message-bot">
+              Claro, con gusto te ayudo. ¿Qué te gustaría saber?
+            </div>
+          </div>
+          <div class="chat-input">
+            <input type="text" placeholder="Escribe un mensaje..." disabled>
+            <button>➤</button>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
   </div>
 
-  <!-- Modal de confirmación para limpiar cache -->
-  <div class="modal-overlay" id="clearCacheModal" style="display: none;">
-    <div class="modal-content" style="max-width: 500px;">
-      <h2 style="margin-bottom: 16px; color: var(--text-main);">¿Limpiar Cache?</h2>
-      <p style="color: var(--text-secondary); margin-bottom: 16px;">
-        Esta acción restablecerá todos los cambios hechos en esta sesión, incluyendo:
-      </p>
-      <ul style="color: var(--text-secondary); margin-left: 20px; margin-bottom: 16px;">
-        <li>Nombre del negocio</li>
-        <li>Slug (URL)</li>
-        <li>IDs de Sheets y Drive</li>
-        <li>Configuración de prompt</li>
-        <li>Configuración de integraciones</li>
-        <li>Configuración de pago</li>
-        <li>Selección de plan</li>
-      </ul>
-      <p style="color: #ff6464; margin-bottom: 24px; font-weight: 500;">
-        ⚠️ Esta acción no se puede deshacer.
-      </p>
-      <div style="display: flex; gap: 12px; justify-content: flex-end;">
-        <button class="btn-secondary" id="cancelClearCacheBtn">Cancelar</button>
-        <button class="btn-primary" id="confirmClearCacheBtn" style="background: #ff6464; border-color: #ff6464;">Sí, Limpiar Cache</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="js/main.js"></script>
-  <script src="js/myia-builder.js?v=7.0"></script>
+  <script src="js/myia-builder.js?v=8.0"></script>
 </body>
 </html>

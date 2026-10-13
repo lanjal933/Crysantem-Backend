@@ -188,23 +188,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     urlEl.textContent = `crysantem.tech/${config.slug || '-'}`;
   }
 
-  document.getElementById('summaryBackground').textContent =
-    `${config.backgroundType} - ${config.backgroundColor}${config.backgroundType === 'gradient' ? ' → ' + config.backgroundGradient : ''}${config.backgroundType === 'glow' ? ' + Glow: ' + config.glowColor : ''}`;
-  document.getElementById('summaryFont').textContent = config.fontFamily;
-  document.getElementById('summaryTitleFont').textContent = config.titleFont || 'Igual que principal';
-  document.getElementById('summaryDesign').textContent = getDesignName(config.pageDesign || 'minimal');
-  document.getElementById('summaryChat').textContent =
-    `${config.chatBoxDesign} - ${config.chatPosition} - ${config.borderRadius} - ${config.chatBoxColor}`;
-  document.getElementById('summaryHeader').textContent = config.headerTheme;
-  document.getElementById('summaryFooter').textContent = config.showFooter ? 'Visible' : 'Oculto';
-  document.getElementById('summarySplitImage').textContent = config.splitImage || 'No configurado';
-  document.getElementById('summarySplitText').textContent = config.splitText ? `${config.splitText.substring(0, 50)}${config.splitText.length > 50 ? '...' : ''}` : 'No configurado';
-
-  document.getElementById('summaryModel').textContent =
-    config.aiModel === 'gemini-pro' ? 'Gemini Pro' : 'Gemini Flash';
-  document.getElementById('summaryPlan').textContent = config.plan || 'responde';
-  document.getElementById('summaryLimit').textContent =
-    `${config.characterLimit?.toLocaleString() || '50,000'} caracteres`;
+  // Nuevos campos de chat
+  document.getElementById('summaryBotName').textContent = config.botName || 'Asistente';
+  document.getElementById('summaryHeaderSubtitle').textContent = config.headerSubtitle || '-';
+  document.getElementById('summaryBotAvatar').textContent = config.botAvatar ? 'Configurado' : 'Por defecto';
+  document.getElementById('summaryChatTheme').textContent = config.chatTheme === 'dark' ? 'Oscuro' : 'Claro';
+  document.getElementById('summaryMessageBubbleColor').textContent = config.messageBubbleColor || '#00ff88';
+  document.getElementById('summaryUserBubbleColor').textContent = config.userBubbleColor || '#333333';
 
   document.getElementById('summaryWelcome').textContent = config.welcomeMessage || '-';
   document.getElementById('summaryPrompt').textContent = config.systemPrompt || '-';
@@ -607,32 +597,24 @@ ${integrationsConfig.functions.prompt}
     background_color: config.backgroundColor,
     background_gradient: config.backgroundGradient,
     glow_color: config.glowColor,
-    font_family: config.fontFamily,
-    title_font: config.titleFont,
-    chat_box_design: config.chatBoxDesign,
-    chat_position: config.chatPosition,
-    border_radius: config.borderRadius,
-    chat_box_color: config.chatBoxColor,
-    header_theme: config.headerTheme,
-    page_design: config.pageDesign,
-    show_footer: config.showFooter,
-    split_image: config.splitImage,
-    split_text: config.splitText,
-    welcome_message: config.welcomeMessage,
-    system_prompt: config.systemPrompt,
-    ai_model: config.aiModel,
-    character_limit: config.characterLimit,
-    plan: plan, // Usar el plan calculado anteriormente
-    social_links: config.socialLinks,
-    is_active: config.is_active,
-    // Agregar integraciones como JSONB
+    // Nuevas columnas de chat
+    bot_name: config.botName || 'Asistente',
+    bot_avatar: config.botAvatar || null,
+    header_subtitle: config.headerSubtitle || null,
+    chat_theme: config.chatTheme || 'dark',
+    message_bubble_color: config.messageBubbleColor || '#00ff88',
+    user_bubble_color: config.userBubbleColor || '#333333',
+    // Campos de prompt
+    welcome_message: config.welcomeMessage || 'Hola, ¿en qué puedo ayudarte?',
+    system_prompt: config.systemPrompt || '',
+    // Modelo de IA
+    ai_model: config.aiModel || 'gemini-flash',
+    // Plan
+    plan: plan,
+    // Integraciones
     integrations_config: config.integrations_config || null,
-    // Agregar info de pago (sin datos sensibles)
-    payment_plan: config.payment_plan || null,
-    payment_method: config.payment_method || null,
-    google_connected: config.google_connected || false,
-    // Agregar super prompt para plan 04
-    super_prompt: config.superPrompt || null
+    // Estado
+    is_active: config.is_active || true
   };
 
   console.log('Config en camelCase:', config);
