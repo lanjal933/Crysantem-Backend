@@ -165,6 +165,9 @@ async function trialMode() {
   window.location.href = 'myia-builder.html';
 }
 
+// Hacer la función global para que funcione con onclick
+window.trialMode = trialMode;
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
   // Agregar listeners a las tarjetas de planes
