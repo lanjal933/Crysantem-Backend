@@ -91,7 +91,7 @@ function loadConfig() {
 function saveConfig() {
   console.log('=== GUARDANDO CONFIGURACIÓN DE INTEGRACIONES ===');
   
-  // Sheets y Drive (siempre visibles para plan 02+)
+  // Sheets (visible para plan 02+)
   if (document.getElementById('sheetsDbId')) {
     integrationsConfig.sheets.dbId = document.getElementById('sheetsDbId')?.value || '';
     integrationsConfig.sheets.url = document.getElementById('sheetsUrl')?.value || '';
@@ -160,7 +160,7 @@ function saveConfig() {
 
 // Cargar valores en el formulario
 function loadFormValues() {
-  // Sheets y Drive (siempre visibles para plan 02+)
+  // Sheets (visible para plan 02+)
   if (document.getElementById('sheetsDbId')) {
     document.getElementById('sheetsDbId').value = integrationsConfig.sheets.dbId || '';
     document.getElementById('sheetsUrl').value = integrationsConfig.sheets.url || '';
