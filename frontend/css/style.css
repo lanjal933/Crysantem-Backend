@@ -718,8 +718,8 @@ img {
 .demo-section {
   position: relative;
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-main);
-  color: var(--text-light);
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .demo-container {
@@ -730,19 +730,19 @@ img {
 }
 
 .demo-chat {
-  background: var(--bg-dark-secondary);
-  border: 1px solid var(--border);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-beige);
   border-radius: var(--border-radius-md);
   overflow: hidden;
 }
 
 .demo-header {
-  background: var(--bg-dark-secondary);
+  background: var(--bg-secondary);
   padding: 16px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-beige);
 }
 
 .demo-header-icon {
