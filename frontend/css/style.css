@@ -1459,19 +1459,7 @@ img {
   padding: 120px 0;
   position: relative;
   overflow: hidden;
-  background-color: var(--bg-dark);
-}
-
-.myia-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 800px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(53, 208, 127, 0.06) 0%, transparent 70%);
-  pointer-events: none;
+  background-color: var(--bg-main);
 }
 
 .myia-content {
@@ -1506,11 +1494,10 @@ img {
 .myia-preview {
   width: 100%;
   max-width: 480px;
-  background: rgba(16, 18, 17, 0.9);
-  border: 1px solid rgba(228, 232, 228, 0.12);
-  border-radius: var(--border-radius-lg);
+  background: var(--bg-dark-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-md);
   overflow: hidden;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
 }
 
 .myia-preview-header {
