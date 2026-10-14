@@ -460,12 +460,52 @@ img {
 }
 
 .content-block {
-  max-width: 800px;
+  max-width: 900px;
   background: var(--bg-card-dark);
   padding: var(--spacing-2xl);
   border-radius: var(--border-radius-lg);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-md);
+}
+
+.info-card {
+  padding: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--border-radius-md);
+  margin-bottom: var(--spacing-lg);
+  border-left: 4px solid var(--green-main);
+  transition: transform var(--transition), background var(--transition);
+}
+
+.info-card:nth-child(2) {
+  border-left-color: var(--blue-accent);
+}
+
+.info-card:nth-child(3) {
+  border-left-color: var(--purple-accent);
+}
+
+.info-card:hover {
+  transform: translateX(8px);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.info-card-icon {
+  margin-bottom: var(--spacing-md);
+}
+
+.info-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-main);
+  font-family: var(--font-display);
+}
+
+.info-card-text {
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 1rem;
 }
 
 .section-text {
@@ -1707,6 +1747,25 @@ html {
 .plan-features li::before {
   content: '';
   width: 5px;
+  height: 5px;
+  background: var(--green-main);
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.plan-badge-inline {
+  display: inline-block;
+  padding: 6px 16px;
+  background: var(--green-main);
+  color: #000;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--border-radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--spacing-md);
+}
   height: 5px;
   background: var(--green-main);
   border-radius: 50%;
