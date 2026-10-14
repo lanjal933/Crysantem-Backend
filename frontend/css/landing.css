@@ -447,45 +447,69 @@ a {
 .bg-beige h4,
 .bg-beige h5,
 .bg-beige h6 {
-  color: #0D0D0A;
+  color: #0A0A08 !important;
   font-weight: 700;
 }
 
 .bg-beige p,
 .bg-beige li {
-  color: #2A2A25;
+  color: #1A1A16 !important;
 }
 
 .bg-beige .section-subtitle {
-  color: #3A3A35;
+  color: #2A2A26 !important;
   font-weight: 500;
 }
 
 .bg-beige .problem-example-content h4 {
-  color: #0D0D0A;
+  color: #0A0A08 !important;
   font-weight: 600;
 }
 
 .bg-beige .problem-example-content p {
-  color: #2A2A25;
+  color: #1A1A16 !important;
 }
 
 .bg-beige .landing-plan-name {
-  color: #0D0D0A;
+  color: #0A0A08 !important;
   font-weight: 700;
 }
 
 .bg-beige .landing-plan-price {
-  color: #0D0D0A;
+  color: #0A0A08 !important;
 }
 
 .bg-beige .landing-plan-features li {
-  color: #2A2A25;
+  color: #1A1A16 !important;
 }
 
 .bg-beige .landing-plan-limit,
 .bg-beige .landing-plan-minimum {
-  color: #3A3A35;
+  color: #2A2A26 !important;
+}
+
+.bg-white-warm h1,
+.bg-white-warm h2,
+.bg-white-warm h3,
+.bg-white-warm h4,
+.bg-white-warm h5,
+.bg-white-warm h6 {
+  color: #0A0A08 !important;
+  font-weight: 700;
+}
+
+.bg-white-warm p,
+.bg-white-warm li {
+  color: #1A1A16 !important;
+}
+
+.bg-white-warm summary {
+  color: #0A0A08 !important;
+  font-weight: 600;
+}
+
+.bg-white-warm details div {
+  color: #1A1A16 !important;
 }
 
 /* --------------------------------------------------------------------------
