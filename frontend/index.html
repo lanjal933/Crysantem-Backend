@@ -16,41 +16,37 @@
   <!-- Tipografías: Sora e Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- CSS exclusivo de la landing -->
-  <link rel="stylesheet" href="css/landing.css?v=1.0">
-  
-  <!-- CSS principal para componentes compartidos (auth, etc) -->
+  <!-- CSS principal para navbar, modal, demo, etc (del backend viejo) -->
   <link rel="stylesheet" href="css/style.css?v=8.2">
+  
+  <!-- CSS exclusivo de la landing (sobrescribe algunos estilos) -->
+  <link rel="stylesheet" href="css/landing.css?v=1.0">
 </head>
 <body>
   
-  <!-- NAV -->
-  <nav class="landing-nav">
-    <div class="landing-nav-content">
-      <a href="index.html" class="landing-logo">
-        <img src="images/New_Logo_White.png" alt="Crysantem" style="height: 40px;">
-        <span style="font-size: 1.3rem;">CRYSANTEM</span>
+  <!-- NAV - Navbar original del backup -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="navbar-logo">
+        <img src="images/New_Logo_White.png" alt="Logo de Crysantem - Agentes de Inteligencia Artificial" class="navbar-logo-img" width="120" height="63">
+        <img src="images/logo_USA_ESTE.png" alt="Logo de aplicación web Crysantem" class="navbar-logo-app" width="32" height="32">
+        <span>CRYSANTEM</span>
       </a>
-      <div class="landing-nav-links">
-        <a href="#como-funciona" class="landing-nav-link">MyIA</a>
-        <a href="#demo" class="landing-nav-link">Demo</a>
-        <a href="#planes" class="landing-nav-link">Planes</a>
-        <a href="#faq" class="landing-nav-link">FAQ</a>
-        <a href="#contacto" class="landing-nav-link">Contacto</a>
-        <div class="navbar-auth">
-          <button id="authBtn" class="landing-nav-cta">Account</button>
-          <div id="authDropdown" class="navbar-dropdown" role="menu" aria-label="Menú de cuenta">
-            <div id="userEmailDisplay" class="navbar-dropdown-item" style="cursor: default; font-weight: 500;"></div>
-            <a href="myia-dashboard.html" class="navbar-dropdown-item">Mis Apps</a>
-            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
-          </div>
-        </div>
-      </div>
-      <button class="landing-nav-toggle" aria-label="Menú">
+      <button class="navbar-toggle" aria-label="Abrir menú" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
       </button>
+      <div class="navbar-links">
+        <a href="#como-funciona" class="navbar-link">MyIA</a>
+        <a href="#demo" class="navbar-link">Demo</a>
+        <a href="#planes" class="navbar-link">Planes</a>
+        <a href="#faq" class="navbar-link">FAQ</a>
+        <a href="#contacto" class="navbar-link">Contacto</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="navbar-auth-btn">Account</button>
+        </div>
+      </div>
     </div>
   </nav>
 
@@ -560,6 +556,17 @@
     </div>
   </footer>
 
+  <!-- Modal de Autenticación -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Iniciar Sesión</h3>
+        <button class="modal-close" aria-label="Cerrar modal">×</button>
+      </div>
+      <form id="authForm"></form>
+    </div>
+  </div>
+
   <!-- Scripts para funcionalidad de auth -->
   <script src="js/config.js?v=7.3"></script>
   <script src="js/markdown-renderer.js?v=7.3"></script>
@@ -567,13 +574,30 @@
 
   <!-- SCRIPT PARA DEMO FUNCIONAL -->
   <script>
-    // Demo chat functionality - Copiado de main-new.js
+    // Demo chat functionality - Copiado exacto de main-new.js
     function initDemoChat() {
       const demoInput = document.getElementById('demoInput');
       const demoSendBtn = document.getElementById('demoSendBtn');
       const demoMessages = document.getElementById('demoMessages');
 
       if (!demoInput || !demoSendBtn || !demoMessages) return;
+
+      function addMessage(text, type) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `demo-message ${type}`;
+
+        if (type === 'ai') {
+          console.log('Texto original de IA:', text);
+          const rendered = markdownRenderer.render(text);
+          console.log('Texto renderizado:', rendered);
+          messageDiv.innerHTML = rendered;
+        } else {
+          messageDiv.textContent = text;
+        }
+
+        demoMessages.appendChild(messageDiv);
+        demoMessages.scrollTop = demoMessages.scrollHeight;
+      }
 
       async function sendMessage() {
         const message = demoInput.value.trim();
@@ -600,8 +624,7 @@
             addMessage('Lo siento, hubo un error. Intenta nuevamente.', 'ai');
           }
         } catch (error) {
-          console.error('Error en demo:', error);
-          addMessage('Lo siento, hubo un error de conexión. Intenta nuevamente.', 'ai');
+          addMessage('No pudimos conectar con el servicio. Intenta nuevamente.', 'ai');
         } finally {
           demoSendBtn.disabled = false;
           demoSendBtn.innerHTML = 'Enviar';
@@ -610,8 +633,12 @@
 
       demoSendBtn.addEventListener('click', sendMessage);
       demoInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendMessage();
+        if (e.key === 'Enter') {
+          sendMessage();
+        }
       });
+
+      addMessage('¡Hola! Soy Crysantem V1.4. ¿En qué puedo ayudarte?', 'ai');
     }
 
     initDemoChat();
@@ -720,76 +747,8 @@
       });
     }
 
-    // Auth dropdown functionality - Override main.js behavior
-    const authBtn = document.getElementById('authBtn');
-    const authDropdown = document.getElementById('authDropdown');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const userEmailDisplay = document.getElementById('userEmailDisplay');
-
-    // Prevent main.js from interfering
-    if (authBtn) {
-      authBtn.removeEventListener('click', null);
-    }
-
-    // Check auth state on load
-    function checkAuth() {
-      const user = localStorage.getItem('user');
-      if (user) {
-        const userData = JSON.parse(user);
-        if (authBtn) authBtn.textContent = userData.email || 'Account';
-        if (userEmailDisplay) userEmailDisplay.textContent = userData.email || '';
-      } else {
-        if (authBtn) authBtn.textContent = 'Account';
-        if (userEmailDisplay) userEmailDisplay.textContent = '';
-      }
-    }
-
-    checkAuth();
-
-    // Toggle dropdown instead of opening modal
-    if (authBtn && authDropdown) {
-      authBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const user = localStorage.getItem('user');
-        if (user) {
-          authDropdown.classList.toggle('show');
-        } else {
-          // Redirect to MyIA home for login
-          window.location.href = 'myia-home.html';
-        }
-      });
-
-      // Close dropdown when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!authDropdown.contains(e.target) && !authBtn.contains(e.target)) {
-          authDropdown.classList.remove('show');
-        }
-      });
-    }
-
-    // Logout functionality
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        if (authBtn) authBtn.textContent = 'Account';
-        if (userEmailDisplay) userEmailDisplay.textContent = '';
-        authDropdown.classList.remove('show');
-        window.location.href = 'index.html';
-      });
-    }
-
-    // Mis Apps link - redirect to dashboard
-    const misAppsLink = authDropdown?.querySelector('a[href="myia-dashboard.html"]');
-    if (misAppsLink) {
-      misAppsLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        authDropdown.classList.remove('show');
-        window.location.href = 'myia-dashboard.html';
-      });
-    }
+    // No override - let main.js handle auth modal
+    // The landing uses the existing auth system from main.js
   </script>
 </body>
 </html>
