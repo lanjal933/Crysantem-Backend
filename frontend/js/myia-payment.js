@@ -428,18 +428,18 @@ function initEventListeners() {
     console.log('paymentCompleted:', paymentConfig.paymentCompleted);
     
     if (validateConfig()) {
-      console.log('Validación exitosa, guardando y redirigiendo a myia-summary.html');
+      console.log('Validación exitosa, guardando y redirigiendo a myia-builder.html');
       saveConfig();
-      window.location.href = 'myia-summary.html';
+      window.location.href = 'myia-builder.html';
     } else {
       console.log('Validación falló');
     }
   });
-  
+
   // Botón volver
   document.getElementById('backBtn').addEventListener('click', () => {
     saveConfig();
-    window.location.href = 'myia-integrations.html';
+    window.location.href = 'myia-plans.html';
   });
 }
 
@@ -452,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('¿Es coworker?', isCoworker);
 
   if (isCoworker) {
-    console.log('Coworker detectado - omitiendo OAuth y redirigiendo a resumen');
+    console.log('Coworker detectado - omitiendo OAuth y redirigiendo a builder');
     // Configurar automáticamente como completado
     paymentConfig.plan = 'responde';
     paymentConfig.paymentMethod = 'Coworker Free';
@@ -460,8 +460,8 @@ document.addEventListener('DOMContentLoaded', () => {
     paymentConfig.googleEmail = 'Coworker (No OAuth)';
     paymentConfig.paymentCompleted = true;
     localStorage.setItem('paymentConfig', JSON.stringify(paymentConfig));
-    // Redirigir directamente al resumen
-    window.location.href = 'myia-summary.html';
+    // Redirigir directamente al builder
+    window.location.href = 'myia-builder.html';
     return;
   }
 

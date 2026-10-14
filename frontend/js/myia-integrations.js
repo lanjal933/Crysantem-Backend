@@ -736,7 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
     continueBtn.addEventListener('click', () => {
       if (validateConfig()) {
         saveConfig();
-        window.location.href = 'myia-payment.html';
+        window.location.href = 'myia-summary.html';
       }
     });
   }
