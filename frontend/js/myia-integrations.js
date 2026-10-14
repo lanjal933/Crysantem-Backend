@@ -336,6 +336,8 @@ function handleImageUpload(event) {
 function renderUploadedImages() {
   const container = document.getElementById('uploadedImages');
   
+  if (!container) return; // Null guard - el elemento puede no existir en todas las páginas
+  
   if (integrationsConfig.images.uploaded.length === 0) {
     container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem;">No hay imágenes cargadas</p>';
     return;

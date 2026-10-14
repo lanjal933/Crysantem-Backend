@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           welcomeMessage: promptConfig.welcomeMessage || result.data.welcome_message || 'Hola, ¿en qué puedo ayudarte?',
           systemPrompt: promptConfig.systemPrompt || result.data.system_prompt || '',
           aiModel: result.data.ai_model || 'gemini-flash',
-          plan: selectedPlan || result.data.plan || 'responde',
+          plan: localStorage.getItem('selectedPlan') || result.data.plan || 'responde',
           is_active: result.data.is_active,
           integrations_config: integrationsConfig || result.data.integrations_config
         };
@@ -428,6 +428,11 @@ async function createPage() {
     is_active: true,
     integrations_config: config.integrations_config,
     super_prompt: config.super_prompt || null,
+    // URLs de Sheets y Gmail para n8n
+    sheets_database_url: config.integrations_config?.sheets?.dbUrl || null,
+    sheets_custom_1_url: config.integrations_config?.sheets?.customSheets?.[0]?.urlPost || null,
+    sheets_custom_2_url: config.integrations_config?.sheets?.customSheets?.[1]?.urlPost || null,
+    gmail_sender_email: config.integrations_config?.gmail?.sender || null,
     // Pagos
     payment_plan: config.payment_plan || paymentConfig.paymentPlan || null,
     payment_method: config.payment_method || paymentConfig.paymentMethod || null,
@@ -484,156 +489,14 @@ async function createPage() {
     return;
   }
 
-  // Generar super prompt según el plan
-  const promptConfig = JSON.parse(localStorage.getItem('promptConfig') || '{}');
-  const integrationsConfig = JSON.parse(localStorage.getItem('integrationsConfig') || '{}');
-  
-  let superPrompt = `# SUPER PROMPT - CRYSANTEM MYIA
-
-## PROMPT BASE DEL USUARIO
-${promptConfig.systemPrompt || 'Eres un asistente virtual amable y profesional.'}
-
-## PLAN ACTIVO: ${plan.toUpperCase()}
-`;
-
-  // Agregar secciones según el plan
-  if (plan === 'asiste' || plan === 'automatiza' || plan === 'intelligence') {
-    // Sheets (todos los planes 02+)
-    superPrompt += `
-## INSTRUCCIONES PARA USAR SHEETS
-
-### Base de Datos de Usuarios
-- Sheet ID: ${integrationsConfig.sheets?.dbId || 'No configurado'}
-- URL GET: ${integrationsConfig.sheets?.url || 'No configurado'}
-`;
-    
-    // Sheets personalizados (planes 03+)
-    if (plan === 'automatiza' || plan === 'intelligence') {
-      if (integrationsConfig.sheets?.customSheets && integrationsConfig.sheets.customSheets.length > 0) {
-        superPrompt += `
-### Sheets Personalizados
-`;
-        integrationsConfig.sheets.customSheets.forEach((sheet, index) => {
-          superPrompt += `
-#### Sheet ${index + 1}: ${sheet.title || 'Sin título'}
-- Sheet ID: ${sheet.id || 'No configurado'}
-- URL GET: ${sheet.urlGet || 'No configurado'}
-- URL POST: ${sheet.urlPost || 'No configurado'}
-- Tipo de interacción: ${sheet.type || 'manual'}
-- Prompt específico:
-${sheet.prompt || 'Sin prompt específico'}
-`;
-        });
-      }
-    }
+  // Generar SuperPrompt usando la función de myia-integrations.js
+  const superPrompt = generateSuperPrompt({ integrations_config: config.integrations_config });
+  if (superPrompt) {
+    configSnakeCase.super_prompt = superPrompt;
+    console.log('SuperPrompt generado para el plan:', plan);
   }
 
-  // Imágenes (planes 03+)
-  if (plan === 'automatiza' || plan === 'intelligence') {
-    if (integrationsConfig.images?.uploaded && integrationsConfig.images.uploaded.length > 0) {
-      superPrompt += `
-## INSTRUCCIONES PARA USAR IMÁGENES DEL USUARIO
 
-Las siguientes imágenes están disponibles para mostrar en las respuestas:
-`;
-      integrationsConfig.images.uploaded.forEach((img, index) => {
-        superPrompt += `
-### Imagen ${index + 1}: ${img.name}
-- Descripción: ${img.description || 'Sin descripción'}
-- Uso: Usa esta imagen cuando el contexto sea relevante con "${img.description || img.name}"
-`;
-      });
-    }
-  }
-
-  // Calendar (planes 03+)
-  if (plan === 'automatiza' || plan === 'intelligence') {
-    if (integrationsConfig.calendar?.schedules) {
-      superPrompt += `
-## HORARIOS DISPONIBLES
-
-- Zona horaria: ${integrationsConfig.calendar.timezone || 'UTC'}
-- Duración de citas: ${integrationsConfig.calendar.duration || 30} minutos
-
-### Disponibilidad por día:
-`;
-      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-      const dayNames = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-      
-      days.forEach((day, index) => {
-        const schedule = integrationsConfig.calendar.schedules[day];
-        if (schedule && schedule.enabled) {
-          superPrompt += `- ${dayNames[index]}: ${schedule.start} - ${schedule.end}\n`;
-        } else {
-          superPrompt += `- ${dayNames[index]}: No disponible\n`;
-        }
-      });
-    }
-  }
-
-  // Gmail (solo plan 04)
-  if (plan === 'intelligence') {
-    if (integrationsConfig.gmail) {
-      superPrompt += `
-## CONFIGURACIÓN DE GMAIL
-
-- Email de envío: ${integrationsConfig.gmail.sender || 'No configurado'}
-- Reply-to: ${integrationsConfig.gmail.replyTo || 'No configurado'}
-- Asunto: ${integrationsConfig.gmail.subject || 'No configurado'}
-- Tipo de envío: ${integrationsConfig.gmail.sendType || 'immediate'}
-- IA genera asunto: ${integrationsConfig.gmail.aiSubject ? 'Sí' : 'No'}
-- IA genera cuerpo: ${integrationsConfig.gmail.aiBody ? 'Sí' : 'No'}
-- IA genera adjuntos: ${integrationsConfig.gmail.aiAttachments ? 'Sí' : 'No'}
-`;
-    }
-  }
-
-  // Funciones de la IA (todos los planes)
-  if (integrationsConfig.functions?.prompt) {
-    superPrompt += `
-## FUNCIONES DE LA IA
-
-${integrationsConfig.functions.prompt}
-`;
-  }
-
-  // Reglas generales según el plan
-  superPrompt += `
-## REGLAS GENERALES
-`;
-  
-  if (plan === 'asiste') {
-    superPrompt += `
-1. Antes de usar Sheets, verifica las instrucciones específicas configuradas.
-2. Drive está disponible para acceso a archivos según las indicaciones.
-3. Usa el Sheet de base de datos para registrar información de usuarios cuando sea necesario.
-`;
-  } else if (plan === 'automatiza') {
-    superPrompt += `
-1. Antes de usar cualquier Sheet, verifica las instrucciones específicas de cada uno.
-2. Cuando uses imágenes, asegúrate de que sean relevantes para el contexto de la conversación.
-3. Para agendar citas, verifica los horarios disponibles antes de proponer horarios.
-4. Usa los prompts específicos de cada sheet personalizado cuando interactúes con ellos.
-5. Drive está disponible para acceso a archivos según las indicaciones.
-`;
-  } else if (plan === 'intelligence') {
-    superPrompt += `
-1. Antes de usar cualquier Sheet, verifica las instrucciones específicas de cada uno.
-2. Cuando uses imágenes, asegúrate de que sean relevantes para el contexto de la conversación.
-3. Para agendar citas, verifica los horarios disponibles antes de proponer horarios.
-4. Usa los prompts específicos de cada sheet personalizado cuando interactúes con ellos.
-5. Si necesitas información del usuario, extrae explícitamente las variables mencionados en los prompts específicos.
-6. Gmail está configurado para envío de correos según las opciones habilitadas.
-`;
-  }
-
-  // Guardar el super prompt en la configuración
-  config.superPrompt = superPrompt;
-  console.log('Super prompt generado para plan:', plan);
-  console.log('Super prompt generado:', superPrompt);
-  console.log('config.superPrompt asignado:', config.superPrompt);
-
-  // Validación de campos obligatorios (formato de chat)
   const requiredFields = {
     businessName: config.businessName,
     slug: config.slug,
@@ -660,17 +523,13 @@ ${integrationsConfig.functions.prompt}
   // Convertir camelCase a snake_case para el backend
   console.log('=== ANTES DE CONVERTIR A SNAKE_CASE ===');
   console.log('config completo:', config);
-  console.log('config.superPrompt:', config.superPrompt);
   console.log('config.integrations_config:', config.integrations_config);
   console.log('config.payment_plan:', config.payment_plan);
   console.log('config.payment_method:', config.payment_method);
   console.log('config.google_connected:', config.google_connected);
 
   // Actualizar configSnakeCase con valores completos
-  configSnakeCase.logo_url = config.logoUrl;
-  configSnakeCase.logo_size = config.logoSize;
-  configSnakeCase.glow_color = config.glowColor;
-  configSnakeCase.super_prompt = config.superPrompt;
+  configSnakeCase.super_prompt = configSnakeCase.super_prompt; // Ya se asignó arriba
   configSnakeCase.payment_plan = config.payment_plan;
   configSnakeCase.payment_method = config.payment_method;
   configSnakeCase.google_connected = config.google_connected;

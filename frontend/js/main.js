@@ -17,12 +17,18 @@ function updateAuthUI() {
   const authDropdown = document.getElementById('authDropdown');
   const userEmail = localStorage.getItem('userEmail');
 
-  if (authBtn && authDropdown) {
+  if (authBtn) {
     if (authToken) {
       authBtn.textContent = userEmail || 'Account';
-      authDropdown.style.display = 'block';
     } else {
       authBtn.textContent = 'Account';
+    }
+  }
+
+  if (authDropdown) {
+    if (authToken) {
+      authDropdown.style.display = 'block';
+    } else {
       authDropdown.style.display = 'none';
     }
   }
