@@ -434,6 +434,13 @@ async function createPage() {
     payment_status: config.payment_status || paymentConfig.paymentStatus || null
   };
 
+  // Generar SuperPrompt según el plan
+  const superPrompt = generateSuperPrompt({ integrations_config: config.integrations_config });
+  if (superPrompt) {
+    configSnakeCase.super_prompt = superPrompt;
+    console.log('SuperPrompt generado para el plan:', plan);
+  }
+
   // Si estamos configurando una página ya pagada, solo guardar y redirigir a myia-home
   if (isConfiguringUnpaidPage && editingAppId) {
     try {

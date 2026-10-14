@@ -389,37 +389,46 @@ function removeImage(index) {
   saveConfig();
 }
 
-// Generar super prompt para el plan 04
+// Generar super prompt según el plan
 function generateSuperPrompt(config) {
   const plan = localStorage.getItem('selectedPlan');
-  
-  if (plan !== 'intelligence') {
-    return null; // Solo plan 04 tiene super prompt
-  }
   
   const promptConfig = JSON.parse(localStorage.getItem('promptConfig') || '{}');
   const integrationsConfig = config.integrations_config || {};
   
-  let superPrompt = `# SUPER PROMPT - CRYSANTEM INTELLIGENCE
+  const planNames = {
+    responde: 'RESPONDE',
+    asiste: 'ASISTE',
+    automatiza: 'AUTOMATIZA',
+    intelligence: 'INTELLIGENCE'
+  };
+  
+  let superPrompt = `# SUPER PROMPT - CRYSANTEM ${planNames[plan] || plan.toUpperCase()}
 
 ## PROMPT BASE DEL USUARIO
 ${promptConfig.systemPrompt || 'Eres un asistente virtual amable y profesional.'}
 
+## FUNCIONES DE LA IA
+${integrationsConfig.functions?.prompt || 'No hay funciones específicas configuradas.'}
+`;
+
+  // Agregar Sheets (planes 02+)
+  if (plan === 'asiste' || plan === 'automatiza' || plan === 'intelligence') {
+    superPrompt += `
 ## INSTRUCCIONES PARA USAR SHEETS
 
 ### Base de Datos de Usuarios
 - Sheet ID: ${integrationsConfig.sheets?.dbId || 'No configurado'}
 - URL GET: ${integrationsConfig.sheets?.url || 'No configurado'}
-- Indicaciones: ${integrationsConfig.sheets?.instructions || 'No configurado'}
 `;
 
-  // Agregar sheets personalizados
-  if (integrationsConfig.sheets?.customSheets && integrationsConfig.sheets.customSheets.length > 0) {
-    superPrompt += `
+    // Agregar sheets personalizados (planes 03+)
+    if (integrationsConfig.sheets?.customSheets && integrationsConfig.sheets.customSheets.length > 0) {
+      superPrompt += `
 ### Sheets Personalizados
 `;
-    integrationsConfig.sheets.customSheets.forEach((sheet, index) => {
-      superPrompt += `
+      integrationsConfig.sheets.customSheets.forEach((sheet, index) => {
+        superPrompt += `
 #### Sheet ${index + 1}: ${sheet.title || 'Sin título'}
 - Sheet ID: ${sheet.id || 'No configurado'}
 - URL GET: ${sheet.urlGet || 'No configurado'}
@@ -428,28 +437,32 @@ ${promptConfig.systemPrompt || 'Eres un asistente virtual amable y profesional.'
 - Prompt específico:
 ${sheet.prompt || 'Sin prompt específico'}
 `;
-    });
+      });
+    }
   }
 
-  // Agregar imágenes
-  if (integrationsConfig.images?.uploaded && integrationsConfig.images.uploaded.length > 0) {
-    superPrompt += `
+  // Agregar imágenes (planes 03+)
+  if (plan === 'automatiza' || plan === 'intelligence') {
+    if (integrationsConfig.images?.uploaded && integrationsConfig.images.uploaded.length > 0) {
+      superPrompt += `
 ## INSTRUCCIONES PARA USAR IMÁGENES DEL USUARIO
 
 Las siguientes imágenes están disponibles para mostrar en las respuestas:
 `;
-    integrationsConfig.images.uploaded.forEach((img, index) => {
-      superPrompt += `
+      integrationsConfig.images.uploaded.forEach((img, index) => {
+        superPrompt += `
 ### Imagen ${index + 1}: ${img.name}
 - Descripción: ${img.description || 'Sin descripción'}
 - Uso: Usa esta imagen cuando el contexto sea relevante con "${img.description || img.name}"
 `;
-    });
+      });
+    }
   }
 
-  // Agregar horarios de calendar
-  if (integrationsConfig.calendar?.schedules) {
-    superPrompt += `
+  // Agregar horarios de calendar (planes 03+)
+  if (plan === 'automatiza' || plan === 'intelligence') {
+    if (integrationsConfig.calendar?.schedules) {
+      superPrompt += `
 ## HORARIOS DISPONIBLES
 
 - Zona horaria: ${integrationsConfig.calendar.timezone || 'UTC'}
@@ -457,27 +470,65 @@ Las siguientes imágenes están disponibles para mostrar en las respuestas:
 
 ### Disponibilidad por día:
 `;
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const dayNames = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
-    
-    days.forEach((day, index) => {
-      const schedule = integrationsConfig.calendar.schedules[day];
-      if (schedule && schedule.enabled) {
-        superPrompt += `- ${dayNames[index]}: ${schedule.start} - ${schedule.end}\n`;
-      } else {
-        superPrompt += `- ${dayNames[index]}: No disponible\n`;
-      }
-    });
+      const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      const dayNames = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+      
+      days.forEach((day, index) => {
+        const schedule = integrationsConfig.calendar.schedules[day];
+        if (schedule && schedule.enabled) {
+          superPrompt += `- ${dayNames[index]}: ${schedule.start} - ${schedule.end}\n`;
+        } else {
+          superPrompt += `- ${dayNames[index]}: No disponible\n`;
+        }
+      });
+    }
   }
 
+  // Agregar Gmail (plan 04)
+  if (plan === 'intelligence') {
+    superPrompt += `
+## CONFIGURACIÓN DE GMAIL
+
+- Gmail de envío: ${integrationsConfig.gmail?.sender || 'No configurado'}
+- Gmail de respuesta: ${integrationsConfig.gmail?.replyTo || 'No configurado'}
+- Asunto predeterminado: ${integrationsConfig.gmail?.subject || 'No configurado'}
+- Tipo de envío: ${integrationsConfig.gmail?.sendType || 'immediate'}
+- IA genera asunto: ${integrationsConfig.gmail?.aiSubject ? 'Sí' : 'No'}
+- IA genera cuerpo: ${integrationsConfig.gmail?.aiBody ? 'Sí' : 'No'}
+- IA decide adjuntos: ${integrationsConfig.gmail?.aiAttachments ? 'Sí' : 'No'}
+`;
+  }
+
+  // Reglas generales según el plan
   superPrompt += `
 ## REGLAS GENERALES
-1. Antes de usar cualquier Sheet, verifica las instrucciones específicas de cada uno.
+`;
+  
+  if (plan === 'responde') {
+    superPrompt += `1. Usa las funciones de la IA configuradas para responder a los usuarios.
+2. Sé conciso y directo en tus respuestas.
+3. Si no tienes información específica, ofrece ayuda general.`;
+  } else if (plan === 'asiste') {
+    superPrompt += `1. Usa el Sheet de base de datos para registrar y consultar información de usuarios.
+2. Antes de escribir en el Sheet, verifica la estructura correcta de los datos.
+3. Extrae las variables necesarias antes de escribir en el Sheet.
+4. Usa las funciones de la IA configuradas para responder a los usuarios.`;
+  } else if (plan === 'automatiza') {
+    superPrompt += `1. Antes de usar cualquier Sheet, verifica las instrucciones específicas de cada uno.
 2. Cuando uses imágenes, asegúrate de que sean relevantes para el contexto de la conversación.
 3. Para agendar citas, verifica los horarios disponibles antes de proponer horarios.
 4. Usa los prompts específicos de cada sheet personalizado cuando interactúes con ellos.
 5. Si necesitas información del usuario, extrae explícitamente las variables mencionadas en los prompts específicos.
-`;
+6. Usa las funciones de la IA configuradas para responder a los usuarios.`;
+  } else if (plan === 'intelligence') {
+    superPrompt += `1. Antes de usar cualquier Sheet, verifica las instrucciones específicas de cada uno.
+2. Cuando uses imágenes, asegúrate de que sean relevantes para el contexto de la conversación.
+3. Para agendar citas, verifica los horarios disponibles antes de proponer horarios.
+4. Usa los prompts específicos de cada sheet personalizado cuando interactúes con ellos.
+5. Si necesitas información del usuario, extrae explícitamente las variables mencionadas en los prompts específicos.
+6. Para enviar correos, usa la configuración de Gmail proporcionada.
+7. Usa las funciones de la IA configuradas para responder a los usuarios.`;
+  }
 
   return superPrompt;
 }
@@ -678,133 +729,51 @@ function addCustomSheetCard(sheetData = null) {
   updateCustomSheetsCount();
 }
 
-// Inicializar event listeners
-function initEventListeners() {
-  // Event listeners para inputs de Sheets (si existe)
-  const sheetsDbId = document.getElementById('sheetsDbId');
-  if (sheetsDbId) {
-    sheetsDbId.addEventListener('input', () => {
-      updateConfigStatus('sheets', sheetsDbId.value.trim() !== '');
-      // Generar URL automáticamente
-      const sheetId = sheetsDbId.value.trim();
-      const urlField = document.getElementById('sheetsUrl');
-      if (urlField && sheetId) {
-        urlField.value = `https://docs.google.com/spreadsheets/d/${sheetId}/edit`;
-      }
-      saveConfig();
-    });
-    
-    // Botón para agregar sheets personalizados
-    const addCustomSheetBtn = document.getElementById('addCustomSheetBtn');
-    if (addCustomSheetBtn) {
-      addCustomSheetBtn.addEventListener('click', () => {
-        addCustomSheetCard();
+// Event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  loadConfig();
+  
+  // Botón de continuar
+  const continueBtn = document.getElementById('continueBtn');
+  if (continueBtn) {
+    continueBtn.addEventListener('click', () => {
+      if (validateConfig()) {
         saveConfig();
-      });
-    }
+        window.location.href = 'myia-payment.html';
+      }
+    });
   }
   
-  // Event listeners para subida de imágenes (si existe)
-  const imageUpload = document.getElementById('imageUpload');
-  const imageInput = document.getElementById('imageInput');
-  
-  if (imageUpload && imageInput) {
-    imageUpload.addEventListener('click', () => imageInput.click());
-    imageUpload.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      imageUpload.style.borderColor = 'var(--green-main)';
-    });
-    imageUpload.addEventListener('dragleave', () => {
-      imageUpload.style.borderColor = 'var(--border)';
-    });
-    imageUpload.addEventListener('drop', (e) => {
-      e.preventDefault();
-      imageUpload.style.borderColor = 'var(--border)';
-      imageInput.files = e.dataTransfer.files;
-      handleImageUpload({ target: imageInput });
-    });
-    imageInput.addEventListener('change', handleImageUpload);
-  }
-  
-  // Event listeners para Gmail (si existe)
-  const gmailSender = document.getElementById('gmailSender');
-  if (gmailSender) {
-    gmailSender.addEventListener('input', () => {
-      updateConfigStatus('gmail', gmailSender.value.trim() !== '');
+  // Botón de volver
+  const backBtn = document.getElementById('backBtn');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
       saveConfig();
-    });
-    document.getElementById('gmailReplyTo').addEventListener('input', saveConfig);
-    document.getElementById('gmailSubject').addEventListener('input', saveConfig);
-    document.getElementById('gmailTemplate').addEventListener('input', saveConfig);
-    document.getElementById('gmailSendType').addEventListener('change', saveConfig);
-    document.getElementById('gmailAiSubject').addEventListener('change', saveConfig);
-    document.getElementById('gmailAiBody').addEventListener('change', saveConfig);
-    document.getElementById('gmailAiAttachments').addEventListener('change', saveConfig);
-  }
-  
-  // Event listeners para Calendar (si existe)
-  const calendarId = document.getElementById('calendarId');
-  if (calendarId) {
-    calendarId.addEventListener('input', () => {
-      updateConfigStatus('calendar', calendarId.value.trim() !== '');
-      saveConfig();
-    });
-    document.getElementById('calendarDuration').addEventListener('change', saveConfig);
-    document.getElementById('calendarTimezone').addEventListener('change', saveConfig);
-  }
-  
-  // Event listeners para Funciones de la IA (siempre existe)
-  const functionsPrompt = document.getElementById('functionsPrompt');
-  if (functionsPrompt) {
-    functionsPrompt.addEventListener('input', () => {
-      updateConfigStatus('functions', functionsPrompt.value.trim() !== '');
-      saveConfig();
+      window.location.href = 'myia-prompt.html';
     });
   }
   
-  // Botón de descarga de plantilla
+  // Descargar plantilla
   const downloadTemplateBtn = document.getElementById('downloadTemplateBtn');
   if (downloadTemplateBtn) {
     downloadTemplateBtn.addEventListener('click', downloadSheetsTemplate);
   }
   
-  // Botones de navegación
-  document.getElementById('backBtn').addEventListener('click', () => {
-    saveConfig();
-    window.location.href = 'myia-prompt.html';
-  });
-  
-  document.getElementById('continueBtn').addEventListener('click', () => {
-    if (validateConfig()) {
-      saveConfig();
-      // Nuevo flujo: después de integraciones, ir a OAuth (myia-oauth.html)
-      window.location.href = 'myia-oauth.html';
-    }
-  });
-}
-
-// Inicializar al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-  // Verificar si es coworker con plan 01 (saltar integraciones)
-  const isCoworker = localStorage.getItem('coworkerSkipOAuth') === 'true';
-  const selectedPlan = localStorage.getItem('selectedPlan');
-
-  if (isCoworker && selectedPlan === 'responde') {
-    console.log('Coworker con plan 01 - saltando integraciones');
-    // Guardar configuración vacía de integraciones
-    const emptyIntegrations = {
-      sheets: { dbId: '', url: '', writeUsers: false, customSheets: [] },
-      images: { uploaded: [] },
-      gmail: { sender: '', replyTo: '', subject: '', template: '', sendType: 'immediate', aiSubject: true, aiBody: true, aiAttachments: false },
-      calendar: { id: '', duration: 30, timezone: 'UTC', schedules: {} },
-      functions: { prompt: '' }
-    };
-    localStorage.setItem('integrationsConfig', JSON.stringify(emptyIntegrations));
-    // Redirigir a payment (que luego redirigirá a summary)
-    window.location.href = 'myia-payment.html';
-    return;
+  // Agregar sheet personalizado
+  const addCustomSheetBtn = document.getElementById('addCustomSheetBtn');
+  if (addCustomSheetBtn) {
+    addCustomSheetBtn.addEventListener('click', () => addCustomSheetCard());
   }
-
-  loadConfig();
-  initEventListeners();
+  
+  // Subida de imágenes
+  const imageInput = document.getElementById('imageInput');
+  if (imageInput) {
+    imageInput.addEventListener('change', handleImageUpload);
+  }
+  
+  // Funciones de la IA
+  const functionsPrompt = document.getElementById('functionsPrompt');
+  if (functionsPrompt) {
+    functionsPrompt.addEventListener('input', saveConfig);
+  }
 });
