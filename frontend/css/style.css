@@ -392,8 +392,6 @@ img {
 .nosotros-section .section-title,
 .hero .section-title,
 .myia-section .section-title,
-.demo-section .section-title,
-.portfolio-section .section-title,
 .contact-section .section-title {
   color: var(--text-light);
 }
@@ -401,10 +399,24 @@ img {
 .nosotros-section .section-subtitle,
 .hero .section-subtitle,
 .myia-section .section-subtitle,
-.demo-section .section-subtitle,
-.portfolio-section .section-subtitle,
 .contact-section .section-subtitle {
   color: var(--text-secondary);
+}
+
+/* Override text colors for beige sections */
+.plans-section .section-title,
+.demo-section .section-title,
+.portfolio-section .section-title,
+.faq-section .section-title {
+  color: var(--text-on-beige);
+}
+
+.plans-section .section-subtitle,
+.demo-section .section-subtitle,
+.portfolio-section .section-subtitle,
+.faq-section .section-subtitle {
+  color: var(--text-on-beige);
+  opacity: 0.8;
 }
 
 .section-header {
@@ -510,6 +522,12 @@ img {
 .navbar-logo-img {
   height: 40px;
   width: auto;
+}
+
+.navbar-logo-app {
+  height: 32px;
+  width: auto;
+  margin-left: 8px;
 }
 }
 
@@ -644,40 +662,7 @@ img {
   background-color: var(--bg-dark);
 }
 
-.hero::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('../images/banner_crysantem.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.25;
-  z-index: 0;
-  filter: brightness(1.05) saturate(1.1) contrast(1.05);
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(16, 18, 17, 0.95) 0%,
-    rgba(16, 18, 17, 0.9) 40%,
-    rgba(16, 18, 17, 0.98) 70%,
-    var(--bg-dark) 100%
-  );
-  z-index: 1;
-}
-
-/* Efectos glow eliminados - estilo editorial sin decoraciones innecesarias */
+/* Fondo sólido negro carbón - sin imagen ni gradientes */
 
 .hero-content {
   position: relative;
@@ -741,7 +726,8 @@ img {
 .demo-section {
   position: relative;
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .demo-container {
@@ -752,19 +738,19 @@ img {
 }
 
 .demo-chat {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-beige);
   border-radius: var(--border-radius-md);
   overflow: hidden;
 }
 
 .demo-header {
-  background: var(--bg-main);
+  background: var(--bg-tertiary);
   padding: 16px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-beige);
 }
 
 .demo-header-icon {
