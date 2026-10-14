@@ -367,6 +367,12 @@ router.post('/config', generalLimiter, myiaConfigValidation, async (req, res) =>
       is_active: config.is_active,
       integrations_config: config.integrations_config || null,
       super_prompt: config.super_prompt || null,
+      // Sheets URLs (columnas individuales para n8n)
+      sheets_database_url: config.integrations_config?.sheets?.url || null,
+      sheets_custom_1_url: config.integrations_config?.sheets?.customSheets?.[0]?.url || null,
+      sheets_custom_2_url: config.integrations_config?.sheets?.customSheets?.[1]?.url || null,
+      // Gmail (columna individual para n8n)
+      gmail_sender_email: config.integrations_config?.gmail?.sender || null,
       // Pagos
       payment_plan: config.payment_plan,
       payment_method: config.payment_method,
@@ -400,6 +406,12 @@ router.post('/config', generalLimiter, myiaConfigValidation, async (req, res) =>
       is_active: config.is_active,
       integrations_config: config.integrations_config || null,
       super_prompt: config.super_prompt || null,
+      // Sheets URLs (columnas individuales para n8n)
+      sheets_database_url: config.integrations_config?.sheets?.url || null,
+      sheets_custom_1_url: config.integrations_config?.sheets?.customSheets?.[0]?.url || null,
+      sheets_custom_2_url: config.integrations_config?.sheets?.customSheets?.[1]?.url || null,
+      // Gmail (columna individual para n8n)
+      gmail_sender_email: config.integrations_config?.gmail?.sender || null,
       payment_plan: config.payment_plan || null,
       payment_method: config.payment_method || null,
       payment_status: config.payment_status || null,
