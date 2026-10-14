@@ -312,8 +312,8 @@ img {
 .nosotros-section {
   position: relative;
   padding: var(--spacing-3xl) 0;
-  background-color: var(--bg-secondary);
-  color: var(--text-on-beige);
+  background-color: var(--bg-main);
+  color: var(--text-light);
 }
 
 .nosotros-grid {
@@ -384,28 +384,28 @@ img {
 .hero .section-title,
 .plans-section .section-title,
 .portfolio-section .section-title,
-.faq-section .section-title {
+.nosotros-section .section-title {
   color: var(--text-light);
 }
 
 .hero .section-subtitle,
 .plans-section .section-subtitle,
 .portfolio-section .section-subtitle,
-.faq-section .section-subtitle {
+.nosotros-section .section-subtitle {
   color: var(--text-secondary);
 }
 
 /* Override text colors for beige sections */
 .demo-section .section-title,
 .myia-section .section-title,
-.nosotros-section .section-title,
+.faq-section .section-title,
 .contact-section .section-title {
   color: var(--text-on-beige);
 }
 
 .demo-section .section-subtitle,
 .myia-section .section-subtitle,
-.nosotros-section .section-subtitle,
+.faq-section .section-subtitle,
 .contact-section .section-subtitle {
   color: var(--text-on-beige);
   opacity: 0.8;
@@ -1211,8 +1211,8 @@ img {
 }
 
 .faq-section {
-  background: var(--bg-main);
-  color: var(--text-light);
+  background: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .faq-list {
