@@ -237,6 +237,11 @@ a {
 
 /* Los estilos del navbar están en css/style.css (navbar, navbar-logo, etc.) */
 
+/* Asegurar que el hero tenga suficiente padding para el navbar */
+.hero {
+  padding-top: 160px !important;
+}
+
 /* --------------------------------------------------------------------------
    6. HERO SECTION
    -------------------------------------------------------------------------- */

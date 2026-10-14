@@ -29,7 +29,6 @@
     <div class="container navbar-content">
       <a href="index.html" class="navbar-logo">
         <img src="images/New_Logo_White.png" alt="Logo de Crysantem - Agentes de Inteligencia Artificial" class="navbar-logo-img" width="120" height="63">
-        <img src="images/logo_USA_ESTE.png" alt="Logo de aplicación web Crysantem" class="navbar-logo-app" width="32" height="32">
         <span>CRYSANTEM</span>
       </a>
       <button class="navbar-toggle" aria-label="Abrir menú" aria-expanded="false">
@@ -571,6 +570,42 @@
   <script src="js/config.js?v=7.3"></script>
   <script src="js/markdown-renderer.js?v=7.3"></script>
   <script src="js/main.js"></script>
+
+  <!-- Script para prevenir errores de initNavbar en landing -->
+  <script>
+    // Prevenir que main.js initNavbar falle si faltan elementos
+    document.addEventListener('DOMContentLoaded', () => {
+      // Verificar que existan los elementos necesarios antes de cargar main.js
+      const authBtn = document.getElementById('authBtn');
+      const userEmailDisplay = document.getElementById('userEmailDisplay');
+      
+      if (!userEmailDisplay) {
+        // Crear userEmailDisplay si no existe para evitar error en updateAuthUI
+        const authContainer = document.querySelector('.navbar-auth');
+        if (authContainer) {
+          const dropdown = document.createElement('div');
+          dropdown.id = 'authDropdown';
+          dropdown.className = 'navbar-dropdown';
+          dropdown.style.display = 'none';
+          
+          const emailDisplay = document.createElement('div');
+          emailDisplay.id = 'userEmailDisplay';
+          emailDisplay.className = 'navbar-dropdown-item';
+          emailDisplay.style.cursor = 'default';
+          emailDisplay.style.fontWeight = '500';
+          
+          const logoutBtn = document.createElement('button');
+          logoutBtn.id = 'logoutBtn';
+          logoutBtn.className = 'navbar-dropdown-item navbar-dropdown-logout';
+          logoutBtn.textContent = 'Cerrar sesión';
+          
+          dropdown.appendChild(emailDisplay);
+          dropdown.appendChild(logoutBtn);
+          authContainer.appendChild(dropdown);
+        }
+      }
+    });
+  </script>
 
   <!-- SCRIPT PARA DEMO FUNCIONAL -->
   <script>
