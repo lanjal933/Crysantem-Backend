@@ -752,21 +752,14 @@ img {
 }
 
 .demo-chat {
-  background: linear-gradient(135deg, #FAFAFA 0%, #F0F0F0 100%);
+  background: var(--bg-tertiary);
   border: 1px solid var(--border);
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-md);
   overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  transition: box-shadow var(--transition);
-}
-
-.demo-chat:hover {
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
-  border-color: var(--border-light);
 }
 
 .demo-header {
-  background: #FFFFFF;
+  background: var(--bg-main);
   padding: 16px 20px;
   display: flex;
   align-items: center;
