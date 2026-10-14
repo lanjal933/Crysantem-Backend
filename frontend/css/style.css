@@ -681,6 +681,16 @@ img {
   border-radius: 50%;
 }
 
+.capability-number {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--green-main);
+  margin-bottom: var(--spacing-md);
+  font-family: var(--font-display);
+  line-height: 1;
+  opacity: 0.25;
+}
+
 .capability-card:nth-child(2)::before {
   background: var(--blue-accent);
 }
@@ -779,6 +789,11 @@ img {
   box-shadow: var(--shadow-lg);
 }
 
+.business-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-md);
+}
+
 .business-title {
   font-size: 1.3rem;
   font-weight: 700;
@@ -840,6 +855,16 @@ img {
   font-size: 1.5rem;
   color: var(--green-main);
   font-weight: 700;
+}
+
+.why-number {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--green-main);
+  margin-bottom: var(--spacing-md);
+  font-family: var(--font-display);
+  line-height: 1;
+  opacity: 0.25;
 }
 
 .why-card:hover {
