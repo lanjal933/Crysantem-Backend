@@ -36,7 +36,8 @@ async function loadUserApps() {
     console.log('Token encontrado en localStorage');
 
     // Obtener userId del token
-    const responseProfile = await fetch('https://crysantem-backend.onrender.com/api/auth/profile', {
+    const API_URL = window.API_CONFIG?.backendUrl || 'https://crysantem-backend.onrender.com';
+    const responseProfile = await fetch(`${API_URL}/api/auth/profile`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
@@ -44,6 +45,10 @@ async function loadUserApps() {
 
     if (responseProfile.status === 403) {
       console.error('Token inválido o expirado');
+      // Limpiar token y datos de sesión
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userEmail');
       showAuthRequired('Tu sesión ha expirado. Por favor inicia sesión nuevamente.');
       return;
     }
@@ -57,7 +62,7 @@ async function loadUserApps() {
     const userId = profileResult.user.id;
     localStorage.setItem('userId', userId);
 
-    const response = await fetch(`https://crysantem-backend.onrender.com/api/myia/user-apps/${userId}`, {
+    const response = await fetch(`${API_URL}/api/myia/user-apps/${userId}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('authToken')}`
       }

@@ -111,6 +111,8 @@ function logout() {
   authToken = null;
   currentUser = null;
   localStorage.removeItem('authToken');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('userEmail');
   updateAuthUI();
   showNotification('Sesión cerrada', 'success');
   if (window.location.pathname === '/dashboard') {
