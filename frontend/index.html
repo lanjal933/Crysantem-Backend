@@ -1,528 +1,652 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- 1. METADATOS CRÍTICOS -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crysantem | MyIA - Asistentes de IA para tu Web</title>
+  <meta name="description" content="Configurá un asistente de inteligencia artificial para tu página web, adaptado a tu negocio y a la información que querés ofrecer a tus clientes.">
   
-  <!-- Canonical URL -->
-  <link rel="canonical" href="https://crysantem.tech/">
-  
-  <!-- Favicon y Apple Touch Icon -->
+  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="images/apple-touch-icon-152.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="images/apple-touch-icon-120.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="images/android-icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="images/android-icon-512.png">
-  <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="images/mstile-144.png">
   
-  <!-- SEO Básico -->
-  <title>Crysantem | Agentes de IA para Atención al Cliente | Automatización</title>
-  <meta name="description" content="Crysantem desarrolla agentes de IA personalizados para automatizar la atención al cliente 24/7. Integración con Google Calendar, Drive y Gmail. Planes desde $60.000/mes.">
-  <meta name="keywords" content="agentes de IA, chatbot, atención al cliente, automatización, inteligencia artificial, Google Calendar, Gmail, chatbot Argentina">
-  <meta name="author" content="Crysantem">
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-  
-  <!-- Open Graph (Facebook, LinkedIn) -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://crysantem.tech/">
-  <meta property="og:title" content="Crysantem | Agentes de IA para Atención al Cliente">
-  <meta property="og:description" content="Automatiza la atención al cliente con agentes de IA personalizados. Integración con Google Calendar, Drive y Gmail. Planes desde $60.000/mes.">
-  <meta property="og:image" content="https://crysantem.tech/images/New_Logo_White.png">
-  <meta property="og:image:alt" content="Logo de Crysantem - Agentes de Inteligencia Artificial">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="es_AR">
-  <meta property="og:site_name" content="Crysantem">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="https://crysantem.tech/">
-  <meta name="twitter:title" content="Crysantem | Agentes de IA para Atención al Cliente">
-  <meta name="twitter:description" content="Automatiza la atención al cliente con agentes de IA personalizados. Integración con Google Calendar, Drive y Gmail.">
-  <meta name="twitter:image" content="https://crysantem.tech/images/New_Logo_White.png">
-  <meta name="twitter:image:alt" content="Logo de Crysantem - Agentes de Inteligencia Artificial">
-  
-  <!-- Schema.org JSON-LD para Rich Snippets -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Crysantem",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "Offer",
-      "price": "60000",
-      "priceCurrency": "ARS",
-      "priceValidUntil": "2027-12-31",
-      "availability": "https://schema.org/InStock"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "ratingCount": "45"
-    },
-    "description": "Crysantem desarrolla agentes de IA personalizados para automatizar la atención al cliente 24/7. Integración con Google Calendar, Drive y Gmail.",
-    "url": "https://crysantem.tech/"
-  }
-  </script>
-  
-  <!-- Preconnect para recursos externos -->
+  <!-- Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net">
   
-  <!-- Fuentes: Sora para titulares, Inter para textos -->
+  <!-- Tipografías: Sora e Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Sin fuentes externas - usar Arial nativo -->
+  <!-- CSS exclusivo de la landing -->
+  <link rel="stylesheet" href="css/landing.css?v=1.0">
   
-  <!-- CSS crítico inline (para mejorar LCP) -->
-  <style>
-    /* Estilos mínimos para evitar FOUC */
-    body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    .hero-title { font-family: 'Space Grotesk', sans-serif; }
-  </style>
-  
-  <!-- CSS principal -->
+  <!-- CSS principal para componentes compartidos (auth, etc) -->
   <link rel="stylesheet" href="css/style.css?v=8.2">
-  
-  <!-- Scripts deferidos para no bloquear el render -->
-  <script src="js/config.js?v=7.3" defer></script>
-  <script src="js/chart.umd.min.js?v=7.3" defer></script>
-  
-  <!-- Tapfiliate Tracking Script (se cargará dinámicamente solo si el usuario acepta cookies) -->
-  <script type="text/javascript" id="tapfiliate-script" data-src defer>
-    // Este script se carga dinámicamente desde cookie-consent.js
-  </script>
 </head>
 <body>
-  <!-- 2. ESTRUCTURA SEMÁNTICA DEL BODY -->
   
-  <!-- Header de navegación -->
-  <header role="banner">
-    <nav class="navbar" role="navigation" aria-label="Navegación principal">
-      <div class="container navbar-content">
-        <a href="index.html" class="navbar-logo" aria-label="Ir a la página principal">
-          <img src="images/New_Logo_White.png" alt="Logo de Crysantem - Agentes de Inteligencia Artificial" class="navbar-logo-img" width="120" height="63">
-          <img src="images/logo_USA_ESTE.png" alt="Logo de aplicación web Crysantem" class="navbar-logo-app" width="32" height="32">
-          <span>CRYSANTEM</span>
-        </a>
-        <button class="navbar-toggle" aria-label="Abrir menú" aria-expanded="false">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-        <div class="navbar-links">
-          <a href="#que-es" class="navbar-link">MyIA</a>
-          <a href="#pasos" class="navbar-link">Cómo funciona</a>
-          <a href="#planes" class="navbar-link">Planes</a>
-          <a href="#contacto" class="navbar-link">Contacto</a>
-          <a href="myia-coworkers.html" class="navbar-link" id="coworkersLink" style="display: none;">COWORKERS</a>
-          <div class="navbar-auth">
-            <button id="authBtn" class="navbar-auth-btn" aria-label="Cuenta de usuario">Account</button>
-            <div id="authDropdown" class="navbar-dropdown" role="menu" aria-label="Menú de cuenta">
-              <div id="userEmailDisplay" class="navbar-dropdown-item" style="cursor: default; font-weight: 500;"></div>
-              <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
-            </div>
+  <!-- NAV -->
+  <nav class="landing-nav">
+    <div class="landing-nav-content">
+      <a href="index.html" class="landing-logo">
+        <img src="images/New_Logo_White.png" alt="Crysantem" style="height: 40px;">
+        <span style="font-size: 1.3rem;">CRYSANTEM</span>
+      </a>
+      <div class="landing-nav-links">
+        <a href="#como-funciona" class="landing-nav-link">Cómo funciona</a>
+        <a href="#demo" class="landing-nav-link">Demo</a>
+        <a href="#planes" class="landing-nav-link">Planes</a>
+        <a href="#faq" class="landing-nav-link">FAQ</a>
+        <a href="#contacto" class="landing-nav-link">Contacto</a>
+        <div class="navbar-auth">
+          <button id="authBtn" class="landing-nav-cta">Account</button>
+          <div id="authDropdown" class="navbar-dropdown" role="menu" aria-label="Menú de cuenta">
+            <div id="userEmailDisplay" class="navbar-dropdown-item" style="cursor: default; font-weight: 500;"></div>
+            <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
           </div>
         </div>
       </div>
-    </nav>
-  </header>
+      <button class="landing-nav-toggle" aria-label="Menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
 
-  <!-- Contenido principal -->
-  <main role="main">
-    
-    <!-- Hero Section - H1 único de la página -->
-    <section id="hero" class="hero section" aria-labelledby="hero-title">
-      <div class="container hero-content">
-        <div class="hero-left fade-in-up">
-          <p class="hero-pretitle">MYIA</p>
-          <h1 id="hero-title" class="hero-title">
-            Tu chatbot<br>en minutos
-          </h1>
-          <p class="hero-subtitle">
-            Configurá un asistente de IA para tu página web sin programar. Atendé clientes 24/7 mientras crecés tu negocio.
-          </p>
-          <div class="hero-cta">
-            <a href="myia-home.html" class="btn btn-primary">Crear mi chatbot</a>
-            <a href="#demo" class="btn btn-secondary">Ver demo</a>
+  <!-- SECTION 1: HERO -->
+  <section class="hero section bg-black-gradient" id="hero">
+    <div class="container hero-content">
+      <div class="hero-left fade-in">
+        <p class="hero-pretitle">MYIA · ASISTENTES DE IA PARA TU WEB</p>
+        <h1 class="hero-title">Tu agente de IA barato, rápido y seguro.</h1>
+        <p class="hero-subtitle">Configurá un asistente de inteligencia artificial para tu página web, adaptado a tu negocio y a la información que querés ofrecer a tus clientes.</p>
+        <div class="hero-cta">
+          <a href="myia-home.html" class="btn btn-primary">Descubrir MyIA</a>
+          <a href="#demo" class="btn btn-secondary">Ver demo</a>
+        </div>
+      </div>
+      <div class="hero-right fade-in-right delay-2">
+        <div class="hero-visual">
+          <img src="images/Logo_PNG_USAR.png" alt="Crysantem MyIA" style="width: 100%; max-width: 500px; height: auto; border-radius: var(--radius-xl); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: EL PROBLEMA -->
+  <section class="section problem-section" id="problema">
+    <div class="container problem-content">
+      <h2 class="fade-in">Tu web ya informa. Ahora puede conversar.</h2>
+      <p class="section-subtitle fade-in delay-1">Cuando un visitante tiene una duda, encontrar la respuesta no siempre es fácil. MyIA te permite ofrecer una experiencia conversacional para orientar a las personas que visitan tu página.</p>
+      
+      <div class="problem-examples">
+        <div class="problem-example fade-in delay-2">
+          <div class="problem-example-icon">1</div>
+          <div class="problem-example-content">
+            <h4>Información sobre servicios</h4>
+            <p>El asistente responde consultas sobre lo que ofrecés de forma clara y directa.</p>
           </div>
         </div>
-        <div class="hero-right fade-in-up delay-2">
-          <div class="hero-visual">
-            <div class="hero-chat-preview">
-              <div class="hero-chat-header">
-                <div class="hero-chat-avatar">M</div>
-                <div class="hero-chat-info">
-                  <div class="hero-chat-name">Mi Asistente</div>
-                  <div class="hero-chat-status">Online</div>
-                </div>
-              </div>
-              <div class="hero-chat-messages">
-                <div class="hero-message hero-message-ai">
-                  ¡Hola! ¿En qué puedo ayudarte hoy?
-                </div>
-                <div class="hero-message hero-message-user">
-                  Necesito información sobre tus servicios
-                </div>
-                <div class="hero-message hero-message-ai">
-                  Claro, ofrecemos soluciones de IA personalizadas para tu negocio. ¿Te gustaría saber más?
-                </div>
-              </div>
-              <div class="hero-chat-input">
-                <div class="hero-input-placeholder">Escribí un mensaje...</div>
-              </div>
-            </div>
+        <div class="problem-example fade-in delay-3">
+          <div class="problem-example-icon">2</div>
+          <div class="problem-example-content">
+            <h4>Preguntas frecuentes</h4>
+            <p>Horarios, ubicación, formas de contacto y datos que los visitantes buscan con frecuencia.</p>
+          </div>
+        </div>
+        <div class="problem-example fade-in delay-4">
+          <div class="problem-example-icon">3</div>
+          <div class="problem-example-content">
+            <h4>Orientación inicial</h4>
+            <p>Guía a potenciales clientes hacia la información más relevante para ellos.</p>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Sección: ¿Qué es Crysantem MyIA? -->
-    <section id="que-es" class="myia-intro-section section" aria-labelledby="que-es-title">
-      <div class="container">
-        <div class="section-header">
-          <h2 id="que-es-title" class="section-title fade-in-up">Configurá tu asistente sin código</h2>
-          <p class="section-subtitle fade-in-up delay-1">
-            MyIA te permite crear un chatbot personalizado para tu web en minutos. Definí su apariencia, comportamiento y respuesta.
-          </p>
+  <!-- SECTION 3: CÓMO FUNCIONA MYIA -->
+  <section class="section how-section bg-black-gradient bg-black-variant-1" id="como-funciona">
+    <div class="container how-content">
+      <div class="how-steps">
+        <div class="how-step active fade-in" data-step="1">
+          <span class="how-step-number">01</span>
+          <h3>Configurá</h3>
+          <p>Personalizá las opciones disponibles para tu página y tu negocio.</p>
         </div>
-        <div class="myia-preview-container fade-in-up delay-2">
-          <div class="myia-preview-large">
-            <div class="myia-preview-window">
-              <div class="myia-preview-sidebar">
-                <div class="preview-nav-item active">Configuración</div>
-                <div class="preview-nav-item">Apariencia</div>
-                <div class="preview-nav-item">Integraciones</div>
+        <div class="how-step fade-in delay-1" data-step="2">
+          <span class="how-step-number">02</span>
+          <h3>Prepará</h3>
+          <p>Definí la información y el comportamiento del asistente según las capacidades reales del producto.</p>
+        </div>
+        <div class="how-step fade-in delay-2" data-step="3">
+          <span class="how-step-number">03</span>
+          <h3>Comprobá</h3>
+          <p>Revisá la experiencia resultante antes de compartirla.</p>
+        </div>
+      </div>
+      <div class="how-demo fade-in-right delay-3">
+        <div class="how-demo-window">
+          <div class="how-demo-state config" id="demoState">
+            <!-- El contenido cambiará según el scroll -->
+            <div style="display: flex; flex-direction: column; gap: 1rem; height: 100%; justify-content: center;">
+              <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid var(--color-border-dark);">
+                <div style="font-size: 0.8rem; color: var(--color-text-secondary-dark); margin-bottom: 0.5rem;">Nombre del asistente</div>
+                <div style="color: var(--color-text-dark);">Mi Asistente</div>
               </div>
-              <div class="myia-preview-main">
-                <div class="preview-header">
-                  <span>Configurar asistente</span>
-                </div>
-                <div class="preview-form">
-                  <div class="preview-field">
-                    <label>Nombre del asistente</label>
-                    <div class="preview-input">Mi Asistente</div>
-                  </div>
-                  <div class="preview-field">
-                    <label>Mensaje de bienvenida</label>
-                    <div class="preview-input">¡Hola! ¿En qué puedo ayudarte?</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sección: Crealo en tres pasos -->
-    <section id="pasos" class="steps-section section" aria-labelledby="pasos-title">
-      <div class="container">
-        <h2 id="pasos-title" class="section-title fade-in-up">Tres pasos para tu asistente</h2>
-        <div class="steps-grid">
-          <div class="step-card fade-in-up delay-1">
-            <div class="step-number">01</div>
-            <h3 class="step-title">Configurá</h3>
-            <p class="step-description">Definí nombre, apariencia y comportamiento</p>
-          </div>
-          <div class="step-card fade-in-up delay-2">
-            <div class="step-number">02</div>
-            <h3 class="step-title">Informá</h3>
-            <p class="step-description">Cargá los datos de tu negocio</p>
-          </div>
-          <div class="step-card fade-in-up delay-3">
-            <div class="step-number">03</div>
-            <h3 class="step-title">Publicá</h3>
-            <p class="step-description">Integrá el chatbot en tu web</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Plans Section - H2 -->
-    <section id="planes" class="plans-section section" aria-labelledby="plans-title">
-      <div class="container">
-        <h2 id="plans-title" class="section-title fade-in-up">Planes</h2>
-        <p class="section-subtitle fade-in-up delay-1">
-          Elegí el nivel de automatización para tu negocio
-        </p>
-        <div class="plans-grid">
-          <!-- Plan 01 - H3 -->
-          <article class="plan-card fade-in-up delay-1">
-            <div class="plan-number">01</div>
-            <h3 class="plan-name">Responde</h3>
-            <div class="plan-price">
-              <div class="plan-price-monthly">$49.000 <span>/ mes</span></div>
-            </div>
-            <p class="plan-features-count">1.000 mensajes</p>
-            <ul class="plan-features">
-              <li>Atención básica 24/7</li>
-              <li>Web, Telegram, Discord</li>
-            </ul>
-            <a href="myia-home.html" class="btn btn-secondary btn-full">Comenzar</a>
-          </article>
-
-          <!-- Plan 02 - H3 -->
-          <article class="plan-card fade-in-up delay-2">
-            <div class="plan-number">02</div>
-            <h3 class="plan-name">Asiste</h3>
-            <div class="plan-price">
-              <div class="plan-price-monthly">$79.000 <span>/ mes</span></div>
-            </div>
-            <p class="plan-features-count">2.500 mensajes</p>
-            <ul class="plan-features">
-              <li>Google Sheets</li>
-              <li>Markdown enriquecido</li>
-            </ul>
-            <a href="myia-home.html" class="btn btn-secondary btn-full">Comenzar</a>
-          </article>
-
-          <!-- Plan 03 - H3 -->
-          <article class="plan-card featured fade-in-up delay-3">
-            <div class="plan-badge">RECOMENDADO</div>
-            <div class="plan-number">03</div>
-            <h3 class="plan-name">Automatiza</h3>
-            <div class="plan-price">
-              <div class="plan-price-monthly">$125.000 <span>/ mes</span></div>
-            </div>
-            <p class="plan-features-count">5.000 mensajes</p>
-            <ul class="plan-features">
-              <li>Google Calendar</li>
-              <li>Gestión de citas</li>
-              <li>Gráficos IA</li>
-            </ul>
-            <a href="myia-home.html" class="btn btn-primary btn-full">Comenzar</a>
-          </article>
-
-          <!-- Plan 04 - H3 -->
-          <article class="plan-card premium fade-in-up delay-4">
-            <div class="plan-badge" style="background: var(--purple-accent);">PREMIUM</div>
-            <div class="plan-number">04</div>
-            <h3 class="plan-name">Enterprise</h3>
-            <div class="plan-price">
-              <div class="plan-price-monthly">Personalizado</div>
-            </div>
-            <p class="plan-features-count">A medida</p>
-            <ul class="plan-features">
-              <li>Gmail integrado</li>
-              <li>Soporte dedicado</li>
-              <li>Integraciones custom</li>
-            </ul>
-            <a href="#contacto" class="btn btn-secondary btn-full">Contactar</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sección: ¿Qué puede hacer tu chatbot? -->
-    <section id="que-puede-hacer" class="capabilities-section section" aria-labelledby="capabilities-title">
-      <div class="container">
-        <h2 id="capabilities-title" class="section-title fade-in-up">Atención automática 24/7</h2>
-        <div class="capabilities-grid">
-          <div class="capability-card fade-in-up delay-1">
-            <div class="capability-number">01</div>
-            <h3 class="capability-title">Consultas frecuentes</h3>
-            <p class="capability-description">Horarios, ubicación, datos de contacto</p>
-          </div>
-          <div class="capability-card fade-in-up delay-2">
-            <div class="capability-number">02</div>
-            <h3 class="capability-title">Fuera de horario</h3>
-            <p class="capability-description">Disponible cuando no estés conectado</p>
-          </div>
-          <div class="capability-card fade-in-up delay-3">
-            <div class="capability-number">03</div>
-            <h3 class="capability-title">Personalizado</h3>
-            <p class="capability-description">Adaptado a tu marca y negocio</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- MyIA Section - H2 -->
-    <section id="myia" class="myia-section section" aria-labelledby="myia-title">
-      <div class="container">
-        <div class="myia-content">
-          <div class="myia-text">
-            <h2 id="myia-title" class="section-title fade-in-up">Crysantem</h2>
-            <p class="section-subtitle fade-in-up delay-1">
-              La tecnología tiene sentido cuando resuelve problemas reales.
-            </p>
-            <p class="myia-description fade-in-up delay-2">
-              En Crysantem desarrollamos soluciones digitales que ayudan a los negocios a mejorar su atención y aprovechar mejor su tiempo.
-            </p>
-            <p class="myia-description fade-in-up delay-3">
-              Creemos que incorporar inteligencia artificial no debería exigir que cada empresa construya su propio sistema desde cero. Por eso trabajamos en herramientas que simplifican la configuración de asistentes y acercan la automatización a quienes necesitan resultados prácticos.
-            </p>
-            <p class="myia-description fade-in-up delay-4">
-              MyIA forma parte de esa visión: una plataforma para crear experiencias conversacionales adaptadas a cada negocio, con una configuración accesible y herramientas para personalizar el resultado.
-            </p>
-            <p class="myia-highlight fade-in-up delay-5">No se trata de incorporar tecnología por moda. Se trata de encontrar una manera más práctica de trabajar.</p>
-            <a href="myia-home.html" class="btn btn-primary btn-large fade-in-up delay-5">Comenzar</a>
-          </div>
-          <div class="myia-visual fade-in-right delay-3">
-            <div class="myia-preview" role="img" aria-label="Vista previa de la interfaz MyIA">
-              <div class="myia-preview-header">
-                <div class="myia-preview-dots" aria-hidden="true">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </div>
-              <div class="myia-preview-body">
-                <div class="myia-preview-chat">
-                  <div class="myia-preview-message myia-preview-message-ai">
-                    <div class="myia-preview-avatar" aria-hidden="true">AI</div>
-                    <div class="myia-preview-bubble">
-                      ¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?
-                    </div>
-                  </div>
-                  <div class="myia-preview-message myia-preview-message-user">
-                    <div class="myia-preview-bubble">
-                      Necesito información sobre tus servicios
-                    </div>
-                  </div>
-                </div>
+              <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid var(--color-border-dark);">
+                <div style="font-size: 0.8rem; color: var(--color-text-secondary-dark); margin-bottom: 0.5rem;">Mensaje de bienvenida</div>
+                <div style="color: var(--color-text-dark);">¡Hola! ¿En qué puedo ayudarte?</div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Contact Section - H2 -->
-    <section id="contacto" class="contact-section section" aria-labelledby="contact-title">
-      <div class="container contact-content">
-        <h2 id="contact-title" class="contact-title fade-in-up">¿Listo para empezar?</h2>
-        <p class="contact-text fade-in-up delay-1">
-          Elegí tu plan y configurá tu asistente en minutos.
-        </p>
-        <div class="contact-actions fade-in-up delay-2">
-          <a href="#planes" class="btn btn-primary">Ver planes</a>
-          <a href="https://wa.me/13237093568" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Contactar</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Llamada a la acción final -->
-    <section id="cta-final" class="cta-final-section section" aria-labelledby="cta-final-title">
-      <div class="container">
-        <p class="cta-pretitle fade-in-up">MYIA · CRYSANTEM</p>
-        <h2 id="cta-final-title" class="cta-title fade-in-up delay-1">Tu negocio merece una mejor forma de atender.</h2>
-        <p class="cta-description fade-in-up delay-2">
-          Creá un asistente adaptado a tu marca y empezá a explorar lo que la inteligencia artificial puede hacer por tu negocio.
-        </p>
-        <a href="myia-home.html" class="btn btn-primary btn-large fade-in-up delay-3">Empezar con MyIA ↗</a>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer" role="contentinfo">
+  <!-- SECTION 4: PERSONALIZACIÓN -->
+  <section class="section bg-beige" id="personalizacion">
     <div class="container">
-      <div class="footer-content">
-        <h3 class="footer-title">Crysantem</h3>
-        <p class="footer-subtitle">Agentes de IA para atención y automatización.</p>
-        <div class="footer-sections">
-          <div class="footer-section">
-            <h4>Links</h4>
-            <a href="#que-es">MyIA</a>
-            <a href="#pasos">Cómo funciona</a>
-            <a href="#planes">Planes</a>
-            <a href="#contacto">Contacto</a>
-          </div>
-          <div class="footer-section">
-            <h4>Canales</h4>
-            <a href="https://wa.me/13237093568" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-            <a href="#" target="_blank">Telegram</a>
-            <a href="#" target="_blank">Discord</a>
-          </div>
-          <div class="footer-section">
-            <h4>Legal</h4>
-            <a href="terminos-condiciones.html">Términos y Condiciones</a>
-            <a href="#">Política de Privacidad</a>
-            <a href="politica-cookies.html">Política de Cookies</a>
-            <a href="politicas-google.html">Política de Google</a>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3xl); align-items: center;">
+        <div class="fade-in-left">
+          <h2>Una experiencia que encaja con tu negocio.</h2>
+          <p class="section-subtitle">Adaptá la presentación de tu página y de tu asistente a tu identidad, utilizando las opciones de personalización disponibles en MyIA.</p>
+        </div>
+        <div class="fade-in-right delay-2">
+          <div style="background: var(--color-white-warm); border: 1px solid var(--color-border-light); border-radius: var(--radius-xl); padding: var(--space-lg); box-shadow: 0 20px 40px rgba(0,0,0,0.1);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div style="width: 48px; height: 48px; background: var(--color-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-black-primary); font-weight: 600;">M</div>
+              <div>
+                <div style="font-weight: 600; color: var(--color-text-light);">Mi Asistente</div>
+                <div style="font-size: 0.85rem; color: var(--color-text-secondary-light);">Personalizado</div>
+              </div>
+            </div>
+            <div style="padding: 1rem; background: var(--color-beige-primary); border-radius: var(--radius-md); margin-bottom: 0.5rem;">
+              <div style="font-size: 0.9rem; color: var(--color-text-light);">¡Hola! Soy el asistente de [Tu Negocio]. ¿En qué puedo ayudarte?</div>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <div style="padding: 0.5rem 1rem; background: var(--color-green); color: var(--color-black-primary); border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600;">Servicios</div>
+              <div style="padding: 0.5rem 1rem; background: var(--color-green); color: var(--color-black-primary); border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 600;">Contacto</div>
+            </div>
           </div>
         </div>
       </div>
-      <p class="footer-copyright">
-        2026 Crysantem. Todos los derechos reservados.
-      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 5: DEMOSTRACIÓN DEL PRODUCTO (PORTFOLIO) -->
+  <section class="section bg-black-gradient bg-black-variant-2" id="demo">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <h2 class="fade-in">Portfolio</h2>
+        <p class="section-subtitle fade-in delay-1">Mira algunos de nuestros proyectos en acción.</p>
+      </div>
+      <div style="margin-top: var(--space-2xl); position: relative;">
+        <div style="display: flex; overflow-x: auto; gap: var(--space-lg); padding: var(--space-md) 0; scroll-snap-type: x mandatory;">
+          <div style="flex: 0 0 100%; max-width: 800px; margin: 0 auto; scroll-snap-align: center;">
+            <video controls preload="metadata" style="width: 100%; border-radius: var(--radius-xl); border: 1px solid var(--color-border-dark);">
+              <source src="videos/portfolio1.mp4" type="video/mp4">
+              Tu navegador no soporta videos.
+            </video>
+          </div>
+          <div style="flex: 0 0 100%; max-width: 800px; margin: 0 auto; scroll-snap-align: center;">
+            <video controls preload="metadata" style="width: 100%; border-radius: var(--radius-xl); border: 1px solid var(--color-border-dark);">
+              <source src="videos/portfolio2.mp4" type="video/mp4">
+              Tu navegador no soporta videos.
+            </video>
+          </div>
+          <div style="flex: 0 0 100%; max-width: 800px; margin: 0 auto; scroll-snap-align: center;">
+            <video controls preload="metadata" style="width: 100%; border-radius: var(--radius-xl); border: 1px solid var(--color-border-dark);">
+              <source src="videos/portfolio3.mp4" type="video/mp4">
+              Tu navegador no soporta videos.
+            </video>
+          </div>
+        </div>
+        <p style="text-align: center; color: var(--color-text-secondary-dark); margin-top: var(--space-md); font-size: 0.9rem;">← Deslizá para explorar →</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: BENEFICIOS Y CAPACIDADES -->
+  <section class="section bg-white-warm" id="beneficios">
+    <div class="container">
+      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <h2 class="fade-in">Tecnología útil, no complejidad innecesaria.</h2>
+        <p class="section-subtitle fade-in delay-1">Capacidades reales de MyIA diseñadas para resolver problemas concretos.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-lg); margin-top: var(--space-2xl);">
+        <div class="fade-in delay-1" style="background: var(--color-beige-primary); padding: var(--space-lg); border-radius: var(--radius-lg); border: 1px solid var(--color-border-light);">
+          <h3 style="margin-bottom: var(--space-sm);">Configuración web</h3>
+          <p style="font-size: 0.95rem; color: var(--color-text-secondary-light); margin-bottom: 0;">Panel intuitivo para definir apariencia, colores y comportamiento del asistente sin necesidad de programar.</p>
+        </div>
+        <div class="fade-in delay-2" style="background: var(--color-beige-primary); padding: var(--space-lg); border-radius: var(--radius-lg); border: 1px solid var(--color-border-light);">
+          <h3 style="margin-bottom: var(--space-sm);">Personalización</h3>
+          <p style="font-size: 0.95rem; color: var(--color-text-secondary-light); margin-bottom: 0;">Adaptá el nombre, el mensaje de bienvenida y el estilo de comunicación a la identidad de tu marca.</p>
+        </div>
+        <div class="fade-in delay-3" style="background: var(--color-beige-primary); padding: var(--space-lg); border-radius: var(--radius-lg); border: 1px solid var(--color-border-light);">
+          <h3 style="margin-bottom: var(--space-sm);">Gestión del asistente</h3>
+          <p style="font-size: 0.95rem; color: var(--color-text-secondary-light); margin-bottom: 0;">Dashboard con métricas de uso, estadísticas de conversación y control de límites de mensajes.</p>
+        </div>
+        <div class="fade-in delay-4" style="background: var(--color-beige-primary); padding: var(--space-lg); border-radius: var(--radius-lg); border: 1px solid var(--color-border-light);">
+          <h3 style="margin-bottom: var(--space-sm);">Información del negocio</h3>
+          <p style="font-size: 0.95rem; color: var(--color-text-secondary-light); margin-bottom: 0;">Cargá datos de servicios, productos y FAQs para que el asistente responda con información contextualizada.</p>
+        </div>
+        <div class="fade-in delay-5" style="background: var(--color-beige-primary); padding: var(--space-lg); border-radius: var(--radius-lg); border: 1px solid var(--color-border-light);">
+          <h3 style="margin-bottom: var(--space-sm);">Integraciones</h3>
+          <p style="font-size: 0.95rem; color: var(--color-text-secondary-light); margin-bottom: 0;">Conexión con Google Sheets, Google Calendar y Gmail según el plan seleccionado para automatizar procesos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: PARA QUIÉN ES -->
+  <section class="section bg-black-gradient" id="para-quien">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <h2 class="fade-in">Pensado para negocios que necesitan atender mejor.</h2>
+        <p class="section-subtitle fade-in delay-1">Ejemplos concretos de uso de MyIA.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: var(--space-xl); margin-top: var(--space-2xl);">
+        <div class="fade-in delay-1">
+          <div style="margin-bottom: var(--space-md);">
+            <div style="width: 48px; height: 48px; background: rgba(53, 199, 121, 0.15); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--color-green); font-size: 1.5rem; margin-bottom: var(--space-sm);">👨‍💼</div>
+            <h3 style="margin-bottom: var(--space-sm);">Profesionales independientes</h3>
+            <p style="font-size: 0.95rem; color: var(--color-text-secondary-dark); margin-bottom: 0;">Abogados, consultores, arquitectos y otros profesionales que reciben consultas frecuentes sobre sus servicios y horarios.</p>
+          </div>
+        </div>
+        <div class="fade-in delay-2">
+          <div style="margin-bottom: var(--space-md);">
+            <div style="width: 48px; height: 48px; background: rgba(53, 199, 121, 0.15); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--color-green); font-size: 1.5rem; margin-bottom: var(--space-sm);">🏪</div>
+            <h3 style="margin-bottom: var(--space-sm);">Negocios locales</h3>
+            <p style="font-size: 0.95rem; color: var(--color-text-secondary-dark); margin-bottom: 0;">Tiendas, restaurantes y comercios que necesitan informar sobre productos, menús, horarios y ubicación.</p>
+          </div>
+        </div>
+        <div class="fade-in delay-3">
+          <div style="margin-bottom: var(--space-md);">
+            <div style="width: 48px; height: 48px; background: rgba(53, 199, 121, 0.15); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--color-green); font-size: 1.5rem; margin-bottom: var(--space-sm);">🚀</div>
+            <h3 style="margin-bottom: var(--space-sm);">Emprendimientos digitales</h3>
+            <p style="font-size: 0.95rem; color: var(--color-text-secondary-dark); margin-bottom: 0;">Startups y negocios online que quieren orientar a sus visitantes y capturar leads de forma automatizada.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: PLANES (REUTILIZANDO TARJETAS ORIGINALES) -->
+  <section class="section bg-beige" id="planes">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <h2 class="fade-in">Planes</h2>
+        <p class="section-subtitle fade-in delay-1">Elegí el nivel de automatización que necesita tu negocio.</p>
+      </div>
+      <div class="plans-grid">
+        <!-- Plan 01 - Responde -->
+        <div class="landing-plan-card fade-in delay-1">
+          <div class="landing-plan-number">01</div>
+          <h3 class="landing-plan-name">Responde</h3>
+          <div class="landing-plan-price">$60.000 <span>/ mes</span></div>
+          <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px;">
+            <div style="font-size: 0.75rem; color: #6366f1; font-weight: 600; margin-bottom: 4px;">Modelo de IA</div>
+            <div style="font-size: 0.9rem; color: var(--color-text-light);">Gemini Flash</div>
+          </div>
+          <ul class="landing-plan-features">
+            <li>Chatbot básico 24/7</li>
+            <li>Canales: Web, Telegram, Discord</li>
+            <li>Respuestas automáticas</li>
+            <li>Soporte por email</li>
+          </ul>
+          <div class="landing-plan-limit">Hasta 1.000 mensajes al mes</div>
+          <div class="landing-plan-minimum">Permanencia mínima: 3 meses</div>
+          <a href="myia-plans.html" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-md);">Comenzar</a>
+        </div>
+
+        <!-- Plan 02 - Asiste -->
+        <div class="landing-plan-card featured fade-in delay-2">
+          <div class="landing-plan-badge">Recomendado</div>
+          <div class="landing-plan-number">02</div>
+          <h3 class="landing-plan-name">Asiste</h3>
+          <div class="landing-plan-price">$85.000 <span>/ mes</span></div>
+          <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px;">
+            <div style="font-size: 0.75rem; color: #6366f1; font-weight: 600; margin-bottom: 4px;">Modelo de IA</div>
+            <div style="font-size: 0.9rem; color: var(--color-text-light);">Gemini Flash</div>
+          </div>
+          <ul class="landing-plan-features">
+            <li>Todo lo del plan Responde</li>
+            <li>Conexión con Google Drive</li>
+            <li>Texto Bonito (Markdown enriquecido)</li>
+            <li>Cajas coloridas y links estéticos</li>
+            <li>Botones directos a WhatsApp/Gmail</li>
+          </ul>
+          <div class="landing-plan-limit">Hasta 2.500 mensajes al mes</div>
+          <div class="landing-plan-minimum">Permanencia mínima: 3 meses</div>
+          <a href="myia-plans.html" class="btn btn-primary" style="width: 100%; margin-top: var(--space-md);">Comenzar</a>
+        </div>
+
+        <!-- Plan 03 - Automatiza -->
+        <div class="landing-plan-card fade-in delay-3">
+          <div class="landing-plan-number">03</div>
+          <h3 class="landing-plan-name">Automatiza</h3>
+          <div class="landing-plan-price">$150.000 <span>/ mes</span></div>
+          <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px;">
+            <div style="font-size: 0.75rem; color: #6366f1; font-weight: 600; margin-bottom: 4px;">Modelo de IA</div>
+            <div style="font-size: 0.9rem; color: var(--color-text-light);">Gemini Pro</div>
+          </div>
+          <ul class="landing-plan-features">
+            <li>Todo lo del plan Asiste</li>
+            <li>Conexión con Google Calendar</li>
+            <li>Texto Bonito incluido</li>
+            <li>Gráficos Pro (Gráficos dinámicos)</li>
+            <li>Gestión automática de citas</li>
+          </ul>
+          <div class="landing-plan-limit">Hasta 5.000 mensajes al mes</div>
+          <div class="landing-plan-minimum">Permanencia mínima: 6 meses</div>
+          <a href="myia-plans.html" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-md);">Comenzar</a>
+        </div>
+
+        <!-- Plan 04 - Crysantem Intelligence -->
+        <div class="landing-plan-card fade-in delay-4">
+          <div class="landing-plan-number">04</div>
+          <h3 class="landing-plan-name">Crysantem Intelligence</h3>
+          <div class="landing-plan-price">$190.000 <span>/ mes</span></div>
+          <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px;">
+            <div style="font-size: 0.75rem; color: #6366f1; font-weight: 600; margin-bottom: 4px;">Modelo de IA</div>
+            <div style="font-size: 0.9rem; color: var(--color-text-light);">Gemini Pro</div>
+          </div>
+          <ul class="landing-plan-features">
+            <li>Todo lo del plan Automatiza</li>
+            <li>Conexión con Gmail</li>
+            <li>Google Drive + Calendar</li>
+            <li>Integraciones premium</li>
+            <li>Soporte prioritario</li>
+          </ul>
+          <div class="landing-plan-limit">Mensajes ajustados a medida</div>
+          <a href="myia-plans.html" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-md);">Comenzar</a>
+        </div>
+
+        <!-- Plan 05 - Enterprise -->
+        <div class="landing-plan-card fade-in delay-5">
+          <div class="landing-plan-number">05</div>
+          <h3 class="landing-plan-name">Enterprise</h3>
+          <div class="landing-plan-price">Custom <span>/Personalizado</span></div>
+          <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: var(--radius-md); padding: 12px; margin-bottom: 16px;">
+            <div style="font-size: 0.75rem; color: #6366f1; font-weight: 600; margin-bottom: 4px;">Modelo de IA</div>
+            <div style="font-size: 0.9rem; color: var(--color-text-light);">Gemini Pro</div>
+          </div>
+          <ul class="landing-plan-features">
+            <li>Todo lo del plan Crysantem Intelligence</li>
+            <li>Integraciones personalizadas ilimitadas</li>
+            <li>Soporte técnico dedicado 24/7</li>
+            <li>Infraestructura escalable</li>
+            <li>SLA garantizado</li>
+            <li>Mensajes ilimitados</li>
+          </ul>
+          <div class="landing-plan-limit">Solución completamente a medida</div>
+          <a href="https://wa.me/13237093568?text=Hola,%20estoy%20interesado%20en%20el%20plan%20Enterprise" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-md);">Agendar Sesión →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 9: FAQ -->
+  <section class="section bg-white-warm" id="faq">
+    <div class="container">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <h2 class="fade-in" style="text-align: center; margin-bottom: var(--space-2xl);">Preguntas Frecuentes</h2>
+        
+        <details class="fade-in delay-1" style="background: var(--color-beige-primary); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); margin-bottom: var(--space-md); overflow: hidden;">
+          <summary style="padding: var(--space-lg); cursor: pointer; font-weight: 600; color: var(--color-text-light); display: flex; justify-content: space-between; align-items: center;">¿Qué es MyIA?</summary>
+          <div style="padding: 0 var(--space-lg) var(--space-lg); color: var(--color-text-secondary-light);">MyIA es la plataforma de Crysantem que te permite crear y configurar un asistente de inteligencia artificial para tu página web sin necesidad de programar.</div>
+        </details>
+
+        <details class="fade-in delay-2" style="background: var(--color-beige-primary); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); margin-bottom: var(--space-md); overflow: hidden;">
+          <summary style="padding: var(--space-lg); cursor: pointer; font-weight: 600; color: var(--color-text-light); display: flex; justify-content: space-between; align-items: center;">¿Necesito saber programar?</summary>
+          <div style="padding: 0 var(--space-lg) var(--space-lg); color: var(--color-text-secondary-light);">No. MyIA está diseñado para configurar tu asistente mediante una interfaz visual sin necesidad de escribir código.</div>
+        </details>
+
+        <details class="fade-in delay-3" style="background: var(--color-beige-primary); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); margin-bottom: var(--space-md); overflow: hidden;">
+          <summary style="padding: var(--space-lg); cursor: pointer; font-weight: 600; color: var(--color-text-light); display: flex; justify-content: space-between; align-items: center;">¿Cómo se configura el asistente?</summary>
+          <div style="padding: 0 var(--space-lg) var(--space-lg); color: var(--color-text-secondary-light);">El proceso incluye seleccionar un plan, configurar la apariencia, definir el comportamiento, preparar la información y conectar las integraciones según el plan elegido.</div>
+        </details>
+
+        <details class="fade-in delay-4" style="background: var(--color-beige-primary); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); margin-bottom: var(--space-md); overflow: hidden;">
+          <summary style="padding: var(--space-lg); cursor: pointer; font-weight: 600; color: var(--color-text-light); display: flex; justify-content: space-between; align-items: center;">¿Qué información utiliza para responder?</summary>
+          <div style="padding: 0 var(--space-lg) var(--space-lg); color: var(--color-text-secondary-light);">El asistente utiliza la información que cargás sobre tu negocio, incluyendo servicios, productos, FAQs y, según el plan, datos de Google Sheets o Calendar.</div>
+        </details>
+
+        <details class="fade-in delay-5" style="background: var(--color-beige-primary); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); margin-bottom: var(--space-md); overflow: hidden;">
+          <summary style="padding: var(--space-lg); cursor: pointer; font-weight: 600; color: var(--color-text-light); display: flex; justify-content: space-between; align-items: center;">¿Qué opciones incluye cada plan?</summary>
+          <div style="padding: 0 var(--space-lg) var(--space-lg); color: var(--color-text-secondary-light);">El plan Responde incluye atención básica. Asiste agrega Google Sheets y Markdown enriquecido. Automatiza incluye Google Calendar y gestión de citas. Enterprise ofrece integraciones personalizadas.</div>
+        </details>
+
+        <details class="fade-in delay-5" style="background: var(--color-beige-primary); border: 1px solid var(--color-border-light); border-radius: var(--radius-lg); margin-bottom: var(--space-md); overflow: hidden;">
+          <summary style="padding: var(--space-lg); cursor: pointer; font-weight: 600; color: var(--color-text-light); display: flex; justify-content: space-between; align-items: center;">¿Cómo puedo empezar?</summary>
+          <div style="padding: 0 var(--space-lg) var(--space-lg); color: var(--color-text-secondary-light);">Comenzá seleccionando un plan en nuestra página de planes y siguiendo el proceso de configuración en MyIA. También podés contactarnos para evaluar soluciones personalizadas.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10: CTA FINAL -->
+  <section class="section bg-black-gradient" id="cta-final">
+    <div class="container" style="text-align: center; max-width: 800px;">
+      <h2 class="fade-in">Dale a tu web una nueva forma de atender.</h2>
+      <p class="section-subtitle fade-in delay-1">Empezá a configurar una experiencia conversacional adaptada a tu negocio con MyIA.</p>
+      <div class="fade-in delay-2" style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; margin-top: var(--space-xl);">
+        <a href="myia-home.html" class="btn btn-primary">Empezar con MyIA</a>
+        <a href="myia-plans.html" class="btn btn-secondary">Ver planes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 11: CONTACTO -->
+  <section class="section bg-beige" id="contacto">
+    <div class="container" style="text-align: center; max-width: 800px;">
+      <h2 class="fade-in">Contacto</h2>
+      <p class="section-subtitle fade-in delay-1">¿Tenés preguntas? Queremos ayudarte.</p>
+      <div class="fade-in delay-2" style="display: flex; gap: var(--space-md); justify-content: center; flex-wrap: wrap; margin-top: var(--space-xl);">
+        <a href="https://wa.me/13237093568" target="_blank" rel="noopener noreferrer" class="btn btn-primary">WhatsApp</a>
+        <a href="mailto:consultas@crysantem.tech" class="btn btn-secondary">Email</a>
+      </div>
+      <div class="fade-in delay-3" style="margin-top: var(--space-xl); color: var(--color-text-secondary-light);">
+        <p style="margin-bottom: var(--space-sm);">consultas@crysantem.tech</p>
+        <p style="margin-bottom: 0;">WhatsApp: +1 323 709 3568</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background: var(--color-black-charcoal); border-top: 1px solid var(--color-border-dark); padding: var(--space-2xl) 0;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-xl);">
+        <div>
+          <div style="font-weight: 600; margin-bottom: var(--space-md); color: var(--color-text-dark);">Crysantem</div>
+          <p style="font-size: 0.9rem; color: var(--color-text-secondary-dark); margin-bottom: 0;">Agentes de IA para automatizar la atención al cliente.</p>
+        </div>
+        <div>
+          <div style="font-weight: 600; margin-bottom: var(--space-md); color: var(--color-text-dark);">Producto</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+            <a href="#como-funciona" style="font-size: 0.9rem; color: var(--color-text-secondary-dark);">Cómo funciona</a>
+            <a href="#planes" style="font-size: 0.9rem; color: var(--color-text-secondary-dark);">Planes</a>
+            <a href="#faq" style="font-size: 0.9rem; color: var(--color-text-secondary-dark);">FAQ</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 600; margin-bottom: var(--space-md); color: var(--color-text-dark);">Legal</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+            <a href="terminos-condiciones.html" style="font-size: 0.9rem; color: var(--color-text-secondary-dark);">Términos y condiciones</a>
+            <a href="politica-cookies.html" style="font-size: 0.9rem; color: var(--color-text-secondary-dark);">Política de cookies</a>
+            <a href="politicas-google.html" style="font-size: 0.9rem; color: var(--color-text-secondary-dark);">Políticas de Google</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight: 600; margin-bottom: var(--space-md); color: var(--color-text-dark);">Contacto</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+            <a href="mailto:consultas@crysantem.tech" style="font-size: 0.9rem; color: var(--color-text-secondary-dark);">consultas@crysantem.tech</a>
+            <a href="https://wa.me/13237093568" target="_blank" rel="noopener noreferrer" style="font-size: 0.9rem; color: var(--color-text-secondary-dark);">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-border-dark); text-align: center;">
+        <p style="font-size: 0.85rem; color: var(--color-text-secondary-dark); margin-bottom: 0;">© 2024 Crysantem. Todos los derechos reservados.</p>
+      </div>
     </div>
   </footer>
 
-  <div id="authModal" class="modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Iniciar Sesión</h3>
-        <button class="modal-close" aria-label="Cerrar modal">×</button>
-      </div>
-      <form id="authForm"></form>
-    </div>
-  </div>
+  <!-- Scripts para funcionalidad de auth -->
+  <script src="js/config.js?v=7.3"></script>
+  <script src="js/main.js"></script>
 
-  <!-- Modal de Aceptación de Términos y Condiciones -->
-  <div id="termsModal" class="terms-modal" style="display: none;">
-    <div class="terms-modal-content">
-      <div class="terms-modal-header">
-        <h2 class="terms-modal-title">Términos y Condiciones</h2>
-        <p class="terms-modal-subtitle">Para continuar utilizando nuestros servicios, por favor acepta nuestros términos y condiciones.</p>
-      </div>
-      <div class="terms-modal-body">
-        <div class="terms-modal-scroll">
-          <p>Al aceptar estos términos, reconoces que has leído y comprendido los Términos y Condiciones de Uso de Crysantem, incluyendo:</p>
-          <ul>
-            <li>Uso permitido de nuestros servicios de agentes de IA</li>
-            <li>Obligaciones del Cliente</li>
-            <li>Límites de funcionamiento de la inteligencia artificial</li>
-            <li>Política de pagos y suscripciones</li>
-            <li>Protección de datos y privacidad</li>
-            <li>Propiedad intelectual y licencias</li>
-          </ul>
-          <p>Para leer los términos completos, <a href="terminos-condiciones.html" target="_blank" rel="noopener noreferrer">haz clic aquí</a>.</p>
-        </div>
-        <div class="terms-modal-footer">
-          <label class="terms-checkbox-label">
-            <input type="checkbox" id="termsCheckbox">
-            <span>He leído y acepto los Términos y Condiciones de Crysantem</span>
-          </label>
-          <div class="terms-modal-buttons">
-            <button id="termsAcceptBtn" class="btn btn-primary" disabled>Aceptar</button>
-            <a href="https://www.google.com" class="btn btn-secondary">Rechazar</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- SCRIPT PARA ANIMACIONES DE SCROLL -->
+  <script>
+    // Intersection Observer para animaciones de fade-in
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
 
-  <!-- Banner de Cookies -->
-  <div id="cookieBanner" class="cookie-banner" style="display: none;">
-    <div class="cookie-banner-content">
-      <div class="cookie-banner-text">
-        <h3>Utilizamos Cookies</h3>
-        <p>Este sitio web utiliza cookies de terceros (Tapfiliate) para el seguimiento de afiliados. Al continuar navegando, aceptas su uso. Puedes configurar tus preferencias o rechazarlas.</p>
-        <a href="politica-cookies.html" class="cookie-banner-link" target="_blank" rel="noopener noreferrer">Leer política de cookies</a>
-      </div>
-      <div class="cookie-banner-buttons">
-        <button id="cookieRejectBtn" class="btn btn-secondary btn-sm">Rechazar</button>
-        <button id="cookieAcceptBtn" class="btn btn-primary btn-sm">Aceptar</button>
-      </div>
-    </div>
-  </div>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
 
-  <!-- Scripts principales -->
-  <script src="js/markdown-renderer.js?v=7.3" defer></script>
-  <script src="js/main-new.js?v=7.5" defer></script>
-  <script src="js/terms-acceptance.js?v=7.3" defer></script>
-  <script src="js/cookie-consent.js?v=7.3" defer></script>
+    document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Scroll narrativo para la sección "Cómo funciona"
+    const howSteps = document.querySelectorAll('.how-step');
+    const demoState = document.getElementById('demoState');
+
+    const howObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const step = entry.target;
+          const stepNumber = step.dataset.step;
+          
+          howSteps.forEach(s => s.classList.remove('active'));
+          step.classList.add('active');
+
+          if (demoState) {
+            if (stepNumber === '1') {
+              demoState.className = 'how-demo-state config';
+              demoState.innerHTML = `
+                <div style="display: flex; flex-direction: column; gap: 1rem; height: 100%; justify-content: center;">
+                  <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid var(--color-border-dark);">
+                    <div style="font-size: 0.8rem; color: var(--color-text-secondary-dark); margin-bottom: 0.5rem;">Nombre del asistente</div>
+                    <div style="color: var(--color-text-dark);">Mi Asistente</div>
+                  </div>
+                  <div style="padding: 1rem; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid var(--color-border-dark);">
+                    <div style="font-size: 0.8rem; color: var(--color-text-secondary-dark); margin-bottom: 0.5rem;">Mensaje de bienvenida</div>
+                    <div style="color: var(--color-text-dark);">¡Hola! ¿En qué puedo ayudarte?</div>
+                  </div>
+                </div>
+              `;
+            } else if (stepNumber === '2') {
+              demoState.className = 'how-demo-state preview';
+              demoState.innerHTML = `
+                <div style="display: flex; flex-direction: column; gap: 1rem; height: 100%; justify-content: center; align-items: center;">
+                  <div style="width: 48px; height: 48px; background: var(--color-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-black-primary); font-weight: 600;">M</div>
+                  <div style="padding: 1rem; background: var(--color-white-warm); border-radius: var(--radius-md); max-width: 80%;">
+                    <div style="font-size: 0.9rem; color: var(--color-text-light);">¡Hola! ¿En qué puedo ayudarte?</div>
+                  </div>
+                </div>
+              `;
+            } else if (stepNumber === '3') {
+              demoState.className = 'how-demo-state chat';
+              demoState.innerHTML = `
+                <div style="display: flex; flex-direction: column; gap: 1rem; height: 100%; justify-content: center;">
+                  <div style="padding: 0.75rem 1rem; background: rgba(53, 199, 121, 0.12); border-radius: var(--radius-lg); max-width: 85%; font-size: 0.9rem; color: var(--color-text-dark);">
+                    ¡Hola! ¿En qué puedo ayudarte?
+                  </div>
+                  <div style="padding: 0.75rem 1rem; background: rgba(255, 255, 255, 0.08); border-radius: var(--radius-lg); max-width: 85%; margin-left: auto; font-size: 0.9rem; color: var(--color-text-dark);">
+                    Necesito información sobre tus servicios
+                  </div>
+                  <div style="padding: 0.75rem 1rem; background: rgba(53, 199, 121, 0.12); border-radius: var(--radius-lg); max-width: 85%; font-size: 0.9rem; color: var(--color-text-dark);">
+                    Claro, ofrecemos soluciones de IA personalizadas. ¿Te gustaría saber más?
+                  </div>
+                </div>
+              `;
+            }
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    howSteps.forEach(step => {
+      howObserver.observe(step);
+    });
+
+    // Mobile menu toggle
+    const navToggle = document.querySelector('.landing-nav-toggle');
+    const navLinks = document.querySelector('.landing-nav-links');
+
+    if (navToggle) {
+      navToggle.addEventListener('click', () => {
+        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        if (navLinks.style.display === 'flex') {
+          navLinks.style.position = 'absolute';
+          navLinks.style.top = '100%';
+          navLinks.style.left = '0';
+          navLinks.style.right = '0';
+          navLinks.style.background = 'rgba(9, 10, 13, 0.95)';
+          navLinks.style.flexDirection = 'column';
+          navLinks.style.padding = 'var(--space-lg)';
+          navLinks.style.gap = 'var(--space-md)';
+        }
+      });
+    }
+
+    // Auth dropdown functionality
+    const authBtn = document.getElementById('authBtn');
+    const authDropdown = document.getElementById('authDropdown');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userEmailDisplay = document.getElementById('userEmailDisplay');
+
+    // Check auth state on load
+    function checkAuth() {
+      const user = localStorage.getItem('user');
+      if (user) {
+        const userData = JSON.parse(user);
+        if (authBtn) authBtn.textContent = userData.email || 'Account';
+        if (userEmailDisplay) userEmailDisplay.textContent = userData.email || '';
+      } else {
+        if (authBtn) authBtn.textContent = 'Account';
+        if (userEmailDisplay) userEmailDisplay.textContent = '';
+      }
+    }
+
+    checkAuth();
+
+    // Toggle dropdown
+    if (authBtn && authDropdown) {
+      authBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        authDropdown.classList.toggle('show');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!authDropdown.contains(e.target) && !authBtn.contains(e.target)) {
+          authDropdown.classList.remove('show');
+        }
+      });
+    }
+
+    // Logout functionality
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        if (authBtn) authBtn.textContent = 'Account';
+        if (userEmailDisplay) userEmailDisplay.textContent = '';
+        authDropdown.classList.remove('show');
+        window.location.href = 'index.html';
+      });
+    }
+  </script>
 </body>
 </html>
