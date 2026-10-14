@@ -489,14 +489,6 @@ async function createPage() {
     return;
   }
 
-  // Generar SuperPrompt usando la función de myia-integrations.js
-  const superPrompt = generateSuperPrompt({ integrations_config: config.integrations_config });
-  if (superPrompt) {
-    configSnakeCase.super_prompt = superPrompt;
-    console.log('SuperPrompt generado para el plan:', plan);
-  }
-
-
   const requiredFields = {
     businessName: config.businessName,
     slug: config.slug,

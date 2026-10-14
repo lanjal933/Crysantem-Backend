@@ -224,7 +224,10 @@ function updateUIForPlan(plan) {
     automatiza: '03 - Automatiza',
     intelligence: '04 - Crysantem Intelligence'
   };
-  document.getElementById('planBadge').textContent = planNames[plan] || plan;
+  const planBadge = document.getElementById('planBadge');
+  if (planBadge) {
+    planBadge.textContent = planNames[plan] || plan;
+  }
   
   // Mostrar/ocultar tarjetas según el plan
   const cards = {
