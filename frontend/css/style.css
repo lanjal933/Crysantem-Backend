@@ -811,11 +811,12 @@ img {
 }
 
 .portfolio-section .section-title {
-  color: var(--text-light);
+  color: var(--text-on-beige);
 }
 
 .portfolio-section .section-subtitle {
-  color: rgba(247, 248, 246, 0.7);
+  color: var(--text-on-beige);
+  opacity: 0.8;
 }
 
 .portfolio-indicator {
@@ -1143,7 +1144,8 @@ img {
 .portfolio-section {
   overflow: hidden;
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .portfolio-container {
@@ -1231,7 +1233,8 @@ img {
 }
 
 .faq-section {
-  background: var(--bg-main);
+  background: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .faq-list {
