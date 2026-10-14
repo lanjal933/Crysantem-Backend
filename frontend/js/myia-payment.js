@@ -41,7 +41,7 @@ const PLAN_PRICES = {
     aiModel: 'Gemini Pro',
     messagesLimit: 'Hasta 5.000 mensajes al mes',
     minimumMonths: '6 meses',
-    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar']
+    scopes: ['email', 'profile', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/calendar']
   },
   intelligence: {
     name: '04 - Enterprise',

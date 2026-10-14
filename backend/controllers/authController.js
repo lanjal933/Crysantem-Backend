@@ -300,7 +300,7 @@ const googleAuth = async (req, res) => {
       const planScopes = {
         responde: ['email', 'profile'],
         asiste: ['email', 'profile', 'https://www.googleapis.com/auth/spreadsheets'],
-        automatiza: ['email', 'profile', 'https://www.googleapis.com/auth/calendar'],
+        automatiza: ['email', 'profile', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/calendar'],
         intelligence: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/gmail.send']
       };
       
