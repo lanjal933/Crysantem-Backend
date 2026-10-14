@@ -57,8 +57,8 @@ body.landing-page {
   --transition-slow: 500ms ease;
 
   /* Contenedor */
-  --container-max: 1200px;
-  --container-padding: var(--space-lg);
+  --container-max: 1400px;
+  --container-padding: var(--space-xl);
 }
 
 /* --------------------------------------------------------------------------
@@ -133,6 +133,28 @@ a {
 .section {
   padding: var(--space-4xl) 0;
   position: relative;
+}
+
+@media (min-width: 969px) {
+  .section {
+    padding: var(--space-4xl) 0;
+  }
+
+  .hero-content {
+    gap: var(--space-4xl);
+  }
+
+  .how-content {
+    gap: var(--space-4xl);
+  }
+
+  .problem-content {
+    max-width: 900px;
+  }
+
+  .problem-examples {
+    gap: var(--space-xl);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -370,7 +392,7 @@ a {
 .hero-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-3xl);
+  gap: var(--space-4xl);
   align-items: center;
   position: relative;
   z-index: 1;
@@ -542,22 +564,46 @@ a {
 .bg-beige h3,
 .bg-beige h4,
 .bg-beige h5,
-.bg-beige h6,
+.bg-beige h6 {
+  color: #0D0D0A;
+  font-weight: 700;
+}
+
 .bg-beige p,
 .bg-beige li {
-  color: var(--color-text-light);
+  color: #2A2A25;
 }
 
 .bg-beige .section-subtitle {
-  color: var(--color-text-secondary-light);
+  color: #3A3A35;
+  font-weight: 500;
 }
 
 .bg-beige .problem-example-content h4 {
-  color: var(--color-text-light);
+  color: #0D0D0A;
+  font-weight: 600;
 }
 
 .bg-beige .problem-example-content p {
-  color: var(--color-text-secondary-light);
+  color: #2A2A25;
+}
+
+.bg-beige .landing-plan-name {
+  color: #0D0D0A;
+  font-weight: 700;
+}
+
+.bg-beige .landing-plan-price {
+  color: #0D0D0A;
+}
+
+.bg-beige .landing-plan-features li {
+  color: #2A2A25;
+}
+
+.bg-beige .landing-plan-limit,
+.bg-beige .landing-plan-minimum {
+  color: #3A3A35;
 }
 
 /* --------------------------------------------------------------------------
@@ -629,15 +675,15 @@ a {
   background: var(--color-white-warm);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-lg);
-  padding: var(--space-lg);
+  padding: var(--space-xl);
   display: flex;
-  gap: var(--space-md);
+  gap: var(--space-lg);
   align-items: flex-start;
 }
 
 .problem-example-icon {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   background: var(--color-green);
   border-radius: var(--radius-md);
   display: flex;
@@ -672,7 +718,7 @@ a {
 .how-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-3xl);
+  gap: var(--space-4xl);
   align-items: center;
 }
 
@@ -756,7 +802,7 @@ a {
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-lg);
+  gap: var(--space-xl);
   margin-top: var(--space-2xl);
 }
 
