@@ -4,36 +4,36 @@ let billingType = 'monthly'; // 'monthly' or 'annual'
 const planConfig = {
   responde: {
     aiModel: 'gemini-flash',
-    monthlyPrice: 60000,
-    annualPrice: 50000,
-    annualTotal: 600000,
+    monthlyPrice: 49000,
+    annualPrice: 40833,
+    annualTotal: 490000,
     messagesLimit: 1000,
     minimumMonths: 3,
     scopes: ['email', 'profile']
   },
   asiste: {
     aiModel: 'gemini-flash',
-    monthlyPrice: 85000,
-    annualPrice: 70833,
-    annualTotal: 850000,
+    monthlyPrice: 79000,
+    annualPrice: 65833,
+    annualTotal: 790000,
     messagesLimit: 2500,
     minimumMonths: 3,
     scopes: ['email', 'profile', 'https://www.googleapis.com/auth/spreadsheets']
   },
   automatiza: {
     aiModel: 'gemini-pro',
-    monthlyPrice: 150000,
-    annualPrice: 125000,
-    annualTotal: 1500000,
+    monthlyPrice: 125000,
+    annualPrice: 104167,
+    annualTotal: 1250000,
     messagesLimit: 5000,
     minimumMonths: 6,
     scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar']
   },
   intelligence: {
     aiModel: 'gemini-pro',
-    monthlyPrice: 190000,
-    annualPrice: 158333,
-    annualTotal: 1900000,
+    monthlyPrice: 0, // Custom
+    annualPrice: 0, // Custom
+    annualTotal: 0, // Custom
     messagesLimit: 0, // Custom
     minimumMonths: 12,
     scopes: ['email', 'profile', 'https://www.googleapis.com/auth/calendar', 'https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/gmail.send']

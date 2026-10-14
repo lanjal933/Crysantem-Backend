@@ -694,10 +694,10 @@ router.post('/mark-as-paid/:pageId', generalLimiter, async (req, res) => {
       
       const tempPageId = generateUUID();
       const planPrices = {
-        responde: { monthly: 60000, annual: 50000, annualTotal: 600000, messagesLimit: 1000, minimumMonths: 3 },
-        asiste: { monthly: 85000, annual: 70833, annualTotal: 850000, messagesLimit: 2500, minimumMonths: 3 },
-        automatiza: { monthly: 150000, annual: 125000, annualTotal: 1500000, messagesLimit: 5000, minimumMonths: 6 },
-        intelligence: { monthly: 190000, annual: 158333, annualTotal: 1900000, messagesLimit: 0, minimumMonths: 12 }
+        responde: { monthly: 49000, annual: 40833, annualTotal: 490000, messagesLimit: 1000, minimumMonths: 3 },
+        asiste: { monthly: 79000, annual: 65833, annualTotal: 790000, messagesLimit: 2500, minimumMonths: 3 },
+        automatiza: { monthly: 125000, annual: 104167, annualTotal: 1250000, messagesLimit: 5000, minimumMonths: 6 },
+        intelligence: { monthly: 0, annual: 0, annualTotal: 0, messagesLimit: 0, minimumMonths: 12 }
       };
       const planPrice = planPrices[plan] || planPrices.responde;
 
@@ -779,10 +779,10 @@ router.post('/mark-as-paid/temp', generalLimiter, async (req, res) => {
 
     const tempPageId = `myia-${plan}-${Date.now()}`;
     const planPrices = {
-      responde: { monthly: 60000, annual: 50000, annualTotal: 600000, messagesLimit: 1000, minimumMonths: 3 },
-      asiste: { monthly: 85000, annual: 70833, annualTotal: 850000, messagesLimit: 2500, minimumMonths: 3 },
-      automatiza: { monthly: 150000, annual: 125000, annualTotal: 1500000, messagesLimit: 5000, minimumMonths: 6 },
-      intelligence: { monthly: 190000, annual: 158333, annualTotal: 1900000, messagesLimit: 0, minimumMonths: 12 }
+      responde: { monthly: 49000, annual: 40833, annualTotal: 490000, messagesLimit: 1000, minimumMonths: 3 },
+      asiste: { monthly: 79000, annual: 65833, annualTotal: 790000, messagesLimit: 2500, minimumMonths: 3 },
+      automatiza: { monthly: 125000, annual: 104167, annualTotal: 1250000, messagesLimit: 5000, minimumMonths: 6 },
+      intelligence: { monthly: 0, annual: 0, annualTotal: 0, messagesLimit: 0, minimumMonths: 12 }
     };
     const planPrice = planPrices[plan] || planPrices.responde;
 
@@ -1717,34 +1717,34 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
     // Precios de planes (en pesos argentinos) - NUEVO MODELO SaaS MRR
     const PLAN_PRICES = {
       responde: {
-        monthly: 60000,
-        annual: 50000,
-        annualTotal: 600000,
+        monthly: 49000,
+        annual: 40833,
+        annualTotal: 490000,
         title: '01 - Responde',
         messagesLimit: 1000,
         minimumMonths: 3
       },
       asiste: {
-        monthly: 85000,
-        annual: 70833,
-        annualTotal: 850000,
+        monthly: 79000,
+        annual: 65833,
+        annualTotal: 790000,
         title: '02 - Asiste',
         messagesLimit: 2500,
         minimumMonths: 3
       },
       automatiza: {
-        monthly: 150000,
-        annual: 125000,
-        annualTotal: 1500000,
+        monthly: 125000,
+        annual: 104167,
+        annualTotal: 1250000,
         title: '03 - Automatiza',
         messagesLimit: 5000,
         minimumMonths: 6
       },
       intelligence: {
-        monthly: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
-        annual: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
-        annualTotal: 180, // TEMPORAL: $180 ARS anuales
-        title: '04 - Crysantem Intelligence (PRUEBA)',
+        monthly: 0, // Custom/Personalizado
+        annual: 0, // Custom/Personalizado
+        annualTotal: 0, // Custom/Personalizado
+        title: '04 - Enterprise',
         messagesLimit: 0,
         minimumMonths: 12
       }
@@ -1870,34 +1870,34 @@ router.post('/create-payment-preference', generalLimiter, async (req, res) => {
     // Precios de planes (en pesos argentinos) - NUEVO MODELO SaaS MRR
     const PLAN_PRICES = {
       responde: {
-        monthly: 60000,
-        annual: 50000,
-        annualTotal: 600000,
+        monthly: 49000,
+        annual: 40833,
+        annualTotal: 490000,
         title: '01 - Responde',
         messagesLimit: 1000,
         minimumMonths: 3
       },
       asiste: {
-        monthly: 85000,
-        annual: 70833,
-        annualTotal: 850000,
+        monthly: 79000,
+        annual: 65833,
+        annualTotal: 790000,
         title: '02 - Asiste',
         messagesLimit: 2500,
         minimumMonths: 3
       },
       automatiza: {
-        monthly: 150000,
-        annual: 125000,
-        annualTotal: 1500000,
+        monthly: 125000,
+        annual: 104167,
+        annualTotal: 1250000,
         title: '03 - Automatiza',
         messagesLimit: 5000,
         minimumMonths: 6
       },
       intelligence: {
-        monthly: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
-        annual: 15, // TEMPORAL: $15 ARS para prueba (mínimo MP)
-        annualTotal: 180, // TEMPORAL: $180 ARS anuales
-        title: '04 - Crysantem Intelligence (PRUEBA)',
+        monthly: 0, // Custom/Personalizado
+        annual: 0, // Custom/Personalizado
+        annualTotal: 0, // Custom/Personalizado
+        title: '04 - Enterprise',
         messagesLimit: 0,
         minimumMonths: 12
       }

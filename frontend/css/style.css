@@ -675,6 +675,41 @@ img {
   font-family: var(--font-display);
 }
 
+/* Sección CTA final */
+.cta-final-section {
+  padding: var(--spacing-4xl) 0;
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
+  text-align: center;
+}
+
+.cta-pretitle {
+  color: var(--green-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-md);
+}
+
+.cta-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-on-beige);
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+.cta-description {
+  font-size: 1.1rem;
+  color: var(--text-on-beige);
+  opacity: 0.85;
+  max-width: 600px;
+  margin: 0 auto var(--spacing-xl);
+  line-height: 1.6;
+}
+
 .section-header {
   max-width: 700px;
   margin-bottom: var(--spacing-2xl);
