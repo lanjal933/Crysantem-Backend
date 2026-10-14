@@ -1122,8 +1122,8 @@ img {
 .portfolio-section {
   overflow: hidden;
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-main);
-  color: var(--text-light);
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .portfolio-container {
