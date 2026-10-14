@@ -1433,8 +1433,8 @@ img {
   padding: 120px 0;
   position: relative;
   overflow: hidden;
-  background-color: var(--bg-main);
-  color: var(--text-light);
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .myia-content {
