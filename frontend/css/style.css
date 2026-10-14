@@ -88,7 +88,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 17px;
+  font-size: 16px;
 }
 
 a {
@@ -378,15 +378,15 @@ img {
 
 .section-title {
   font-size: clamp(42px, 5vw, 64px);
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: var(--spacing-md);
   text-align: left;
   color: var(--text-main);
   font-family: var(--font-display);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   position: relative;
   z-index: 1;
-  line-height: 1.1;
+  line-height: 1.15;
   padding-bottom: var(--spacing-lg);
 }
 
@@ -395,8 +395,8 @@ img {
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 80px;
-  height: 4px;
+  width: 60px;
+  height: 3px;
   background: var(--green-main);
   border-radius: 2px;
 }
@@ -665,8 +665,8 @@ img {
 }
 
 .step-title {
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 600;
   margin-bottom: var(--spacing-md);
   color: var(--text-on-beige);
   font-family: var(--font-display);
@@ -1417,11 +1417,11 @@ html {
 }
 
 .hero-title {
-  font-size: clamp(56px, 7vw, 88px);
-  font-weight: 700;
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 600;
   margin-bottom: var(--spacing-lg);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: var(--text-main);
   font-family: var(--font-display);
   position: relative;
@@ -1467,12 +1467,9 @@ html {
   color: var(--text-secondary);
   margin-bottom: var(--spacing-2xl);
   max-width: 700px;
-  line-height: 1.7;
+  line-height: 1.6;
   font-weight: 400;
-  padding: var(--spacing-lg);
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: var(--border-radius-md);
-  border-left: 4px solid var(--border-accent);
+  font-family: var(--font-body);
 }
 
 .hero-cta {
