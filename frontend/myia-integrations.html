@@ -498,11 +498,6 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">URL del Sheet (para que la IA pueda copiarla)</label>
-            <input type="text" class="form-input" id="sheetsUrl" placeholder="https://docs.google.com/spreadsheets/d/SHEET_ID/edit" readonly>
-          </div>
-
-          <div class="form-group">
             <button class="btn-secondary" id="downloadTemplateBtn" style="width: 100%;">
               <span style="margin-right: 8px;">[DOWNLOAD]</span>
               Descargar Plantilla de Base de Datos
@@ -793,16 +788,6 @@ Describe aquí todas las funciones que tu agente deberá realizar. Sé específi
       </div>
       
       <div class="form-group">
-        <label class="form-label" style="font-size: 0.85rem;">URL GET (para IA)</label>
-        <input type="text" class="form-input custom-sheet-url-get" placeholder="https://docs.google.com/spreadsheets/d/SHEET_ID/edit" readonly>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label" style="font-size: 0.85rem;">URL POST (para IA)</label>
-        <input type="text" class="form-input custom-sheet-url-post" placeholder="https://sheets.googleapis.com/v4/spreadsheets/SHEET_ID/values/..." readonly>
-      </div>
-      
-      <div class="form-group">
         <label class="form-label" style="font-size: 0.85rem;">Tipo de interacción</label>
         <select class="form-select custom-sheet-type">
           <option value="manual">El usuario proporciona el prompt</option>
@@ -825,6 +810,6 @@ Antes de invocar cualquier herramienta de escritura o registro, estás OBLIGADO 
   </template>
 
   <script src="js/main.js"></script>
-  <script src="js/myia-integrations.js?v=6.3"></script>
+  <script src="js/myia-integrations.js?v=9.1"></script>
 </body>
 </html>

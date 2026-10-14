@@ -93,19 +93,23 @@ function saveConfig() {
   
   // Sheets (visible para plan 02+)
   if (document.getElementById('sheetsDbId')) {
-    integrationsConfig.sheets.dbId = document.getElementById('sheetsDbId')?.value || '';
-    integrationsConfig.sheets.url = document.getElementById('sheetsUrl')?.value || '';
+    const dbId = document.getElementById('sheetsDbId')?.value || '';
+    integrationsConfig.sheets.dbId = dbId;
+    // Generar URL automáticamente para base de datos
+    integrationsConfig.sheets.url = dbId ? `https://sheets.googleapis.com/v4/spreadsheets/${dbId}/values/Hoja 1:append?valueInputOption=USER_ENTERED` : '';
     integrationsConfig.sheets.writeUsers = document.getElementById('sheetsWriteUsers')?.checked || false;
     
     // Custom sheets (solo plan 03+ y 04+)
     if (document.getElementById('customSheetsList')) {
       const customSheets = [];
-      document.querySelectorAll('.custom-sheet-card').forEach(card => {
+      document.querySelectorAll('.custom-sheet-card').forEach((card, index) => {
+        const sheetId = card.querySelector('.custom-sheet-id')?.value || '';
+        const sheetName = card.querySelector('.custom-sheet-title')?.value || `Hoja ${index + 2}`;
         customSheets.push({
-          title: card.querySelector('.custom-sheet-title')?.value || '',
-          id: card.querySelector('.custom-sheet-id')?.value || '',
-          urlGet: card.querySelector('.custom-sheet-url-get')?.value || '',
-          urlPost: card.querySelector('.custom-sheet-url-post')?.value || '',
+          title: sheetName,
+          id: sheetId,
+          // Generar URL automáticamente para custom sheet
+          url: sheetId ? `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}:append?valueInputOption=USER_ENTERED` : '',
           type: card.querySelector('.custom-sheet-type')?.value || 'manual',
           prompt: card.querySelector('.custom-sheet-prompt')?.value || ''
         });
@@ -163,7 +167,6 @@ function loadFormValues() {
   // Sheets (visible para plan 02+)
   if (document.getElementById('sheetsDbId')) {
     document.getElementById('sheetsDbId').value = integrationsConfig.sheets.dbId || '';
-    document.getElementById('sheetsUrl').value = integrationsConfig.sheets.url || '';
     
     // Custom sheets
     if (document.getElementById('customSheetsList')) {
@@ -419,7 +422,7 @@ ${integrationsConfig.functions?.prompt || 'No hay funciones específicas configu
 
 ### Base de Datos de Usuarios
 - Sheet ID: ${integrationsConfig.sheets?.dbId || 'No configurado'}
-- URL GET: ${integrationsConfig.sheets?.url || 'No configurado'}
+- URL API: ${integrationsConfig.sheets?.url || 'No configurado'}
 `;
 
     // Agregar sheets personalizados (planes 03+)
@@ -431,8 +434,7 @@ ${integrationsConfig.functions?.prompt || 'No hay funciones específicas configu
         superPrompt += `
 #### Sheet ${index + 1}: ${sheet.title || 'Sin título'}
 - Sheet ID: ${sheet.id || 'No configurado'}
-- URL GET: ${sheet.urlGet || 'No configurado'}
-- URL POST: ${sheet.urlPost || 'No configurado'}
+- URL API: ${sheet.url || 'No configurado'}
 - Tipo de interacción: ${sheet.type || 'manual'}
 - Prompt específico:
 ${sheet.prompt || 'Sin prompt específico'}
@@ -699,24 +701,14 @@ function addCustomSheetCard(sheetData = null) {
   if (sheetData) {
     card.querySelector('.custom-sheet-title').value = sheetData.title || '';
     card.querySelector('.custom-sheet-id').value = sheetData.id || '';
-    card.querySelector('.custom-sheet-url-get').value = sheetData.urlGet || '';
-    card.querySelector('.custom-sheet-url-post').value = sheetData.urlPost || '';
     card.querySelector('.custom-sheet-type').value = sheetData.type || 'manual';
     card.querySelector('.custom-sheet-prompt').value = sheetData.prompt || '';
   }
   
-  // Event listeners para los inputs
-  const sheetIdInput = card.querySelector('.custom-sheet-id');
-  sheetIdInput.addEventListener('input', () => {
-    const sheetId = sheetIdInput.value.trim();
-    card.querySelector('.custom-sheet-url-get').value = sheetId ? `https://docs.google.com/spreadsheets/d/${sheetId}/edit` : '';
-    card.querySelector('.custom-sheet-url-post').value = sheetId ? `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Hoja 1!A:B:append?valueInputOption=USER_ENTERED` : '';
-    saveConfig();
-  });
-  
   card.querySelector('.custom-sheet-title').addEventListener('input', saveConfig);
   card.querySelector('.custom-sheet-type').addEventListener('change', saveConfig);
   card.querySelector('.custom-sheet-prompt').addEventListener('input', saveConfig);
+  card.querySelector('.custom-sheet-id').addEventListener('input', saveConfig);
   
   // Botón de eliminar
   card.querySelector('.delete-sheet-btn').addEventListener('click', () => {
