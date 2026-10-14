@@ -312,8 +312,8 @@ img {
 .nosotros-section {
   position: relative;
   padding: var(--spacing-3xl) 0;
-  background-color: var(--bg-main);
-  color: var(--text-light);
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .nosotros-grid {
@@ -383,15 +383,13 @@ img {
 /* Override text colors for dark sections (negro carbón) */
 .hero .section-title,
 .plans-section .section-title,
-.portfolio-section .section-title,
-.nosotros-section .section-title {
+.portfolio-section .section-title {
   color: var(--text-light);
 }
 
 .hero .section-subtitle,
 .plans-section .section-subtitle,
-.portfolio-section .section-subtitle,
-.nosotros-section .section-subtitle {
+.portfolio-section .section-subtitle {
   color: var(--text-secondary);
 }
 
@@ -399,6 +397,7 @@ img {
 .demo-section .section-title,
 .myia-section .section-title,
 .faq-section .section-title,
+.nosotros-section .section-title,
 .contact-section .section-title {
   color: var(--text-on-beige);
 }
@@ -406,6 +405,7 @@ img {
 .demo-section .section-subtitle,
 .myia-section .section-subtitle,
 .faq-section .section-subtitle,
+.nosotros-section .section-subtitle,
 .contact-section .section-subtitle {
   color: var(--text-on-beige);
   opacity: 0.8;
