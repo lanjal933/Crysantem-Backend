@@ -32,7 +32,7 @@
         <span style="font-size: 1.3rem;">CRYSANTEM</span>
       </a>
       <div class="landing-nav-links">
-        <a href="#como-funciona" class="landing-nav-link">Cómo funciona</a>
+        <a href="#como-funciona" class="landing-nav-link">MyIA</a>
         <a href="#demo" class="landing-nav-link">Demo</a>
         <a href="#planes" class="landing-nav-link">Planes</a>
         <a href="#faq" class="landing-nav-link">FAQ</a>
@@ -192,8 +192,41 @@
     </div>
   </section>
 
-  <!-- SECTION 5: DEMOSTRACIÓN DEL PRODUCTO (PORTFOLIO) -->
+  <!-- SECTION 5: DEMO FUNCIONAL -->
   <section class="section bg-black-gradient bg-black-variant-2" id="demo">
+    <div class="container">
+      <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+        <h2 class="fade-in">Probá Crysantem V1.4 AHORA</h2>
+        <p class="section-subtitle fade-in delay-1">Conocé cómo puede responder un agente IA diseñado para atender clientes.</p>
+      </div>
+      <div style="margin-top: var(--space-2xl); max-width: 700px; margin-left: auto; margin-right: auto;">
+        <div style="background: var(--color-panel-dark); border: 1px solid var(--color-border-dark); border-radius: var(--radius-xl); overflow: hidden;">
+          <div style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-lg); border-bottom: 1px solid var(--color-border-dark); background: rgba(0, 0, 0, 0.2);">
+            <div style="width: 48px; height: 48px; background: var(--color-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-black-primary); font-weight: 600; font-size: 1.2rem;">C</div>
+            <div style="flex: 1;">
+              <div style="font-weight: 600; color: var(--color-text-dark);">Crysantem AI</div>
+              <div style="font-size: 0.85rem; color: var(--color-text-secondary-dark); display: flex; align-items: center; gap: var(--space-xs);">
+                <span style="width: 8px; height: 8px; background: var(--color-green); border-radius: 50%;"></span>
+                Online
+              </div>
+            </div>
+          </div>
+          <div id="demoMessages" style="padding: var(--space-lg); min-height: 300px; display: flex; flex-direction: column; gap: var(--space-md);">
+            <div style="padding: var(--space-sm) var(--space-md); background: rgba(53, 199, 121, 0.12); border-radius: var(--radius-lg); max-width: 85%; align-self: flex-start; color: var(--color-text-dark);">
+              ¡Hola! Soy el asistente de Crysantem. ¿En qué puedo ayudarte hoy?
+            </div>
+          </div>
+          <div style="padding: var(--space-lg); border-top: 1px solid var(--color-border-dark); display: flex; gap: var(--space-md);">
+            <input type="text" id="demoInput" placeholder="Escribí tu consulta..." style="flex: 1; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--color-border-dark); border-radius: var(--radius-md); padding: var(--space-sm) var(--space-md); color: var(--color-text-dark); font-size: 0.95rem;">
+            <button id="demoSendBtn" style="background: var(--color-green); color: var(--color-black-primary); border: none; border-radius: var(--radius-md); padding: var(--space-sm) var(--space-lg); font-weight: 600; cursor: pointer; transition: all var(--transition-fast);">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: PORTFOLIO -->
+  <section class="section bg-beige" id="portfolio">
     <div class="container">
       <div style="text-align: center; max-width: 800px; margin: 0 auto;">
         <h2 class="fade-in">Portfolio</h2>
@@ -202,25 +235,25 @@
       <div style="margin-top: var(--space-2xl); position: relative;">
         <div style="display: flex; overflow-x: auto; gap: var(--space-lg); padding: var(--space-md) 0; scroll-snap-type: x mandatory;">
           <div style="flex: 0 0 100%; max-width: 800px; margin: 0 auto; scroll-snap-align: center;">
-            <video controls preload="metadata" style="width: 100%; border-radius: var(--radius-xl); border: 1px solid var(--color-border-dark);">
+            <video controls preload="metadata" style="width: 100%; border-radius: var(--radius-xl); border: 1px solid var(--color-border-light);">
               <source src="videos/portfolio1.mp4" type="video/mp4">
               Tu navegador no soporta videos.
             </video>
           </div>
           <div style="flex: 0 0 100%; max-width: 800px; margin: 0 auto; scroll-snap-align: center;">
-            <video controls preload="metadata" style="width: 100%; border-radius: var(--radius-xl); border: 1px solid var(--color-border-dark);">
+            <video controls preload="metadata" style="width: 100%; border-radius: var(--radius-xl); border: 1px solid var(--color-border-light);">
               <source src="videos/portfolio2.mp4" type="video/mp4">
               Tu navegador no soporta videos.
             </video>
           </div>
           <div style="flex: 0 0 100%; max-width: 800px; margin: 0 auto; scroll-snap-align: center;">
-            <video controls preload="metadata" style="width: 100%; border-radius: var(--radius-xl); border: 1px solid var(--color-border-dark);">
+            <video controls preload="metadata" style="width: 100%; border-radius: var(--radius-xl); border: 1px solid var(--color-border-light);">
               <source src="videos/portfolio3.mp4" type="video/mp4">
               Tu navegador no soporta videos.
             </video>
           </div>
         </div>
-        <p style="text-align: center; color: var(--color-text-secondary-dark); margin-top: var(--space-md); font-size: 0.9rem;">← Deslizá para explorar →</p>
+        <p style="text-align: center; color: var(--color-text-secondary-light); margin-top: var(--space-md); font-size: 0.9rem;">← Deslizá para explorar →</p>
       </div>
     </div>
   </section>
@@ -530,6 +563,65 @@
   <script src="js/config.js?v=7.3"></script>
   <script src="js/main.js"></script>
 
+  <!-- SCRIPT PARA DEMO FUNCIONAL -->
+  <script>
+    // Demo chat functionality
+    const demoInput = document.getElementById('demoInput');
+    const demoSendBtn = document.getElementById('demoSendBtn');
+    const demoMessages = document.getElementById('demoMessages');
+
+    if (demoInput && demoSendBtn && demoMessages) {
+      function addMessage(text, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.style.padding = 'var(--space-sm) var(--space-md)';
+        messageDiv.style.borderRadius = 'var(--radius-lg)';
+        messageDiv.style.maxWidth = '85%';
+        messageDiv.style.color = 'var(--color-text-dark)';
+        messageDiv.style.fontSize = '0.95rem';
+        messageDiv.style.lineHeight = '1.4';
+        
+        if (isUser) {
+          messageDiv.style.background = 'rgba(255, 255, 255, 0.08)';
+          messageDiv.style.alignSelf = 'flex-end';
+          messageDiv.style.marginLeft = 'auto';
+        } else {
+          messageDiv.style.background = 'rgba(53, 199, 121, 0.12)';
+          messageDiv.style.alignSelf = 'flex-start';
+        }
+        
+        messageDiv.textContent = text;
+        demoMessages.appendChild(messageDiv);
+        demoMessages.scrollTop = demoMessages.scrollHeight;
+      }
+
+      function handleSend() {
+        const text = demoInput.value.trim();
+        if (!text) return;
+
+        addMessage(text, true);
+        demoInput.value = '';
+
+        // Simular respuesta
+        setTimeout(() => {
+          const responses = [
+            'Gracias por tu consulta. Crysantem ofrece soluciones de IA personalizadas para automatizar la atención al cliente.',
+            'Interesante pregunta. Nuestros agentes pueden integrarse con Google Calendar, Sheets y Gmail según el plan.',
+            'El plan Responde comienza en $60.000 ARS por mes con hasta 1.000 mensajes. ¿Te gustaría saber más?',
+            'Nuestra tecnología utiliza modelos de IA avanzados como Gemini para ofrecer respuestas contextuales y útiles.',
+            'Podés configurar tu asistente en minutos sin necesidad de programar. ¿Te gustaría ver nuestros planes?'
+          ];
+          const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+          addMessage(randomResponse, false);
+        }, 1000);
+      }
+
+      demoSendBtn.addEventListener('click', handleSend);
+      demoInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleSend();
+      });
+    }
+  </script>
+
   <!-- SCRIPT PARA ANIMACIONES DE SCROLL -->
   <script>
     // Intersection Observer para animaciones de fade-in
@@ -633,11 +725,16 @@
       });
     }
 
-    // Auth dropdown functionality
+    // Auth dropdown functionality - Override main.js behavior
     const authBtn = document.getElementById('authBtn');
     const authDropdown = document.getElementById('authDropdown');
     const logoutBtn = document.getElementById('logoutBtn');
     const userEmailDisplay = document.getElementById('userEmailDisplay');
+
+    // Prevent main.js from interfering
+    if (authBtn) {
+      authBtn.removeEventListener('click', null);
+    }
 
     // Check auth state on load
     function checkAuth() {
@@ -654,11 +751,19 @@
 
     checkAuth();
 
-    // Toggle dropdown
+    // Toggle dropdown instead of opening modal
     if (authBtn && authDropdown) {
       authBtn.addEventListener('click', (e) => {
+        e.preventDefault();
         e.stopPropagation();
-        authDropdown.classList.toggle('show');
+        
+        const user = localStorage.getItem('user');
+        if (user) {
+          authDropdown.classList.toggle('show');
+        } else {
+          // Redirect to MyIA home for login
+          window.location.href = 'myia-home.html';
+        }
       });
 
       // Close dropdown when clicking outside

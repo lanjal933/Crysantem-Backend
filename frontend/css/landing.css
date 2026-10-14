@@ -266,13 +266,13 @@ a {
 }
 
 .landing-logo img {
-  height: 48px;
+  height: 56px;
   width: auto;
 }
 
 @media (max-width: 968px) {
   .landing-logo img {
-    height: 40px;
+    height: 44px;
   }
 }
 
