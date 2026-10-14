@@ -399,18 +399,18 @@ function removeImage(index) {
 
 // Generar super prompt según el plan
 function generateSuperPrompt(config) {
-  const plan = localStorage.getItem('selectedPlan');
-  
+  const plan = config.plan || localStorage.getItem('selectedPlan') || 'responde';
+
   const promptConfig = JSON.parse(localStorage.getItem('promptConfig') || '{}');
   const integrationsConfig = config.integrations_config || {};
-  
+
   const planNames = {
     responde: 'RESPONDE',
     asiste: 'ASISTE',
     automatiza: 'AUTOMATIZA',
     intelligence: 'INTELLIGENCE'
   };
-  
+
   let superPrompt = `# SUPER PROMPT - CRYSANTEM ${planNames[plan] || plan.toUpperCase()}
 
 ## PROMPT BASE DEL USUARIO

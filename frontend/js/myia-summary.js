@@ -440,7 +440,7 @@ async function createPage() {
   };
 
   // Generar SuperPrompt según el plan
-  const superPrompt = generateSuperPrompt({ integrations_config: config.integrations_config });
+  const superPrompt = generateSuperPrompt({ integrations_config: config.integrations_config, plan: plan });
   if (superPrompt) {
     configSnakeCase.super_prompt = superPrompt;
     console.log('SuperPrompt generado para el plan:', plan);
