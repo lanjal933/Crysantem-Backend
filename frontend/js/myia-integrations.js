@@ -95,10 +95,11 @@ function saveConfig() {
   if (document.getElementById('sheetsDbId')) {
     const dbId = document.getElementById('sheetsDbId')?.value || '';
     integrationsConfig.sheets.dbId = dbId;
-    // Generar URL automáticamente para base de datos
-    integrationsConfig.sheets.url = dbId ? `https://sheets.googleapis.com/v4/spreadsheets/${dbId}/values/Hoja 1:append?valueInputOption=USER_ENTERED` : '';
+    // Generar URLs automáticamente para base de datos (GET y POST)
+    integrationsConfig.sheets.urlGet = dbId ? `https://sheets.googleapis.com/v4/spreadsheets/${dbId}/values/Hoja 1?valueRenderOption=FORMATTED_VALUE` : '';
+    integrationsConfig.sheets.urlPost = dbId ? `https://sheets.googleapis.com/v4/spreadsheets/${dbId}/values/Hoja 1:append?valueInputOption=USER_ENTERED` : '';
     integrationsConfig.sheets.writeUsers = document.getElementById('sheetsWriteUsers')?.checked || false;
-    
+
     // Custom sheets (solo plan 03+ y 04+)
     if (document.getElementById('customSheetsList')) {
       const customSheets = [];
@@ -108,8 +109,9 @@ function saveConfig() {
         customSheets.push({
           title: sheetName,
           id: sheetId,
-          // Generar URL automáticamente para custom sheet
-          url: sheetId ? `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}:append?valueInputOption=USER_ENTERED` : '',
+          // Generar URLs automáticamente para custom sheet (GET y POST)
+          urlGet: sheetId ? `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}?valueRenderOption=FORMATTED_VALUE` : '',
+          urlPost: sheetId ? `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetName)}:append?valueInputOption=USER_ENTERED` : '',
           type: card.querySelector('.custom-sheet-type')?.value || 'manual',
           prompt: card.querySelector('.custom-sheet-prompt')?.value || ''
         });

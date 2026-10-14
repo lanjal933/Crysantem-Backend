@@ -367,10 +367,13 @@ router.post('/config', generalLimiter, myiaConfigValidation, async (req, res) =>
       is_active: config.is_active,
       integrations_config: config.integrations_config || null,
       super_prompt: config.super_prompt || null,
-      // Sheets URLs (columnas individuales para n8n)
-      sheets_database_url: config.integrations_config?.sheets?.url || null,
-      sheets_custom_1_url: config.integrations_config?.sheets?.customSheets?.[0]?.url || null,
-      sheets_custom_2_url: config.integrations_config?.sheets?.customSheets?.[1]?.url || null,
+      // Sheets URLs (columnas individuales para n8n - GET y POST separados)
+      sheets_database_url_get: config.integrations_config?.sheets?.urlGet || null,
+      sheets_database_url_post: config.integrations_config?.sheets?.urlPost || null,
+      sheets_custom_1_url_get: config.integrations_config?.sheets?.customSheets?.[0]?.urlGet || null,
+      sheets_custom_1_url_post: config.integrations_config?.sheets?.customSheets?.[0]?.urlPost || null,
+      sheets_custom_2_url_get: config.integrations_config?.sheets?.customSheets?.[1]?.urlGet || null,
+      sheets_custom_2_url_post: config.integrations_config?.sheets?.customSheets?.[1]?.urlPost || null,
       // Gmail (columna individual para n8n)
       gmail_sender_email: config.integrations_config?.gmail?.sender || null,
       // Pagos
@@ -406,10 +409,13 @@ router.post('/config', generalLimiter, myiaConfigValidation, async (req, res) =>
       is_active: config.is_active,
       integrations_config: config.integrations_config || null,
       super_prompt: config.super_prompt || null,
-      // Sheets URLs (columnas individuales para n8n)
-      sheets_database_url: config.integrations_config?.sheets?.url || null,
-      sheets_custom_1_url: config.integrations_config?.sheets?.customSheets?.[0]?.url || null,
-      sheets_custom_2_url: config.integrations_config?.sheets?.customSheets?.[1]?.url || null,
+      // Sheets URLs (columnas individuales para n8n - GET y POST separados)
+      sheets_database_url_get: config.integrations_config?.sheets?.urlGet || null,
+      sheets_database_url_post: config.integrations_config?.sheets?.urlPost || null,
+      sheets_custom_1_url_get: config.integrations_config?.sheets?.customSheets?.[0]?.urlGet || null,
+      sheets_custom_1_url_post: config.integrations_config?.sheets?.customSheets?.[0]?.urlPost || null,
+      sheets_custom_2_url_get: config.integrations_config?.sheets?.customSheets?.[1]?.urlGet || null,
+      sheets_custom_2_url_post: config.integrations_config?.sheets?.customSheets?.[1]?.urlPost || null,
       // Gmail (columna individual para n8n)
       gmail_sender_email: config.integrations_config?.gmail?.sender || null,
       payment_plan: config.payment_plan || null,

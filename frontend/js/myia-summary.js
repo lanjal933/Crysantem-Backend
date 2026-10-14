@@ -429,9 +429,12 @@ async function createPage() {
     integrations_config: config.integrations_config,
     super_prompt: config.super_prompt || null,
     // URLs de Sheets y Gmail para n8n
-    sheets_database_url: config.integrations_config?.sheets?.dbUrl || null,
-    sheets_custom_1_url: config.integrations_config?.sheets?.customSheets?.[0]?.urlPost || null,
-    sheets_custom_2_url: config.integrations_config?.sheets?.customSheets?.[1]?.urlPost || null,
+    sheets_database_url_get: config.integrations_config?.sheets?.urlGet || null,
+    sheets_database_url_post: config.integrations_config?.sheets?.urlPost || null,
+    sheets_custom_1_url_get: config.integrations_config?.sheets?.customSheets?.[0]?.urlGet || null,
+    sheets_custom_1_url_post: config.integrations_config?.sheets?.customSheets?.[0]?.urlPost || null,
+    sheets_custom_2_url_get: config.integrations_config?.sheets?.customSheets?.[1]?.urlGet || null,
+    sheets_custom_2_url_post: config.integrations_config?.sheets?.customSheets?.[1]?.urlPost || null,
     gmail_sender_email: config.integrations_config?.gmail?.sender || null,
     // Pagos
     payment_plan: config.payment_plan || paymentConfig.paymentPlan || null,
