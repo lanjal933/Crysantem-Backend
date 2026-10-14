@@ -312,16 +312,8 @@ img {
 .nosotros-section {
   position: relative;
   padding: var(--spacing-3xl) 0;
-  background-color: var(--bg-dark);
-}
-
-.nosotros-section::before {
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(53, 208, 127, 0.05) 50%,
-    transparent 100%
-  );
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .nosotros-grid {
@@ -388,33 +380,33 @@ img {
   line-height: 1.6;
 }
 
-/* Override text colors for dark sections */
-.nosotros-section .section-title,
+/* Override text colors for dark sections (negro carbón) */
 .hero .section-title,
-.myia-section .section-title,
-.contact-section .section-title {
+.plans-section .section-title,
+.portfolio-section .section-title,
+.faq-section .section-title {
   color: var(--text-light);
 }
 
-.nosotros-section .section-subtitle,
 .hero .section-subtitle,
-.myia-section .section-subtitle,
-.contact-section .section-subtitle {
+.plans-section .section-subtitle,
+.portfolio-section .section-subtitle,
+.faq-section .section-subtitle {
   color: var(--text-secondary);
 }
 
 /* Override text colors for beige sections */
-.plans-section .section-title,
 .demo-section .section-title,
-.portfolio-section .section-title,
-.faq-section .section-title {
+.myia-section .section-title,
+.nosotros-section .section-title,
+.contact-section .section-title {
   color: var(--text-on-beige);
 }
 
-.plans-section .section-subtitle,
 .demo-section .section-subtitle,
-.portfolio-section .section-subtitle,
-.faq-section .section-subtitle {
+.myia-section .section-subtitle,
+.nosotros-section .section-subtitle,
+.contact-section .section-subtitle {
   color: var(--text-on-beige);
   opacity: 0.8;
 }
@@ -726,8 +718,8 @@ img {
 .demo-section {
   position: relative;
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-secondary);
-  color: var(--text-on-beige);
+  background-color: var(--bg-main);
+  color: var(--text-light);
 }
 
 .demo-container {
@@ -738,19 +730,19 @@ img {
 }
 
 .demo-chat {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-beige);
+  background: var(--bg-dark-secondary);
+  border: 1px solid var(--border);
   border-radius: var(--border-radius-md);
   overflow: hidden;
 }
 
 .demo-header {
-  background: var(--bg-tertiary);
+  background: var(--bg-dark-secondary);
   padding: 16px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid var(--border-beige);
+  border-bottom: 1px solid var(--border);
 }
 
 .demo-header-icon {
@@ -953,8 +945,8 @@ img {
 }
 
 .plans-section {
-  background: var(--bg-secondary);
-  color: var(--text-on-beige);
+  background: var(--bg-main);
+  color: var(--text-light);
 }
 
 .plans-section .section-title,
@@ -995,8 +987,8 @@ img {
 }
 
 .plan-card {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-beige);
+  background: var(--bg-dark-secondary);
+  border: 1px solid var(--border);
   border-radius: var(--border-radius-md);
   padding: 32px;
   transition: border-color var(--transition);
@@ -1011,12 +1003,12 @@ img {
 
 .plan-card.featured {
   border-color: var(--green-main);
-  background: var(--bg-tertiary);
+  background: var(--bg-dark-secondary);
 }
 
 .plan-card.premium {
-  border-color: var(--border-beige);
-  background: var(--bg-tertiary);
+  border-color: var(--border);
+  background: var(--bg-dark-secondary);
 }
 
 .plan-card.premium:hover {
@@ -1040,7 +1032,7 @@ img {
 .plan-number {
   font-size: 2.2rem;
   font-weight: 700;
-  color: rgba(89, 90, 82, 0.15);
+  color: rgba(247, 248, 246, 0.15);
   margin-bottom: 8px;
   line-height: 1;
   font-family: var(--font-display);
@@ -1050,7 +1042,7 @@ img {
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 16px;
-  color: var(--text-on-beige);
+  color: var(--text-light);
   letter-spacing: -0.02em;
   font-family: var(--font-display);
 }
@@ -1058,33 +1050,33 @@ img {
 .plan-price {
   margin-bottom: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--border-beige);
+  border-bottom: 1px solid var(--border);
 }
 
 .plan-price-initial {
   font-size: 1.9rem;
   font-weight: 700;
-  color: var(--text-on-beige);
+  color: var(--text-light);
   line-height: 1;
   font-family: var(--font-display);
 }
 
 .plan-price-initial span {
   font-size: 0.85rem;
-  color: var(--text-on-beige);
+  color: var(--text-light);
   opacity: 0.6;
   font-weight: 400;
 }
 
 .plan-price-monthly {
   font-size: 0.9rem;
-  color: var(--text-on-beige);
+  color: var(--text-light);
   opacity: 0.6;
   margin-top: 8px;
 }
 
 .plan-description {
-  color: var(--text-on-beige);
+  color: var(--text-light);
   opacity: 0.85;
   margin-bottom: 8px;
   line-height: 1.5;
@@ -1106,7 +1098,7 @@ img {
 
 .plan-features li {
   padding: 8px 0;
-  color: var(--text-on-beige);
+  color: var(--text-light);
   opacity: 0.85;
   display: flex;
   align-items: flex-start;
@@ -1130,8 +1122,8 @@ img {
 .portfolio-section {
   overflow: hidden;
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-secondary);
-  color: var(--text-on-beige);
+  background-color: var(--bg-main);
+  color: var(--text-light);
 }
 
 .portfolio-container {
@@ -1219,8 +1211,8 @@ img {
 }
 
 .faq-section {
-  background: var(--bg-secondary);
-  color: var(--text-on-beige);
+  background: var(--bg-main);
+  color: var(--text-light);
 }
 
 .faq-list {
@@ -1295,7 +1287,8 @@ img {
 .contact-section {
   text-align: center;
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-dark);
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .contact-content {
@@ -1440,7 +1433,8 @@ img {
   padding: 120px 0;
   position: relative;
   overflow: hidden;
-  background-color: var(--bg-main);
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
 }
 
 .myia-content {
