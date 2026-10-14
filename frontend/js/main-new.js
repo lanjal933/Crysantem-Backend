@@ -1,10 +1,14 @@
 // USAR ESTE ARCHIVO EN LUGAR DE main.js
 // Cambiar el nombre rompe el cache del navegador
 
-// API URL del backend en Render
-const API_URL = 'https://crysantem-backend.onrender.com';
+// API URL del backend en Render (declarado como global para compartir con otros scripts)
+if (!window.API_URL) {
+  window.API_URL = 'https://crysantem-backend.onrender.com';
+}
 
-console.log('=== DEBUG: main-new.js cargado ===');
+const API_URL = window.API_URL;
+
+console.log('=== DEBUG: main-new.js cargado v7.3 ===');
 console.log('API_URL backend:', API_URL);
 
 let currentUser = null;
@@ -810,4 +814,55 @@ async function fetchProfile() {
   } catch (error) {
     console.error('Error fetching profile:', error);
   }
+}
+
+// Scroll inmersivo - Intersection Observer
+const initScrollAnimations = () => {
+  // Verificar si el navegador soporta IntersectionObserver
+  if (!('IntersectionObserver' in window)) {
+    console.log('IntersectionObserver no soportado, animaciones deshabilitadas');
+    return;
+  }
+
+  // Verificar prefers-reduced-motion
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    console.log('Reduced motion activado, animaciones deshabilitadas');
+    return;
+  }
+
+  // Configuración del observer
+  const observerOptions = {
+    root: null, // viewport
+    rootMargin: '0px',
+    threshold: 0.1 // Se activa cuando el 10% del elemento es visible
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Una vez visible, dejar de observar
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  // Seleccionar elementos a animar
+  const animatedElements = document.querySelectorAll(
+    '.fade-in-up, .fade-in-left, .fade-in-right, .fade-in-scale'
+  );
+
+  console.log('Elementos a animar:', animatedElements.length);
+
+  animatedElements.forEach(el => {
+    observer.observe(el);
+  });
+};
+
+// Inicializar animaciones cuando el DOM esté listo
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initScrollAnimations);
+} else {
+  initScrollAnimations();
 }
