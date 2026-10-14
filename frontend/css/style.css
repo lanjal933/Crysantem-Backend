@@ -1,12 +1,12 @@
 :root {
-  /* Paleta editorial mejorada - Mayor contraste */
-  --bg-main: #0a0c0a; /* Negro más oscuro */
-  --bg-secondary: #e5ddd0; /* Beige más claro para mejor contraste */
-  --bg-tertiary: #f0e9dc; /* Blanco cálido más claro */
-  --bg-dark: #0a0c0a;
-  --bg-dark-secondary: #141614; /* Negro más claro */
-  --bg-card-dark: #1e201e; /* Fondo cards en negro */
-  --bg-card-beige: #ffffff; /* Fondo cards en beige */
+  /* Paleta original Crysantem */
+  --bg-main: #111311; /* Negro carbón */
+  --bg-secondary: #EAE5D8; /* Beige cálido */
+  --bg-tertiary: #F7F5EF; /* Blanco cálido */
+  --bg-dark: #111311;
+  --bg-dark-secondary: #1a1c1a;
+  --bg-card-dark: #1e201e;
+  --bg-card-beige: #ffffff;
 
   /* Verde como acento limitado */
   --green-main: #35C779;
@@ -19,25 +19,25 @@
   --purple-accent: #9B5DE5;
   --orange-accent: #f5a623;
 
-  /* Texto - Mejor contraste */
-  --text-main: #ffffff; /* Blanco puro */
-  --text-secondary: #c0c1b9; /* Gris más claro */
-  --text-muted: #8a8b83; /* Gris medio */
-  --text-light: #ffffff;
-  --text-on-beige: #0a0c0a; /* Negro puro */
-  --text-on-beige-secondary: #3a3b33; /* Gris oscuro */
-  --text-accent: #35C779; /* Verde para destacados */
+  /* Texto */
+  --text-main: #F7F5EF;
+  --text-secondary: #B8B9B1;
+  --text-muted: #888888;
+  --text-light: #F7F5EF;
+  --text-on-beige: #111311;
+  --text-on-beige-secondary: #595A52;
+  --text-accent: #35C779;
 
   /* Bordes */
-  --border: #2a2c2a;
-  --border-light: #3a3c3a;
+  --border: #333333;
+  --border-light: #444444;
   --border-dark: #1a1c1a;
-  --border-beige: #c9c4b7;
+  --border-beige: #C9C4B7;
   --border-accent: #35C779;
 
-  /* Tipografía Arial para toda la web */
-  --font-display: Arial, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Tipografía: Sora para titulares, Inter para textos */
+  --font-display: 'Sora', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Espaciado editorial */
   --spacing-xs: 0.5rem;
@@ -50,10 +50,10 @@
   --spacing-4xl: 8rem;
 
   /* Bordes más sutiles */
-  --border-radius-sm: 4px;
-  --border-radius-md: 8px;
-  --border-radius-lg: 12px;
-  --border-radius-xl: 16px;
+  --border-radius-sm: 2px;
+  --border-radius-md: 4px;
+  --border-radius-lg: 6px;
+  --border-radius-xl: 8px;
 
   /* Transiciones mínimas */
   --transition: 0.15s ease;
@@ -63,6 +63,11 @@
   --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
   --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
   --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+  /* Backgrounds con profundidad */
+  --bg-dark-gradient: linear-gradient(135deg, #111311 0%, #1a1c1a 50%, #111311 100%);
+  --bg-dark-radial: radial-gradient(ellipse at top right, rgba(53, 199, 121, 0.08) 0%, transparent 50%);
+  --bg-dark-subtle: radial-gradient(ellipse at bottom left, rgba(53, 199, 121, 0.05) 0%, transparent 60%);
 }
 
 * {
@@ -422,6 +427,29 @@ img {
   color: var(--text-secondary);
 }
 
+/* Plans section with depth */
+.plans-section {
+  background: var(--bg-dark-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.plans-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-dark-subtle);
+  pointer-events: none;
+}
+
+.plans-section .container {
+  position: relative;
+  z-index: 1;
+}
+
 /* Override text colors for beige sections */
 .demo-section .section-title,
 .myia-section .section-title,
@@ -441,22 +469,41 @@ img {
 /* Nueva sección: MyIA intro */
 .myia-intro-section {
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-main);
-  color: var(--text-main);
+  background: var(--bg-dark-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.myia-intro-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  background: var(--bg-dark-radial);
+  pointer-events: none;
+}
+
+.myia-intro-section .container {
+  position: relative;
+  z-index: 1;
 }
 
 .myia-intro-section .section-title {
   color: var(--text-main);
   font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: var(--spacing-xl);
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .myia-intro-section .section-subtitle {
   color: var(--text-secondary);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   margin-bottom: var(--spacing-lg);
+  font-weight: 400;
 }
 
 .content-block {
@@ -641,16 +688,34 @@ img {
 /* Nueva sección: Capacidades */
 .capabilities-section {
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-main);
-  color: var(--text-main);
+  background: var(--bg-dark-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.capabilities-section::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 80%;
+  background: var(--bg-dark-subtle);
+  pointer-events: none;
+}
+
+.capabilities-section .container {
+  position: relative;
+  z-index: 1;
 }
 
 .capabilities-section .section-title {
   color: var(--text-main);
   font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: var(--spacing-xl);
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .capabilities-grid {
@@ -818,16 +883,34 @@ img {
 /* Nueva sección: Por qué elegir MyIA */
 .why-choose-section {
   padding: var(--spacing-4xl) 0;
-  background-color: var(--bg-main);
-  color: var(--text-main);
+  background: var(--bg-dark-gradient);
+  position: relative;
+  overflow: hidden;
+}
+
+.why-choose-section::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  right: 10%;
+  width: 40%;
+  height: 60%;
+  background: var(--bg-dark-radial);
+  pointer-events: none;
+}
+
+.why-choose-section .container {
+  position: relative;
+  z-index: 1;
 }
 
 .why-choose-section .section-title {
   color: var(--text-main);
   font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: var(--spacing-xl);
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .why-choose-grid {
@@ -1297,7 +1380,29 @@ html {
   padding-top: 100px;
   position: relative;
   overflow: hidden;
-  background-color: var(--bg-dark);
+  background: var(--bg-dark-gradient);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 100%;
+  background: var(--bg-dark-radial);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 50%;
+  height: 80%;
+  background: var(--bg-dark-subtle);
+  pointer-events: none;
 }
 
 /* Fondo sólido negro carbón - sin imagen ni gradientes */
@@ -1790,6 +1895,34 @@ html {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: var(--spacing-md);
+}
+
+.plan-features {
+  list-style: none;
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.plan-features li {
+  padding: 8px 0;
+  color: var(--text-light);
+  opacity: 0.85;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+.plan-features li::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: var(--green-main);
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
 }
   height: 5px;
   background: var(--green-main);
@@ -3512,5 +3645,90 @@ html {
   color: var(--text-main);
   width: 25%;
 }
+
+/* Preview de MyIA para demostración visual */
+.myia-preview-container {
+  margin-top: var(--spacing-2xl);
+  max-width: 1000px;
+}
+
+.myia-preview-large {
+  background: var(--bg-card-dark);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.myia-preview-window {
+  display: flex;
+  min-height: 400px;
+}
+
+.myia-preview-sidebar {
+  width: 200px;
+  background: rgba(0, 0, 0, 0.3);
+  border-right: 1px solid var(--border);
+  padding: var(--spacing-md);
+}
+
+.preview-nav-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: default;
+}
+
+.preview-nav-item.active {
+  background: rgba(53, 199, 121, 0.15);
+  color: var(--text-main);
+}
+
+.myia-preview-main {
+  flex: 1;
+  padding: var(--spacing-xl);
+}
+
+.preview-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border);
+}
+
+.preview-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.preview-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.preview-field label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.preview-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
 
 

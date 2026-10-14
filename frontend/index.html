@@ -77,6 +77,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   
+  <!-- Fuentes: Sora para titulares, Inter para textos -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <!-- Sin fuentes externas - usar Arial nativo -->
   
   <!-- CSS crítico inline (para mejorar LCP) -->
@@ -119,8 +122,6 @@
           <a href="#que-es" class="navbar-link">MyIA</a>
           <a href="#pasos" class="navbar-link">Cómo funciona</a>
           <a href="#planes" class="navbar-link">Planes</a>
-          <a href="#portfolio" class="navbar-link">Portfolio</a>
-          <a href="#faq" class="navbar-link">FAQ</a>
           <a href="#contacto" class="navbar-link">Contacto</a>
           <a href="myia-coworkers.html" class="navbar-link" id="coworkersLink" style="display: none;">COWORKERS</a>
           <div class="navbar-auth">
@@ -141,18 +142,17 @@
     <!-- Hero Section - H1 único de la página -->
     <section id="hero" class="hero section" aria-labelledby="hero-title">
       <div class="container hero-content">
-        <p class="hero-pretitle fade-in-up">MYIA · TU NEGOCIO, CON INTELIGENCIA ARTIFICIAL</p>
+        <p class="hero-pretitle fade-in-up">MYIA</p>
         <h1 id="hero-title" class="hero-title fade-in-up delay-1">
-          Tu próximo chatbot puede estar listo en minutos.
+          Tu chatbot en minutos
         </h1>
         <p class="hero-subtitle fade-in-up delay-2">
-          Creá un asistente de inteligencia artificial para tu página web, adaptado a tu negocio, su información y la forma en que querés atender a tus clientes. Configuralo sin necesidad de programar y ofrecé respuestas incluso cuando no estés disponible.
+          Configurá un asistente de IA para tu página web sin programar. Atendé clientes 24/7 mientras crecés tu negocio.
         </p>
         <div class="hero-cta fade-in-up delay-3">
           <a href="myia-home.html" class="btn btn-primary">Crear mi chatbot</a>
-          <a href="#que-es" class="btn btn-secondary">Conocer MyIA</a>
+          <a href="#demo" class="btn btn-secondary">Ver demo</a>
         </div>
-        <p class="hero-note fade-in-up delay-4">Menos consultas repetitivas. Más tiempo para hacer crecer tu negocio.</p>
       </div>
     </section>
 
@@ -160,37 +160,36 @@
     <section id="que-es" class="myia-intro-section section" aria-labelledby="que-es-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="que-es-title" class="section-title fade-in-up">Tu negocio tiene mucho que hacer. Dejá que la IA se encargue de algunas tareas.</h2>
+          <h2 id="que-es-title" class="section-title fade-in-up">Configurá tu asistente sin código</h2>
+          <p class="section-subtitle fade-in-up delay-1">
+            MyIA te permite crear un chatbot personalizado para tu web en minutos. Definí su apariencia, comportamiento y respuesta.
+          </p>
         </div>
-        <div class="content-block fade-in-up delay-1">
-          <div class="info-card">
-            <div class="info-card-icon">
-              <span style="font-size: 2rem;">🚀</span>
+        <div class="myia-preview-container fade-in-up delay-2">
+          <div class="myia-preview-large">
+            <div class="myia-preview-window">
+              <div class="myia-preview-sidebar">
+                <div class="preview-nav-item active">Configuración</div>
+                <div class="preview-nav-item">Apariencia</div>
+                <div class="preview-nav-item">Integraciones</div>
+              </div>
+              <div class="myia-preview-main">
+                <div class="preview-header">
+                  <span>Configurar asistente</span>
+                </div>
+                <div class="preview-form">
+                  <div class="preview-field">
+                    <label>Nombre del asistente</label>
+                    <div class="preview-input">Mi Asistente</div>
+                  </div>
+                  <div class="preview-field">
+                    <label>Mensaje de bienvenida</label>
+                    <div class="preview-input">¡Hola! ¿En qué puedo ayudarte?</div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <h3 class="info-card-title">Plataforma sin código</h3>
-            <p class="info-card-text">
-              Crysantem MyIA es la plataforma de Crysantem que te permite crear y configurar un chatbot para tu página web sin tener que desarrollar uno desde cero.
-            </p>
           </div>
-          <div class="info-card">
-            <div class="info-card-icon">
-              <span style="font-size: 2rem;">🎨</span>
-            </div>
-            <h3 class="info-card-title">Personalización total</h3>
-            <p class="info-card-text">
-              Adaptá su apariencia, definí cómo debe comunicarse y configurá su comportamiento para que pueda responder consultas relacionadas con tu negocio.
-            </p>
-          </div>
-          <div class="info-card">
-            <div class="info-card-icon">
-              <span style="font-size: 2rem;">⚡</span>
-            </div>
-            <h3 class="info-card-title">Configuración rápida</h3>
-            <p class="info-card-text">
-              No necesitás empezar con un proyecto de programación ni construir una solución desde cero. MyIA reúne las herramientas necesarias para configurar una experiencia de atención más útil, personalizada y alineada con tu marca.
-            </p>
-          </div>
-          <p class="section-highlight fade-in-up delay-4">Tu información. Tu estilo. Tu asistente.</p>
         </div>
       </div>
     </section>
@@ -198,22 +197,22 @@
     <!-- Sección: Crealo en tres pasos -->
     <section id="pasos" class="steps-section section" aria-labelledby="pasos-title">
       <div class="container">
-        <h2 id="pasos-title" class="section-title fade-in-up">Crealo en tres pasos</h2>
+        <h2 id="pasos-title" class="section-title fade-in-up">Tres pasos para tu asistente</h2>
         <div class="steps-grid">
           <div class="step-card fade-in-up delay-1">
             <div class="step-number">01</div>
-            <h3 class="step-title">Configurá tu asistente</h3>
-            <p class="step-description">Definí el nombre, la apariencia y el comportamiento de tu chatbot. Adaptalo a la identidad de tu negocio y a la manera en que querés atender a tus visitantes.</p>
+            <h3 class="step-title">Configurá</h3>
+            <p class="step-description">Definí nombre, apariencia y comportamiento</p>
           </div>
           <div class="step-card fade-in-up delay-2">
             <div class="step-number">02</div>
-            <h3 class="step-title">Dale información útil</h3>
-            <p class="step-description">Prepará la información que el asistente necesita para responder sobre tus servicios, productos, horarios, preguntas frecuentes y otros datos de tu negocio, según las fuentes compatibles con tu plan.</p>
+            <h3 class="step-title">Informá</h3>
+            <p class="step-description">Cargá los datos de tu negocio</p>
           </div>
           <div class="step-card fade-in-up delay-3">
             <div class="step-number">03</div>
-            <h3 class="step-title">Personalizá y publicá</h3>
-            <p class="step-description">Ajustá la experiencia, comprobá las respuestas y prepará la integración del chatbot en tu página web siguiendo las opciones disponibles en MyIA.</p>
+            <h3 class="step-title">Publicá</h3>
+            <p class="step-description">Integrá el chatbot en tu web</p>
           </div>
         </div>
       </div>
@@ -224,7 +223,7 @@
       <div class="container">
         <h2 id="plans-title" class="section-title fade-in-up">Planes</h2>
         <p class="section-subtitle fade-in-up delay-1">
-          Elegí el nivel de automatización que necesita tu negocio.
+          Elegí el nivel de automatización para tu negocio
         </p>
         <div class="plans-grid">
           <!-- Plan 01 - H3 -->
@@ -232,16 +231,12 @@
             <div class="plan-number">01</div>
             <h3 class="plan-name">Responde</h3>
             <div class="plan-price">
-              <div class="plan-price-monthly">$49.000 ARS <span>/ mes</span></div>
+              <div class="plan-price-monthly">$49.000 <span>/ mes</span></div>
             </div>
-            <p class="plan-description">Chatbot básico para automatizar la atención al cliente 24/7.</p>
-            <div class="plan-badge-inline">Básico</div>
-            <p class="plan-details">Canales: Web, Telegram o Discord</p>
+            <p class="plan-features-count">1.000 mensajes</p>
             <ul class="plan-features">
-              <li>✓ Responde preguntas frecuentes, horarios, ubicación y datos de contacto</li>
-              <li>✓ Mantiene conversaciones naturales usando la información de tu empresa</li>
-              <li>✓ Mensajes: Hasta 1.000 mensajes al mes</li>
-              <li>✓ Permanencia mínima: 3 meses</li>
+              <li>Atención básica 24/7</li>
+              <li>Web, Telegram, Discord</li>
             </ul>
             <a href="myia-home.html" class="btn btn-secondary btn-full">Comenzar</a>
           </article>
@@ -251,19 +246,12 @@
             <div class="plan-number">02</div>
             <h3 class="plan-name">Asiste</h3>
             <div class="plan-price">
-              <div class="plan-price-monthly">$79.000 ARS <span>/ mes</span></div>
+              <div class="plan-price-monthly">$79.000 <span>/ mes</span></div>
             </div>
-            <p class="plan-description">Asistente inteligente que entiende el contexto y guía al cliente.</p>
-            <div class="plan-badge-inline" style="background: var(--blue-accent);">Intermedio</div>
-            <p class="plan-details">Conexión clave: Google Sheets (Base de datos de usuarios)</p>
+            <p class="plan-features-count">2.500 mensajes</p>
             <ul class="plan-features">
-              <li>✓ Todo lo del plan anterior</li>
-              <li>✓ Comprende la intención del usuario y da recomendaciones personalizadas</li>
-              <li>✓ Recopila datos de clientes y los guía paso a paso</li>
-              <li>✓ Detecta cuándo se necesita un humano y deriva la conversación</li>
-              <li>✓ Markdown enriquecido: cajas coloridas, links estéticos, botones directos</li>
-              <li>✓ Mensajes: Hasta 2.500 mensajes al mes</li>
-              <li>✓ Permanencia mínima: 3 meses</li>
+              <li>Google Sheets</li>
+              <li>Markdown enriquecido</li>
             </ul>
             <a href="myia-home.html" class="btn btn-secondary btn-full">Comenzar</a>
           </article>
@@ -274,20 +262,13 @@
             <div class="plan-number">03</div>
             <h3 class="plan-name">Automatiza</h3>
             <div class="plan-price">
-              <div class="plan-price-monthly">$125.000 ARS <span>/ mes</span></div>
+              <div class="plan-price-monthly">$125.000 <span>/ mes</span></div>
             </div>
-            <p class="plan-description">Agente operativo que transforma conversaciones en acciones comerciales.</p>
-            <div class="plan-badge-inline" style="background: var(--green-main);">Avanzado</div>
-            <p class="plan-details">Conexión clave: Google Calendar (Integración total de agenda)</p>
+            <p class="plan-features-count">5.000 mensajes</p>
             <ul class="plan-features">
-              <li>✓ Todo lo del plan anterior</li>
-              <li>✓ Reserva, gestiona y cancela citas de forma automática</li>
-              <li>✓ Envía confirmaciones y recordatorios a los clientes</li>
-              <li>✓ Captura, clasifica y califica leads (clientes potenciales)</li>
-              <li>✓ Gráficos dinámicos generados por la IA</li>
-              <li>✓ Ejecuta flujos automatizados con herramientas externas</li>
-              <li>✓ Mensajes: Hasta 5.000 mensajes al mes</li>
-              <li>✓ Permanencia mínima: 6 meses</li>
+              <li>Google Calendar</li>
+              <li>Gestión de citas</li>
+              <li>Gráficos IA</li>
             </ul>
             <a href="myia-home.html" class="btn btn-primary btn-full">Comenzar</a>
           </article>
@@ -300,18 +281,13 @@
             <div class="plan-price">
               <div class="plan-price-monthly">Personalizado</div>
             </div>
-            <p class="plan-description">Solución a medida para empresas con necesidades específicas.</p>
-            <div class="plan-badge-inline" style="background: var(--purple-accent);">A medida</div>
-            <p class="plan-details">Conexión clave: Gmail, Google Sheets y Google Calendar (Ecosistema completo)</p>
+            <p class="plan-features-count">A medida</p>
             <ul class="plan-features">
-              <li>✓ Todo lo del plan anterior</li>
-              <li>✓ Envía resúmenes automáticos de las conversaciones por email</li>
-              <li>✓ Envía y procesa imágenes, catálogos y documentos técnicos complejos</li>
-              <li>✓ Ejecuta automatizaciones personalizadas e integraciones adicionales a pedido</li>
-              <li>✓ Mensajes: Ajustados a medida</li>
-              <li>✓ Soporte dedicado</li>
+              <li>Gmail integrado</li>
+              <li>Soporte dedicado</li>
+              <li>Integraciones custom</li>
             </ul>
-            <a href="#contacto" class="btn btn-secondary btn-full">Contactar Ventas</a>
+            <a href="#contacto" class="btn btn-secondary btn-full">Contactar</a>
           </article>
         </div>
       </div>
@@ -320,64 +296,22 @@
     <!-- Sección: ¿Qué puede hacer tu chatbot? -->
     <section id="que-puede-hacer" class="capabilities-section section" aria-labelledby="capabilities-title">
       <div class="container">
-        <h2 id="capabilities-title" class="section-title fade-in-up">Una atención más útil, sin estar pendiente de cada mensaje.</h2>
+        <h2 id="capabilities-title" class="section-title fade-in-up">Atención automática 24/7</h2>
         <div class="capabilities-grid">
           <div class="capability-card fade-in-up delay-1">
             <div class="capability-number">01</div>
-            <h3 class="capability-title">Responder consultas frecuentes</h3>
-            <p class="capability-description">Ayudá a tus visitantes a encontrar información sobre tus servicios, productos, condiciones y preguntas habituales.</p>
+            <h3 class="capability-title">Consultas frecuentes</h3>
+            <p class="capability-description">Horarios, ubicación, datos de contacto</p>
           </div>
           <div class="capability-card fade-in-up delay-2">
             <div class="capability-number">02</div>
-            <h3 class="capability-title">Explicar lo que ofrecés</h3>
-            <p class="capability-description">Dale a tu asistente información sobre tu negocio para que pueda orientar a los potenciales clientes y explicar tus propuestas.</p>
+            <h3 class="capability-title">Fuera de horario</h3>
+            <p class="capability-description">Disponible cuando no estés conectado</p>
           </div>
           <div class="capability-card fade-in-up delay-3">
             <div class="capability-number">03</div>
-            <h3 class="capability-title">Atender fuera de tu horario habitual</h3>
-            <p class="capability-description">Tu chatbot puede seguir disponible para conversar con los visitantes cuando vos estés ocupado o no estés conectado, sujeto a la disponibilidad de la plataforma.</p>
-          </div>
-          <div class="capability-card fade-in-up delay-4">
-            <div class="capability-number">04</div>
-            <h3 class="capability-title">Adaptarse a tu marca</h3>
-            <p class="capability-description">Personalizá su nombre, su apariencia y su estilo de comunicación para integrarlo con la identidad visual de tu negocio.</p>
-          </div>
-          <div class="capability-card fade-in-up delay-5">
-            <div class="capability-number">05</div>
-            <h3 class="capability-title">Reducir tareas repetitivas</h3>
-            <p class="capability-description">Dejá que el asistente responda las consultas habituales para que puedas dedicar más tiempo a las tareas que necesitan tu atención directa.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sección: Pensado para distintos negocios -->
-    <section id="distintos-negocios" class="business-types-section section" aria-labelledby="business-types-title">
-      <div class="container">
-        <h2 id="business-types-title" class="section-title fade-in-up">Una herramienta. Distintas formas de trabajar.</h2>
-        <p class="section-subtitle fade-in-up delay-1">
-          MyIA puede adaptarse a las necesidades de diferentes tipos de negocios, desde profesionales independientes hasta empresas que reciben consultas todos los días.
-        </p>
-        <div class="business-types-grid">
-          <div class="business-card fade-in-up delay-1">
-            <div class="business-icon">👨‍💼</div>
-            <h3 class="business-title">Profesionales y consultores</h3>
-            <p class="business-description">Respondé preguntas sobre tus servicios, explicá cómo trabajás y orientá a las personas interesadas.</p>
-          </div>
-          <div class="business-card fade-in-up delay-2">
-            <div class="business-icon">🏪</div>
-            <h3 class="business-title">Tiendas y comercios</h3>
-            <p class="business-description">Ayudá a los visitantes a conocer tus productos, encontrar información relevante y resolver dudas habituales.</p>
-          </div>
-          <div class="business-card fade-in-up delay-3">
-            <div class="business-icon">🏢</div>
-            <h3 class="business-title">Agencias y empresas de servicios</h3>
-            <p class="business-description">Ofrecé una primera atención organizada y explicá tus soluciones sin tener que responder manualmente cada consulta inicial.</p>
-          </div>
-          <div class="business-card fade-in-up delay-4">
-            <div class="business-icon">💻</div>
-            <h3 class="business-title">Emprendimientos digitales</h3>
-            <p class="business-description">Incorporá un asistente a tu página web para ofrecer una experiencia más completa y acompañar a tus visitantes durante su recorrido.</p>
+            <h3 class="capability-title">Personalizado</h3>
+            <p class="capability-description">Adaptado a tu marca y negocio</p>
           </div>
         </div>
       </div>
@@ -434,165 +368,16 @@
       </div>
     </section>
 
-    <!-- Sección: Por qué elegir MyIA -->
-    <section id="por-que-elegir" class="why-choose-section section" aria-labelledby="why-choose-title">
-      <div class="container">
-        <h2 id="why-choose-title" class="section-title fade-in-up">No necesitás construir todo desde cero.</h2>
-        <div class="why-choose-grid">
-          <div class="why-card fade-in-up delay-1">
-            <div class="why-number">01</div>
-            <h3 class="why-title">Sin desarrollar un chatbot manualmente</h3>
-            <p class="why-description">Configurá tu asistente desde una plataforma diseñada para simplificar el proceso.</p>
-          </div>
-          <div class="why-card fade-in-up delay-2">
-            <div class="why-number">02</div>
-            <h3 class="why-title">Personalización visual</h3>
-            <p class="why-description">Adaptá la presentación del chatbot para que encaje con la identidad de tu negocio.</p>
-          </div>
-          <div class="why-card fade-in-up delay-3">
-            <div class="why-number">03</div>
-            <h3 class="why-title">Comportamiento configurable</h3>
-            <p class="why-description">Definí cómo debe comunicarse y qué información necesita para atender las consultas de tus visitantes.</p>
-          </div>
-          <div class="why-card fade-in-up delay-4">
-            <div class="why-number">04</div>
-            <h3 class="why-title">Una solución que puede crecer con tu negocio</h3>
-            <p class="why-description">Empezá por las necesidades de atención más importantes y elegí las capacidades que realmente necesitás, de acuerdo con el plan contratado.</p>
-          </div>
-        </div>
-        <p class="why-conclusion fade-in-up delay-5">MyIA busca acercar la inteligencia artificial a los negocios sin convertir la implementación tecnológica en un proyecto interminable.</p>
-      </div>
-    </section>
-
-    <!-- Portfolio Section - H2 -->
-    <section id="portfolio" class="portfolio-section section" aria-labelledby="portfolio-title">
-      <div class="container portfolio-container">
-        <div class="portfolio-header">
-          <h2 id="portfolio-title" class="section-title fade-in-up">Portfolio</h2>
-          <div class="portfolio-indicator fade-in-up delay-1" aria-label="Página 1 de 3">01 / 03</div>
-        </div>
-        <p class="section-subtitle fade-in-up delay-1">
-          Mira algunos de nuestros proyectos en acción.
-        </p>
-        <div class="portfolio-scroll fade-in-up delay-2" id="portfolioScroll">
-          <div class="portfolio-item">
-            <div class="portfolio-video">
-              <video controls preload="metadata" aria-label="Demostración de proyecto de Crysantem 1">
-                <source src="videos/portfolio1.mp4" type="video/mp4">
-                Tu navegador no soporta videos.
-              </video>
-            </div>
-          </div>
-          <div class="portfolio-item">
-            <div class="portfolio-video">
-              <video controls preload="metadata" aria-label="Demostración de proyecto de Crysantem 2">
-                <source src="videos/portfolio2.mp4" type="video/mp4">
-                Tu navegador no soporta videos.
-              </video>
-            </div>
-          </div>
-          <div class="portfolio-item">
-            <div class="portfolio-video">
-              <video controls preload="metadata" aria-label="Demostración de proyecto de Crysantem 3">
-                <source src="videos/portfolio3.mp4" type="video/mp4">
-                Tu navegador no soporta videos.
-              </video>
-            </div>
-          </div>
-        </div>
-        <p class="portfolio-hint fade-in-up delay-3" aria-hidden="true">← Deslizá para explorar →</p>
-      </div>
-    </section>
-
-    <!-- Nosotros Section - H2 -->
-    <section id="nosotros" class="nosotros-section section" aria-labelledby="nosotros-title">
-      <div class="container">
-        <div class="section-header">
-          <h2 id="nosotros-title" class="section-title fade-in-up">Construimos herramientas de IA para negocios reales.</h2>
-          <p class="section-subtitle fade-in-up delay-1">
-            En Crysantem desarrollamos agentes de inteligencia artificial enfocados principalmente en atención al cliente y automatización.
-          </p>
-          <p class="section-subtitle fade-in-up delay-2" style="margin-top: var(--spacing-sm); margin-bottom: var(--spacing-xl);">
-            Nuestro objetivo es simple: que las empresas puedan ofrecer una mejor atención sin convertir cada consulta en trabajo manual.
-          </p>
-        </div>
-        <div class="nosotros-grid">
-          <article class="nosotros-card fade-in-up delay-1">
-            <h3 class="nosotros-title">Simple</h3>
-            <p class="nosotros-text">Tecnología compleja detrás. Experiencia sencilla delante.</p>
-          </article>
-          <article class="nosotros-card fade-in-up delay-2">
-            <h3 class="nosotros-title">Útil</h3>
-            <p class="nosotros-text">No hacemos IA por hacer IA. Cada función debe resolver un problema.</p>
-          </article>
-          <article class="nosotros-card fade-in-up delay-3">
-            <h3 class="nosotros-title">Adaptable</h3>
-            <p class="nosotros-text">Cada negocio tiene procesos diferentes. El agente debe adaptarse a ellos.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ Section - H2 -->
-    <section id="faq" class="faq-section section" aria-labelledby="faq-title">
-      <div class="container">
-        <h2 id="faq-title" class="section-title fade-in-up">Preguntas Frecuentes</h2>
-        <div class="faq-list">
-          <details class="faq-item fade-in-up delay-1">
-            <summary class="faq-question">¿Necesito saber programar para utilizar MyIA?</summary>
-            <div class="faq-answer">
-              <p>MyIA está pensado para que puedas configurar tu asistente sin tener que desarrollar un chatbot desde cero. La integración final depende de las opciones disponibles en la plataforma.</p>
-            </div>
-          </details>
-
-          <details class="faq-item fade-in-up delay-2">
-            <summary class="faq-question">¿Cuánto tiempo se tarda en crear un chatbot?</summary>
-            <div class="faq-answer">
-              <p>Para la configuración estándar, el chatbot puede estar listo en unos 15 minutos. Para integraciones personalizadas, el tiempo varía según la complejidad.</p>
-            </div>
-          </details>
-
-          <details class="faq-item fade-in-up delay-3">
-            <summary class="faq-question">¿Puedo personalizar su apariencia?</summary>
-            <div class="faq-answer">
-              <p>Sí, puedes personalizar el nombre, la apariencia, los colores y el estilo de comunicación del chatbot para que se integre con la identidad de tu negocio.</p>
-            </div>
-          </details>
-
-          <details class="faq-item fade-in-up delay-4">
-            <summary class="faq-question">¿Puede responder preguntas sobre mi empresa?</summary>
-            <div class="faq-answer">
-              <p>Sí, al configurar el asistente con la información de tu negocio, puede responder consultas relacionadas con tus servicios, productos y políticas.</p>
-            </div>
-          </details>
-
-          <details class="faq-item fade-in-up delay-5">
-            <summary class="faq-question">¿El chatbot funciona cuando no estoy conectado?</summary>
-            <div class="faq-answer">
-              <p>Sí, el chatbot puede seguir disponible para atender visitantes cuando no estés conectado, sujeto a la disponibilidad de la plataforma y al plan contratado.</p>
-            </div>
-          </details>
-
-          <details class="faq-item fade-in-up delay-5">
-            <summary class="faq-question">¿Cómo puedo empezar?</summary>
-            <div class="faq-answer">
-              <p>Comenzá seleccionando un plan en nuestra página de planes y siguiendo el proceso de configuración en MyIA. También podés contactarnos para evaluar soluciones personalizadas.</p>
-            </div>
-          </details>
-        </div>
-      </div>
-    </section>
-
     <!-- Contact Section - H2 -->
     <section id="contacto" class="contact-section section" aria-labelledby="contact-title">
       <div class="container contact-content">
-        <h2 id="contact-title" class="contact-title fade-in-up">¿Querés implementar un agente de IA?</h2>
+        <h2 id="contact-title" class="contact-title fade-in-up">¿Listo para empezar?</h2>
         <p class="contact-text fade-in-up delay-1">
-          Contanos qué necesitás y analizaremos qué tipo de chatbot puede adaptarse mejor a tu negocio.
+          Elegí tu plan y configurá tu asistente en minutos.
         </p>
         <div class="contact-actions fade-in-up delay-2">
-          <a href="https://wa.me/13237093568" target="_blank" rel="noopener noreferrer" class="btn btn-primary">WhatsApp</a>
-          <a href="mailto:consultas@crysantem.tech" class="btn btn-secondary">Gmail</a>
+          <a href="#planes" class="btn btn-primary">Ver planes</a>
+          <a href="https://wa.me/13237093568" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Contactar</a>
         </div>
       </div>
     </section>
@@ -623,8 +408,6 @@
             <a href="#que-es">MyIA</a>
             <a href="#pasos">Cómo funciona</a>
             <a href="#planes">Planes</a>
-            <a href="#portfolio">Portfolio</a>
-            <a href="#faq">FAQ</a>
             <a href="#contacto">Contacto</a>
           </div>
           <div class="footer-section">
@@ -709,7 +492,7 @@
 
   <!-- Scripts principales -->
   <script src="js/markdown-renderer.js?v=7.3" defer></script>
-  <script src="js/main-new.js?v=7.4" defer></script>
+  <script src="js/main-new.js?v=7.5" defer></script>
   <script src="js/terms-acceptance.js?v=7.3" defer></script>
   <script src="js/cookie-consent.js?v=7.3" defer></script>
 </body>
