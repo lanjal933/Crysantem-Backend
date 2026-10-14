@@ -516,6 +516,51 @@ img {
   }
 }
 
+/* Nueva sección: Capacidades */
+.capabilities-section {
+  padding: var(--spacing-4xl) 0;
+  background-color: var(--bg-main);
+  color: var(--text-light);
+}
+
+.capabilities-section .section-title {
+  color: var(--text-light);
+}
+
+.capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+}
+
+.capability-card {
+  padding: var(--spacing-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-md);
+  background: var(--bg-dark-secondary);
+}
+
+.capability-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-light);
+  font-family: var(--font-display);
+}
+
+.capability-description {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .capabilities-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .section-header {
   max-width: 700px;
   margin-bottom: var(--spacing-2xl);
