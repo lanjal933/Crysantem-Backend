@@ -41,6 +41,7 @@
           <button id="authBtn" class="landing-nav-cta">Account</button>
           <div id="authDropdown" class="navbar-dropdown" role="menu" aria-label="Menú de cuenta">
             <div id="userEmailDisplay" class="navbar-dropdown-item" style="cursor: default; font-weight: 500;"></div>
+            <a href="myia-dashboard.html" class="navbar-dropdown-item">Mis Apps</a>
             <button id="logoutBtn" class="navbar-dropdown-item navbar-dropdown-logout">Cerrar sesión</button>
           </div>
         </div>
@@ -67,7 +68,7 @@
       </div>
       <div class="hero-right fade-in-right delay-2">
         <div class="hero-visual">
-          <img src="images/Logo_PNG_USAR.png" alt="Crysantem MyIA" style="width: 100%; max-width: 600px; height: auto; box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);">
+          <img src="images/Logo_PNG_USAR.png" alt="Crysantem MyIA" class="hero-floating-image">
         </div>
       </div>
     </div>
@@ -561,65 +562,59 @@
 
   <!-- Scripts para funcionalidad de auth -->
   <script src="js/config.js?v=7.3"></script>
+  <script src="js/markdown-renderer.js?v=7.3"></script>
   <script src="js/main.js"></script>
 
   <!-- SCRIPT PARA DEMO FUNCIONAL -->
   <script>
-    // Demo chat functionality
-    const demoInput = document.getElementById('demoInput');
-    const demoSendBtn = document.getElementById('demoSendBtn');
-    const demoMessages = document.getElementById('demoMessages');
+    // Demo chat functionality - Copiado de main-new.js
+    function initDemoChat() {
+      const demoInput = document.getElementById('demoInput');
+      const demoSendBtn = document.getElementById('demoSendBtn');
+      const demoMessages = document.getElementById('demoMessages');
 
-    if (demoInput && demoSendBtn && demoMessages) {
-      function addMessage(text, isUser = false) {
-        const messageDiv = document.createElement('div');
-        messageDiv.style.padding = 'var(--space-sm) var(--space-md)';
-        messageDiv.style.borderRadius = 'var(--radius-lg)';
-        messageDiv.style.maxWidth = '85%';
-        messageDiv.style.color = 'var(--color-text-dark)';
-        messageDiv.style.fontSize = '0.95rem';
-        messageDiv.style.lineHeight = '1.4';
-        
-        if (isUser) {
-          messageDiv.style.background = 'rgba(255, 255, 255, 0.08)';
-          messageDiv.style.alignSelf = 'flex-end';
-          messageDiv.style.marginLeft = 'auto';
-        } else {
-          messageDiv.style.background = 'rgba(53, 199, 121, 0.12)';
-          messageDiv.style.alignSelf = 'flex-start';
-        }
-        
-        messageDiv.textContent = text;
-        demoMessages.appendChild(messageDiv);
-        demoMessages.scrollTop = demoMessages.scrollHeight;
-      }
+      if (!demoInput || !demoSendBtn || !demoMessages) return;
 
-      function handleSend() {
-        const text = demoInput.value.trim();
-        if (!text) return;
+      async function sendMessage() {
+        const message = demoInput.value.trim();
+        if (!message) return;
 
-        addMessage(text, true);
+        demoSendBtn.disabled = true;
+        demoSendBtn.innerHTML = '⏳';
         demoInput.value = '';
 
-        // Simular respuesta
-        setTimeout(() => {
-          const responses = [
-            'Gracias por tu consulta. Crysantem ofrece soluciones de IA personalizadas para automatizar la atención al cliente.',
-            'Interesante pregunta. Nuestros agentes pueden integrarse con Google Calendar, Sheets y Gmail según el plan.',
-            'El plan Responde comienza en $60.000 ARS por mes con hasta 1.000 mensajes. ¿Te gustaría saber más?',
-            'Nuestra tecnología utiliza modelos de IA avanzados como Gemini para ofrecer respuestas contextuales y útiles.',
-            'Podés configurar tu asistente en minutos sin necesidad de programar. ¿Te gustaría ver nuestros planes?'
-          ];
-          const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-          addMessage(randomResponse, false);
-        }, 1000);
+        addMessage(message, 'user');
+
+        try {
+          const response = await fetch(`https://crysantem-backend.onrender.com/api/ai/message`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message, userId: 'anonymous' }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            addMessage(data.response, 'ai');
+          } else {
+            addMessage('Lo siento, hubo un error. Intenta nuevamente.', 'ai');
+          }
+        } catch (error) {
+          console.error('Error en demo:', error);
+          addMessage('Lo siento, hubo un error de conexión. Intenta nuevamente.', 'ai');
+        } finally {
+          demoSendBtn.disabled = false;
+          demoSendBtn.innerHTML = 'Enviar';
+        }
       }
 
-      demoSendBtn.addEventListener('click', handleSend);
+      demoSendBtn.addEventListener('click', sendMessage);
       demoInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleSend();
+        if (e.key === 'Enter') sendMessage();
       });
     }
+
+    initDemoChat();
   </script>
 
   <!-- SCRIPT PARA ANIMACIONES DE SCROLL -->
@@ -783,6 +778,16 @@
         if (userEmailDisplay) userEmailDisplay.textContent = '';
         authDropdown.classList.remove('show');
         window.location.href = 'index.html';
+      });
+    }
+
+    // Mis Apps link - redirect to dashboard
+    const misAppsLink = authDropdown?.querySelector('a[href="myia-dashboard.html"]');
+    if (misAppsLink) {
+      misAppsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        authDropdown.classList.remove('show');
+        window.location.href = 'myia-dashboard.html';
       });
     }
   </script>

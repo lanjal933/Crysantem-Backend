@@ -473,8 +473,30 @@ a {
 
 .hero-visual {
   position: relative;
-  max-width: 500px;
+  max-width: 800px;
   margin: 0 auto;
+}
+
+.hero-floating-image {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@media (max-width: 968px) {
+  .hero-floating-image {
+    max-width: 400px;
+  }
 }
 
 .hero-mockup {
