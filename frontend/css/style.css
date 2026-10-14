@@ -561,6 +561,57 @@ img {
   }
 }
 
+/* Nueva sección: Tipos de negocios */
+.business-types-section {
+  padding: var(--spacing-4xl) 0;
+  background-color: var(--bg-secondary);
+  color: var(--text-on-beige);
+}
+
+.business-types-section .section-title {
+  color: var(--text-on-beige);
+}
+
+.business-types-section .section-subtitle {
+  color: var(--text-on-beige);
+  opacity: 0.8;
+}
+
+.business-types-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+}
+
+.business-card {
+  padding: var(--spacing-xl);
+  border: 1px solid var(--border-beige);
+  border-radius: var(--border-radius-md);
+  background: var(--bg-tertiary);
+}
+
+.business-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-on-beige);
+  font-family: var(--font-display);
+}
+
+.business-description {
+  color: var(--text-on-beige);
+  opacity: 0.85;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .business-types-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .section-header {
   max-width: 700px;
   margin-bottom: var(--spacing-2xl);
