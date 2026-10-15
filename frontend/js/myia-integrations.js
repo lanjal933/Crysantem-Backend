@@ -421,21 +421,25 @@ ${integrationsConfig.functions?.prompt || 'No hay funciones específicas configu
 - URL API: ${integrationsConfig.sheets?.url || 'No configurado'}
 `;
 
-    // Agregar sheets personalizados (planes 03+)
+    // Agregar sheets personalizados (planes 03+) - solo si tienen ID/URL configurados
     if (integrationsConfig.sheets?.customSheets && integrationsConfig.sheets.customSheets.length > 0) {
-      superPrompt += `
+      const configuredSheets = integrationsConfig.sheets.customSheets.filter(sheet => sheet.id && sheet.id.trim() !== '');
+
+      if (configuredSheets.length > 0) {
+        superPrompt += `
 ### Sheets Personalizados
 `;
-      integrationsConfig.sheets.customSheets.forEach((sheet, index) => {
-        superPrompt += `
+        configuredSheets.forEach((sheet, index) => {
+          superPrompt += `
 #### Sheet ${index + 1}: ${sheet.title || 'Sin título'}
-- Sheet ID: ${sheet.id || 'No configurado'}
-- URL API: ${sheet.url || 'No configurado'}
+- Sheet ID: ${sheet.id}
+- URL API: ${sheet.urlGet || sheet.url || 'No configurado'}
 - Tipo de interacción: ${sheet.type || 'manual'}
 - Prompt específico:
 ${sheet.prompt || 'Sin prompt específico'}
 `;
-      });
+        });
+      }
     }
   }
 
