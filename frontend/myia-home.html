@@ -384,8 +384,8 @@
           return;
         }
 
-        // Verificar autenticación
-        const token = localStorage.getItem('authToken');
+        // Verificar autenticación (soportar ambas claves por compatibilidad)
+        const token = localStorage.getItem('authToken') || localStorage.getItem('token');
         if (!token) {
           showAuthRequired();
           return;
@@ -407,7 +407,7 @@
 
         const response = await fetch(`https://crysantem-backend.onrender.com/api/myia/user-apps/${userId}`, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            'Authorization': `Bearer ${localStorage.getItem('authToken') || localStorage.getItem('token')}`
           }
         });
         const result = await response.json();
@@ -623,7 +623,7 @@
         const response = await fetch(`https://crysantem-backend.onrender.com/api/myia/delete/${appId}`, {
           method: 'DELETE',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            'Authorization': `Bearer ${localStorage.getItem('authToken') || localStorage.getItem('token')}`
           }
         });
 
@@ -650,7 +650,7 @@
         const response = await fetch(`https://crysantem-backend.onrender.com/api/myia/mark-as-paid/${appId}`, {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+            'Authorization': `Bearer ${localStorage.getItem('authToken') || localStorage.getItem('token')}`
           }
         });
 

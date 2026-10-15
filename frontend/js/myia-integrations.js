@@ -651,9 +651,7 @@ function validateConfig() {
   
   if (availableIntegrations.includes('gmail')) {
     const gmailContentEl = document.getElementById('gmailContent');
-    if (!gmailContentEl) {
-      // Si el elemento no existe, no validar (no es crítico para landing)
-    } else {
+    if (gmailContentEl) {
       const content = gmailContentEl.value ? gmailContentEl.value.trim() : '';
       if (!content) {
         alert('Por favor configura qué información debe incluir la IA en los resúmenes por Gmail');

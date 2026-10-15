@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Guardar token en localStorage
     localStorage.setItem('token', oauthToken);
+    localStorage.setItem('authToken', oauthToken);
     
     // Decodificar JWT para obtener userId
     try {
@@ -234,7 +235,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (config.integrations_config.images && config.integrations_config.images.uploaded.length > 0) {
       integrationsList.push(`[OK] ${config.integrations_config.images.uploaded.length} imágenes cargadas`);
     }
-    if (config.integrations_config.gmail && config.integrations_config.gmail.sender) {
+    if (config.integrations_config.gmail && config.integrations_config.gmail.content) {
       integrationsList.push('[OK] Gmail configurado');
     }
     if (config.integrations_config.calendar && config.integrations_config.calendar.id) {
@@ -435,7 +436,8 @@ async function createPage() {
     sheets_custom_1_url_post: config.integrations_config?.sheets?.customSheets?.[0]?.urlPost || null,
     sheets_custom_2_url_get: config.integrations_config?.sheets?.customSheets?.[1]?.urlGet || null,
     sheets_custom_2_url_post: config.integrations_config?.sheets?.customSheets?.[1]?.urlPost || null,
-    gmail_sender_email: config.integrations_config?.gmail?.sender || null,
+    gmail_frequency: config.integrations_config?.gmail?.frequency || null,
+    gmail_content: config.integrations_config?.gmail?.content || null,
     // Pagos
     payment_plan: config.payment_plan || paymentConfig.paymentPlan || null,
     payment_method: config.payment_method || paymentConfig.paymentMethod || null,
