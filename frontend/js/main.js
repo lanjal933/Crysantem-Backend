@@ -31,6 +31,37 @@ function updateAuthUI() {
     } else {
       authDropdown.style.display = 'none';
     }
+  } else {
+    // Si authDropdown no existe, crearlo dinámicamente
+    const authContainer = document.querySelector('.navbar-auth');
+    if (authContainer && authToken) {
+      const dropdown = document.createElement('div');
+      dropdown.id = 'authDropdown';
+      dropdown.className = 'navbar-dropdown';
+      dropdown.style.display = 'block';
+      
+      const emailDisplay = document.createElement('div');
+      emailDisplay.id = 'userEmailDisplay';
+      emailDisplay.className = 'navbar-dropdown-item';
+      emailDisplay.style.cursor = 'default';
+      emailDisplay.style.fontWeight = '500';
+      emailDisplay.textContent = userEmail || 'Account';
+      
+      const logoutBtn = document.createElement('button');
+      logoutBtn.id = 'logoutBtn';
+      logoutBtn.className = 'navbar-dropdown-item navbar-dropdown-logout';
+      logoutBtn.textContent = 'Cerrar sesión';
+      logoutBtn.onclick = () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+        window.location.href = 'index.html';
+      };
+      
+      dropdown.appendChild(emailDisplay);
+      dropdown.appendChild(logoutBtn);
+      authContainer.appendChild(dropdown);
+    }
   }
 }
 

@@ -37,19 +37,16 @@ let integrationsConfig = {
     uploaded: []
   },
   gmail: {
-    sender: '',
-    replyTo: '',
-    subject: '',
-    template: '',
-    sendType: 'immediate',
-    aiSubject: true,
-    aiBody: true,
-    aiAttachments: false
+    content: '',
+    frequency: 'daily',
+    subject: ''
   },
   calendar: {
     id: '',
     duration: 30,
     timezone: 'UTC',
+    canEdit: true,
+    sendEmailOnBook: true,
     schedules: {
       Mon: { enabled: true, start: '09:00', end: '18:00' },
       Tue: { enabled: true, start: '09:00', end: '18:00' },
@@ -122,15 +119,10 @@ function saveConfig() {
   }
   
   // Gmail (solo si existe)
-  if (document.getElementById('gmailSender')) {
-    integrationsConfig.gmail.sender = document.getElementById('gmailSender').value;
-    integrationsConfig.gmail.replyTo = document.getElementById('gmailReplyTo').value;
+  if (document.getElementById('gmailContent')) {
+    integrationsConfig.gmail.content = document.getElementById('gmailContent').value;
+    integrationsConfig.gmail.frequency = document.getElementById('gmailFrequency').value;
     integrationsConfig.gmail.subject = document.getElementById('gmailSubject').value;
-    integrationsConfig.gmail.template = document.getElementById('gmailTemplate').value;
-    integrationsConfig.gmail.sendType = document.getElementById('gmailSendType').value;
-    integrationsConfig.gmail.aiSubject = document.getElementById('gmailAiSubject').checked;
-    integrationsConfig.gmail.aiBody = document.getElementById('gmailAiBody').checked;
-    integrationsConfig.gmail.aiAttachments = document.getElementById('gmailAiAttachments').checked;
     console.log('Gmail:', integrationsConfig.gmail);
   }
   
@@ -139,11 +131,13 @@ function saveConfig() {
     integrationsConfig.calendar.id = document.getElementById('calendarId').value;
     integrationsConfig.calendar.duration = parseInt(document.getElementById('calendarDuration').value);
     integrationsConfig.calendar.timezone = document.getElementById('calendarTimezone').value;
-    
+    integrationsConfig.calendar.canEdit = document.getElementById('calendarCanEdit')?.checked || true;
+    integrationsConfig.calendar.sendEmailOnBook = document.getElementById('calendarSendEmailOnBook')?.checked || true;
+
     // Obtener horarios por día
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     integrationsConfig.calendar.schedules = {};
-    
+
     days.forEach(day => {
       const enabled = document.getElementById(`day${day}Enabled`)?.checked || false;
       const start = document.getElementById(`day${day}Start`)?.value || '09:00';
@@ -185,15 +179,10 @@ function loadFormValues() {
   }
   
   // Gmail (solo plan 04)
-  if (document.getElementById('gmailSender')) {
-    document.getElementById('gmailSender').value = integrationsConfig.gmail.sender || '';
-    document.getElementById('gmailReplyTo').value = integrationsConfig.gmail.replyTo || '';
+  if (document.getElementById('gmailContent')) {
+    document.getElementById('gmailContent').value = integrationsConfig.gmail.content || '';
+    document.getElementById('gmailFrequency').value = integrationsConfig.gmail.frequency || 'daily';
     document.getElementById('gmailSubject').value = integrationsConfig.gmail.subject || '';
-    document.getElementById('gmailTemplate').value = integrationsConfig.gmail.template || '';
-    document.getElementById('gmailSendType').value = integrationsConfig.gmail.sendType || 'immediate';
-    document.getElementById('gmailAiSubject').checked = integrationsConfig.gmail.aiSubject !== false;
-    document.getElementById('gmailAiBody').checked = integrationsConfig.gmail.aiBody !== false;
-    document.getElementById('gmailAiAttachments').checked = integrationsConfig.gmail.aiAttachments || false;
   }
   
   // Calendar (solo plan 03+)
@@ -651,10 +640,13 @@ function validateConfig() {
   }
   
   if (availableIntegrations.includes('gmail')) {
-    const sender = document.getElementById('gmailSender').value.trim();
-    if (!sender) {
-      alert('Por favor configura el Gmail de envío');
-      return false;
+    const gmailContentEl = document.getElementById('gmailContent');
+    if (gmailContentEl) {
+      const content = gmailContentEl.value.trim();
+      if (!content) {
+        alert('Por favor configura qué información debe incluir la IA en los resúmenes por Gmail');
+        return false;
+      }
     }
   }
   
@@ -667,10 +659,15 @@ function updateCustomSheetsCount() {
   const plan = localStorage.getItem('selectedPlan');
   const limit = CUSTOM_SHEETS_LIMITS[plan] || 0;
   const remaining = limit - count;
-  
-  document.getElementById('customSheetsCount').textContent = count;
-  document.getElementById('customSheetsRemaining').textContent = `Restantes: ${remaining}`;
-  
+
+  const countEl = document.getElementById('customSheetsCount');
+  const remainingEl = document.getElementById('customSheetsRemaining');
+
+  if (!countEl || !remainingEl) return;
+
+  if (countEl) countEl.textContent = count;
+  if (remainingEl) remainingEl.textContent = `Restantes: ${remaining}`;
+
   // Deshabilitar botón si alcanzó el límite
   const addBtn = document.getElementById('addCustomSheetBtn');
   if (addBtn) {
