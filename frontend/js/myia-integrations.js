@@ -624,24 +624,30 @@ function validateConfig() {
 
   // Validar integraciones requeridas según el plan
   if (availableIntegrations.includes('sheets')) {
-    const dbId = document.getElementById('sheetsDbId').value.trim();
-    if (!dbId) {
-      alert('Por favor configura el Sheet ID de la base de datos de usuarios');
-      return false;
+    const sheetsDbIdEl = document.getElementById('sheetsDbId');
+    if (sheetsDbIdEl && sheetsDbIdEl.value) {
+      const dbId = sheetsDbIdEl.value.trim();
+      if (!dbId) {
+        alert('Por favor configura el Sheet ID de la base de datos de usuarios');
+        return false;
+      }
     }
   }
 
   if (availableIntegrations.includes('calendar')) {
-    const calendarId = document.getElementById('calendarId').value.trim();
-    if (!calendarId) {
-      alert('Por favor configura el Calendar ID');
-      return false;
+    const calendarIdEl = document.getElementById('calendarId');
+    if (calendarIdEl && calendarIdEl.value) {
+      const calendarId = calendarIdEl.value.trim();
+      if (!calendarId) {
+        alert('Por favor configura el Calendar ID');
+        return false;
+      }
     }
   }
   
   if (availableIntegrations.includes('gmail')) {
     const gmailContentEl = document.getElementById('gmailContent');
-    if (gmailContentEl) {
+    if (gmailContentEl && gmailContentEl.value) {
       const content = gmailContentEl.value.trim();
       if (!content) {
         alert('Por favor configura qué información debe incluir la IA en los resúmenes por Gmail');
@@ -657,7 +663,7 @@ function validateConfig() {
 function updateCustomSheetsCount() {
   const count = document.querySelectorAll('.custom-sheet-card').length;
   const plan = localStorage.getItem('selectedPlan');
-  const limit = CUSTOM_SHEETS_LIMITS[plan] || 0;
+  const limit = (plan && CUSTOM_SHEETS_LIMITS[plan]) ? CUSTOM_SHEETS_LIMITS[plan] : 0;
   const remaining = limit - count;
 
   const countEl = document.getElementById('customSheetsCount');
