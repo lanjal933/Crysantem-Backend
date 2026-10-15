@@ -2469,4 +2469,67 @@ router.get('/payment-status/:pageId', generalLimiter, async (req, res) => {
   }
 });
 
+// === PAULA IA CHAT PROXY ===
+// Endpoint protegido que actúa como proxy para el webhook de n8n
+router.post('/paula-chat', generalLimiter, async (req, res) => {
+  try {
+    const { message, sessionId, timestamp } = req.body;
+
+    if (!message) {
+      return res.status(400).json({ success: false, error: 'Mensaje es requerido' });
+    }
+
+    console.log('=== PAULA CHAT REQUEST ===');
+    console.log('Session ID:', sessionId);
+    console.log('Message:', message);
+    console.log('Timestamp:', timestamp);
+
+    // Webhook de n8n (URL oculta en backend)
+    const PAULA_WEBHOOK_URL = 'https://n8n-n8n.f6ppdc.easypanel.host/webhook/agente-paula';
+
+    // Llamar al webhook de n8n
+    const response = await axios.post(PAULA_WEBHOOK_URL, {
+      message,
+      sessionId: sessionId || `paula_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      timestamp: timestamp || new Date().toISOString()
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      timeout: 30000 // 30 segundos timeout
+    });
+
+    console.log('PAULA CHAT RESPONSE:', response.data);
+
+    res.json({
+      success: true,
+      response: response.data.response || response.data.text || response.data,
+      sessionId: sessionId
+    });
+  } catch (error) {
+    console.error('Error en Paula Chat Proxy:', error);
+    
+    if (error.response) {
+      console.error('Error response:', error.response.data);
+      return res.status(error.response.status).json({
+        success: false,
+        error: 'Error al comunicar con Paula IA',
+        details: error.response.data
+      });
+    }
+    
+    if (error.code === 'ECONNABORTED') {
+      return res.status(504).json({
+        success: false,
+        error: 'Timeout: Paula IA no respondió a tiempo'
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      error: 'Error interno del servidor al procesar chat'
+    });
+  }
+});
+
 module.exports = router;
