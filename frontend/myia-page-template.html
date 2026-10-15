@@ -154,7 +154,9 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="/js/markdown-renderer.js?v=7.3"></script>
   <script>
     // Aquí se conectará con n8n
     const webhookUrl = '{{n8nWebhookUrl}}';
@@ -193,9 +195,11 @@
       messageDiv.className = 'chat-message';
 
       if (type === 'ai') {
+        // Usar markdown-renderer extendido en lugar de marked básico
+        const renderer = new MarkdownRenderer();
         messageDiv.innerHTML = `
           <div class="chat-avatar">AI</div>
-          <div class="chat-bubble">${marked.parse(text)}</div>
+          <div class="chat-bubble">${renderer.render(text)}</div>
         `;
       } else {
         messageDiv.innerHTML = `
@@ -204,6 +208,54 @@
       }
 
       container.insertBefore(messageDiv, container.querySelector('.chat-input'));
+
+      // Inicializar gráficos pendientes
+      if (type === 'ai') {
+        initCharts();
+      }
+    }
+
+    // Inicializar gráficos pendientes
+    function initCharts() {
+      if (!window.pendingCharts || window.pendingCharts.length === 0) return;
+
+      console.log('Procesando gráficos pendientes:', window.pendingCharts.length);
+
+      const checkChartJS = () => {
+        const ChartLib = window.Chart;
+        if (!ChartLib) {
+          console.log('Chart.js aún no está disponible, reintentando en 100ms...');
+          setTimeout(checkChartJS, 100);
+          return;
+        }
+
+        console.log('Chart.js está disponible, inicializando gráficos...');
+
+        window.pendingCharts.forEach(chartConfig => {
+          const canvas = document.getElementById(chartConfig.id);
+          if (canvas) {
+            try {
+              new ChartLib(canvas, {
+                type: chartConfig.type,
+                data: chartConfig.data,
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: true
+                }
+              });
+              console.log('Gráfico inicializado correctamente:', chartConfig.id);
+            } catch (e) {
+              console.error('Error al inicializar gráfico:', e);
+            }
+          } else {
+            console.error('No se encontró canvas con ID:', chartConfig.id);
+          }
+        });
+
+        window.pendingCharts = [];
+      };
+
+      checkChartJS();
     }
   </script>
 </body>
