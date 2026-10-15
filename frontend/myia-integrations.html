@@ -606,54 +606,62 @@
             </div>
           </div>
           <p class="integration-description">
-            Configura cómo tu agente enviará correos automáticos a través de Gmail.
+            Configura qué información le enviará la IA a través de Gmail (resúmenes al cliente).
           </p>
 
-          <div class="form-group">
-            <label class="form-label">Gmail de envío</label>
-            <input type="email" class="form-input" id="gmailSender" placeholder="tu-email@gmail.com">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Gmail de respuesta (opcional)</label>
-            <input type="email" class="form-input" id="gmailReplyTo" placeholder="respuestas@tu-negocio.com">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Asunto predeterminado</label>
-            <input type="text" class="form-input" id="gmailSubject" placeholder="Información de [Nombre del Negocio]">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Plantilla de correo</label>
-            <textarea class="form-textarea" id="gmailTemplate" style="min-height: 150px;" placeholder="Hola {nombre}, gracias por contactarnos..."></textarea>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Campos dinámicos (IA rellena usando n8n)</label>
-            <div class="checkbox-group">
-              <div class="checkbox-item">
-                <input type="checkbox" id="gmailAiSubject" checked>
-                <label for="gmailAiSubject">Asunto (IA genera según contexto)</label>
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="gmailAiBody" checked>
-                <label for="gmailAiBody">Cuerpo del correo (IA rellena {variables})</label>
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="gmailAiAttachments">
-                <label for="gmailAiAttachments">Adjuntos (IA decide cuándo adjuntar)</label>
-              </div>
+          <div class="info-box">
+            <div class="info-box-title">INFO Gmail de Resúmenes</div>
+            <div class="info-box-text">
+              La IA enviará resúmenes automáticos al Gmail del cliente (configurado en OAuth). Aquí defines qué información debe incluir en esos resúmenes.
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Tipo de envío</label>
-            <select class="form-select" id="gmailSendType">
-              <option value="immediate">Inmediato (al terminar la conversación)</option>
-              <option value="scheduled">Programado (según configuración)</option>
-              <option value="manual">Manual (requiere aprobación)</option>
+            <label class="form-label">¿Qué le dirá la IA a través de Gmail?</label>
+            <div style="position: relative;">
+              <textarea
+                class="form-textarea"
+                id="gmailContent"
+                style="min-height: 200px; padding: 16px; background: rgba(0, 255, 136, 0.05); border: 2px solid rgba(0, 255, 136, 0.2); border-radius: var(--border-radius-lg); transition: all var(--transition); font-family: 'Inter', sans-serif; line-height: 1.6;"
+                placeholder="Describe en lenguaje natural qué información debe incluir la IA en los resúmenes por Gmail:
+
+Ejemplo:
+La IA debe enviar resúmenes diarios que incluyan:
+- Cantidad de usuarios que interactuaron hoy
+- Consultas más frecuentes
+- Citas agendadas (si aplica)
+- Problemas o dudas recurrentes
+- Sugerencias de mejora detectadas
+
+Enviar resumen al final de cada día laboral (18:00)."
+                onfocus="this.style.borderColor='var(--green-main)'; this.style.background='rgba(0, 255, 136, 0.08)'; this.style.boxShadow='0 0 0 4px rgba(0, 255, 136, 0.15)';"
+                onblur="this.style.borderColor='rgba(0, 255, 136, 0.2)'; this.style.background='rgba(0, 255, 136, 0.05)'; this.style.boxShadow='none';"
+              ></textarea>
+              <div style="position: absolute; top: 12px; right: 12px; display: flex; gap: 8px;">
+                <span style="font-size: 0.75rem; color: var(--green-main); background: rgba(0, 255, 136, 0.1); padding: 4px 8px; border-radius: 4px; font-weight: 600;">✍️ Editable</span>
+              </div>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">
+              Esta descripción se integrará en el super prompt para guiar a la IA sobre qué incluir en los resúmenes.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Frecuencia de envío</label>
+            <select class="form-select" id="gmailFrequency">
+              <option value="daily">Diario (al final del día)</option>
+              <option value="weekly">Semanal (cada viernes)</option>
+              <option value="monthly">Mensual (último día del mes)</option>
+              <option value="realtime">En tiempo real (cada interacción importante)</option>
             </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Asunto del correo (opcional)</label>
+            <input type="text" class="form-input" id="gmailSubject" placeholder="Resumen diario de [Nombre del Negocio]">
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px;">
+              Si lo dejas vacío, la IA generará el asunto automáticamente según el contexto.
+            </p>
           </div>
         </div>
 
@@ -694,9 +702,33 @@
           </div>
 
           <div class="form-group">
+            <label class="form-label">¿Qué hay en tu calendar y qué puede agregar la IA?</label>
+            <div class="info-box">
+              <div class="info-box-title">INFO Configuración de Calendar</div>
+              <div class="info-box-text">
+                Define los horarios disponibles del negocio y permisos de la IA para editar el calendar.
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label class="form-label">Horario de disponibilidad por día</label>
             <div id="dayScheduleConfig" style="display: flex; flex-direction: column; gap: 12px;">
               <!-- Se generará dinámicamente con JS -->
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Permisos de la IA</label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="calendarCanEdit" checked>
+                <label for="calendarCanEdit">La IA puede editar el calendar (agendar citas)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="calendarSendEmailOnBook" checked>
+                <label for="calendarSendEmailOnBook">Enviar Gmail al cliente al agendar cita</label>
+              </div>
             </div>
           </div>
 
@@ -810,6 +842,6 @@ Antes de invocar cualquier herramienta de escritura o registro, estás OBLIGADO 
   </template>
 
   <script src="js/main.js"></script>
-  <script src="js/myia-integrations.js?v=9.6"></script>
+  <script src="js/myia-integrations.js?v=9.7"></script>
 </body>
 </html>
