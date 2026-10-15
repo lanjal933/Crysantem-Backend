@@ -1449,6 +1449,10 @@ function generatePageHTML(config, webhookUrl) {
         let html = markdown;
         html = this.processPlanComponents(html);
         html = this.processChartComponents(html);
+        html = this.processNewChartComponents(html);
+        html = this.processColorBoxes(html);
+        html = this.processButtons(html);
+        html = this.processLinks(html);
         html = this.processInfoComponents(html);
         html = this.processWhatsAppComponents(html);
         html = this.processMarkdownImages(html);
@@ -1490,6 +1494,204 @@ function generatePageHTML(config, webhookUrl) {
         });
       }
 
+      processNewChartComponents(text) {
+        const chartRegex = /:::grafico-(\\w+)\\n((?::::[a-z]+\\s+[^\\n]+\\n)*):::/g;
+        return text.replace(chartRegex, (match, chartType, paramsBlock) => {
+          const chartId = \`chart-\${this.chartCounter++}\`;
+          const params = {};
+          const paramLines = paramsBlock.trim().split('\\n');
+
+          for (const line of paramLines) {
+            const match = line.match(/^:::([a-z]+)\\s+(.+)$/);
+            if (match) {
+              const key = match[1];
+              const value = match[2].trim();
+
+              if (key === 'datos') {
+                try {
+                  params.data = JSON.parse(value);
+                } catch (e) {
+                  params.data = {};
+                }
+              } else if (key === 'etiqueta') {
+                if (!params.labels) params.labels = [];
+                params.labels.push(value);
+              } else {
+                params[key] = value;
+              }
+            }
+          }
+
+          const typeMap = { 'line': 'line', 'bar': 'bar', 'pie': 'pie', 'doughnut': 'doughnut', 'area': 'line' };
+          const chartJsType = typeMap[chartType] || 'line';
+
+          const colorMap = {
+            'morado': { border: '#9b59b6', bg: 'rgba(155, 89, 182, 0.2)' },
+            'verde': { border: '#2ecc71', bg: 'rgba(46, 204, 113, 0.2)' },
+            'azul': { border: '#3498db', bg: 'rgba(52, 152, 219, 0.2)' },
+            'rojo': { border: '#e74c3c', bg: 'rgba(231, 76, 60, 0.2)' },
+            'naranja': { border: '#f39c12', bg: 'rgba(243, 156, 18, 0.2)' },
+            'amarillo': { border: '#f1c40f', bg: 'rgba(241, 196, 15, 0.2)' },
+            'cyan': { border: '#00bcd4', bg: 'rgba(0, 188, 212, 0.2)' },
+            'rosa': { border: '#e91e63', bg: 'rgba(233, 30, 99, 0.2)' },
+            'gris': { border: '#95a5a6', bg: 'rgba(149, 165, 166, 0.2)' }
+          };
+
+          const colors = colorMap[params.color] || colorMap['morado'];
+          const labels = Object.keys(params.data || {});
+          const values = Object.values(params.data || {});
+
+          const chartData = {
+            labels: labels,
+            datasets: [{
+              label: params.titulo || 'Gráfico',
+              data: values,
+              borderColor: colors.border,
+              backgroundColor: colors.bg,
+              borderWidth: 2,
+              fill: chartJsType === 'line',
+              tension: 0.4
+            }]
+          };
+
+          const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              title: {
+                display: !!params.titulo,
+                text: params.titulo || '',
+                color: '#fff'
+              },
+              legend: {
+                labels: { color: '#fff' }
+              }
+            },
+            scales: chartJsType === 'line' || chartJsType === 'bar' ? {
+              x: {
+                display: true,
+                title: {
+                  display: !!params.labels?.[0],
+                  text: params.labels?.[0] || '',
+                  color: '#fff'
+                },
+                ticks: { color: '#fff' },
+                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+              },
+              y: {
+                display: true,
+                title: {
+                  display: !!params.labels?.[1],
+                  text: params.labels?.[1] || '',
+                  color: '#fff'
+                },
+                ticks: { color: '#fff' },
+                grid: { color: 'rgba(255, 255, 255, 0.1)' }
+              }
+            } : {}
+          };
+
+          if (!window.pendingCharts) window.pendingCharts = [];
+          window.pendingCharts.push({
+            id: chartId,
+            type: chartJsType,
+            data: chartData,
+            options: chartOptions
+          });
+
+          return \`<div class="chart-container" style="margin: 20px 0;"><canvas id="\${chartId}"></canvas></div>\`;
+        });
+      }
+
+      processColorBoxes(text) {
+        const boxRegex = /:::caja-(\\w+)\\n([\\s\\S]*?)\\n(?=:::|$)/g;
+        const colorMap = {
+          'morado': { bg: 'rgba(155, 89, 182, 0.2)', border: '#9b59b6' },
+          'verde': { bg: 'rgba(46, 204, 113, 0.2)', border: '#2ecc71' },
+          'azul': { bg: 'rgba(52, 152, 219, 0.2)', border: '#3498db' },
+          'rojo': { bg: 'rgba(231, 76, 60, 0.2)', border: '#e74c3c' },
+          'naranja': { bg: 'rgba(243, 156, 18, 0.2)', border: '#f39c12' },
+          'amarillo': { bg: 'rgba(241, 196, 15, 0.2)', border: '#f1c40f' },
+          'gris': { bg: 'rgba(149, 165, 166, 0.2)', border: '#95a5a6' }
+        };
+
+        return text.replace(boxRegex, (match, color, content) => {
+          const colors = colorMap[color] || colorMap['azul'];
+          return \`
+            <div class="color-box" style="
+              background: \${colors.bg};
+              border-left: 4px solid \${colors.border};
+              padding: 16px;
+              margin: 12px 0;
+              border-radius: 4px;
+            ">
+              \${content.trim()}
+            </div>
+          \`;
+        });
+      }
+
+      processButtons(text) {
+        const buttonRegex = /:::boton\\s+([^\\s]+)\\s+(https?:\\/\\/[^\\s]+|wa\\.me\\/[^\\s]+|mailto:[^\\s]+|tel:[^\\s]+)/g;
+        return text.replace(buttonRegex, (match, text, action) => {
+          let href = action;
+          let bgColor = '#00ff88';
+          let textColor = '#000';
+
+          if (action.startsWith('wa.me') || action.startsWith('https://wa.me')) {
+            bgColor = '#25D366';
+            textColor = '#fff';
+            if (!action.startsWith('https://')) {
+              href = \`https://\${action}\`;
+            }
+          } else if (action.startsWith('mailto:')) {
+            bgColor = '#3498db';
+            textColor = '#fff';
+          } else if (action.startsWith('tel:')) {
+            bgColor = '#2ecc71';
+            textColor = '#fff';
+          } else if (action.startsWith('http')) {
+            bgColor = '#00ff88';
+            textColor = '#000';
+          }
+
+          return \`
+            <a href="\${href}" target="_blank" class="action-button" style="
+              display: inline-block;
+              background: \${bgColor};
+              color: \${textColor};
+              padding: 12px 24px;
+              border-radius: 8px;
+              text-decoration: none;
+              margin: 8px 4px;
+              font-weight: 600;
+            ">
+              \${text}
+            </a>
+          \`;
+        });
+      }
+
+      processLinks(text) {
+        const linkRegex = /:::enlace\\s+([^\\s]+)\\s+(https?:[^\\s]+)/g;
+        return text.replace(linkRegex, (match, text, url) => {
+          return \`
+            <a href="\${url}" target="_blank" class="action-link" style="
+              display: inline-block;
+              background: rgba(255, 255, 255, 0.1);
+              color: #00ff88;
+              padding: 12px 24px;
+              border-radius: 8px;
+              text-decoration: none;
+              margin: 8px 4px;
+              border: 1px solid #00ff88;
+            ">
+              \${text}
+            </a>
+          \`;
+        });
+      }
+
       processInfoComponents(text) {
         const infoRegex = /\[INFO\s+type="(info|success|warning|error|tip)"\]([\s\S]*?)\[\/INFO\]/g;
         return text.replace(infoRegex, (match, type, content) => {
@@ -1521,6 +1723,8 @@ function generatePageHTML(config, webhookUrl) {
         text = text.replace(/\\*\\*(.+?)\\*\\*/g, '<strong>$1</strong>');
         // Italic
         text = text.replace(/\\*(.+?)\\*/g, '<em>$1</em>');
+        // Strikethrough
+        text = text.replace(/~~(.+?)~~/g, '<del>$1</del>');
         // Code
         text = text.replace(/\`([^\`]+)\`/g, '<code>$1</code>');
         // Links
@@ -1753,6 +1957,16 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
     const planPrice = PLAN_PRICES[plan];
     if (!planPrice) {
       return res.status(400).json({ success: false, error: 'Plan inválido' });
+    }
+
+    // Para plan intelligence (enterprise custom), no usar Mercado Pago
+    if (plan === 'intelligence') {
+      return res.json({
+        success: true,
+        requiresCustomQuote: true,
+        message: 'El plan Enterprise requiere una cotización personalizada. Por favor contáctanos.',
+        redirectUrl: 'https://wa.me/13237093568'
+      });
     }
 
     if (!incomingPayerEmail) {
