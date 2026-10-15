@@ -625,7 +625,9 @@ function validateConfig() {
   // Validar integraciones requeridas según el plan
   if (availableIntegrations.includes('sheets')) {
     const sheetsDbIdEl = document.getElementById('sheetsDbId');
-    if (sheetsDbIdEl && sheetsDbIdEl.value) {
+    if (!sheetsDbIdEl) {
+      // Si el elemento no existe, no validar (puede no ser visible según el plan)
+    } else if (sheetsDbIdEl.value) {
       const dbId = sheetsDbIdEl.value.trim();
       if (!dbId) {
         alert('Por favor configura el Sheet ID de la base de datos de usuarios');
@@ -636,7 +638,9 @@ function validateConfig() {
 
   if (availableIntegrations.includes('calendar')) {
     const calendarIdEl = document.getElementById('calendarId');
-    if (calendarIdEl && calendarIdEl.value) {
+    if (!calendarIdEl) {
+      // Si el elemento no existe, no validar
+    } else if (calendarIdEl.value) {
       const calendarId = calendarIdEl.value.trim();
       if (!calendarId) {
         alert('Por favor configura el Calendar ID');
@@ -647,8 +651,10 @@ function validateConfig() {
   
   if (availableIntegrations.includes('gmail')) {
     const gmailContentEl = document.getElementById('gmailContent');
-    if (gmailContentEl && gmailContentEl.value) {
-      const content = gmailContentEl.value.trim();
+    if (!gmailContentEl) {
+      // Si el elemento no existe, no validar (no es crítico para landing)
+    } else {
+      const content = gmailContentEl.value ? gmailContentEl.value.trim() : '';
       if (!content) {
         alert('Por favor configura qué información debe incluir la IA en los resúmenes por Gmail');
         return false;
@@ -671,8 +677,12 @@ function updateCustomSheetsCount() {
 
   if (!countEl || !remainingEl) return;
 
-  if (countEl) countEl.textContent = count;
-  if (remainingEl) remainingEl.textContent = `Restantes: ${remaining}`;
+  try {
+    if (countEl) countEl.textContent = count;
+    if (remainingEl) remainingEl.textContent = `Restantes: ${remaining}`;
+  } catch (e) {
+    console.error('Error actualizando contador:', e);
+  }
 
   // Deshabilitar botón si alcanzó el límite
   const addBtn = document.getElementById('addCustomSheetBtn');
