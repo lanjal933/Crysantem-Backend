@@ -697,7 +697,7 @@ router.post('/mark-as-paid/:pageId', generalLimiter, async (req, res) => {
         responde: { monthly: 49000, annual: 40833, annualTotal: 490000, messagesLimit: 1000, minimumMonths: 3 },
         asiste: { monthly: 79000, annual: 65833, annualTotal: 790000, messagesLimit: 2500, minimumMonths: 3 },
         automatiza: { monthly: 125000, annual: 104167, annualTotal: 1250000, messagesLimit: 5000, minimumMonths: 6 },
-        intelligence: { monthly: 0, annual: 0, annualTotal: 0, messagesLimit: 0, minimumMonths: 12 }
+        intelligence: { monthly: 190000, annual: 158333, annualTotal: 1900000, messagesLimit: 10000, minimumMonths: 12 }
       };
       const planPrice = planPrices[plan] || planPrices.responde;
 
@@ -1945,11 +1945,11 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
         minimumMonths: 6
       },
       intelligence: {
-        monthly: 0, // Custom/Personalizado
-        annual: 0, // Custom/Personalizado
-        annualTotal: 0, // Custom/Personalizado
-        title: '04 - Enterprise',
-        messagesLimit: 0,
+        monthly: 190000,
+        annual: 158333,
+        annualTotal: 1900000,
+        title: '04 - Intelligence',
+        messagesLimit: 10000,
         minimumMonths: 12
       }
     };
@@ -1959,15 +1959,7 @@ router.post('/create-subscription', generalLimiter, async (req, res) => {
       return res.status(400).json({ success: false, error: 'Plan inválido' });
     }
 
-    // Para plan intelligence (enterprise custom), no usar Mercado Pago
-    if (plan === 'intelligence') {
-      return res.json({
-        success: true,
-        requiresCustomQuote: true,
-        message: 'El plan Enterprise requiere una cotización personalizada. Por favor contáctanos.',
-        redirectUrl: 'https://wa.me/13237093568'
-      });
-    }
+    // Ya no tratamos intelligence como custom - usa precios normales
 
     if (!incomingPayerEmail) {
       return res.status(400).json({ success: false, error: 'Email del pagador es requerido para suscripciones' });
