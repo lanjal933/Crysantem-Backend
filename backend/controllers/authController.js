@@ -155,16 +155,19 @@ const googleAuth = async (req, res) => {
       return res.status(400).json({ error: 'Código de autorización requerido' });
     }
 
-    // Extraer redirectUrl del state si existe
+    // El state ahora contiene directamente el redirectUrl
     let redirectUrl = null;
-    let plan = state;
-    
-    if (state && state.includes('|')) {
-      const parts = state.split('|');
-      plan = parts[0];
-      redirectUrl = decodeURIComponent(parts[1]) || null;
-      console.log('Plan extraído:', plan);
-      console.log('Redirect URL extraído:', redirectUrl);
+    let plan = null;
+
+    if (state) {
+      try {
+        // Intentar decodificar el state como redirectUrl
+        redirectUrl = decodeURIComponent(state);
+        console.log('Redirect URL extraído del state:', redirectUrl);
+      } catch (e) {
+        console.log('No se pudo decodificar el state como redirectUrl, usando como plan');
+        plan = state;
+      }
     }
 
     const axios = require('axios');
@@ -317,6 +320,7 @@ const googleAuth = async (req, res) => {
       });
       
       // Redirigir directamente al resumen después de OAuth (o a la URL de procedencia si existe)
+      const separator = redirectUrl && redirectUrl.includes('?') ? '&' : '?';
       const targetUrl = redirectUrl || `${config.appUrl}/myia-summary.html?token=${token}&plan=${plan}&google_connected=true`;
       console.log('=== REDIRIGIENDO DESPUÉS DE OAUTH ===');
       console.log('Target URL:', targetUrl);
@@ -324,7 +328,9 @@ const googleAuth = async (req, res) => {
       res.redirect(targetUrl);
     } else {
       // Redirección normal - usar redirectUrl si existe, si no ir a index.html
-      const targetUrl = redirectUrl || `${config.appUrl}/index.html?token=${token}`;
+      // Asegurar que el token se agregue a la URL para que el frontend lo detecte
+      const separator = redirectUrl && redirectUrl.includes('?') ? '&' : '?';
+      const targetUrl = (redirectUrl || `${config.appUrl}/index.html`) + `${separator}token=${token}`;
       
       // Guardar scopes básicos (refresh_token en user_google_tokens)
       await supabase.from('myia_users').upsert({

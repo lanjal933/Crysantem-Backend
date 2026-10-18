@@ -35,8 +35,9 @@ router.get('/google', (req, res) => {
   console.log('Scopes a usar:', oauthScopes);
   
   // Codificar redirectUrl en el state para recuperarlo en el callback
+  // Si redirectUrl existe, usarlo como state principal
   const stateWithRedirect = redirectUrl 
-    ? `${state || ''}|${encodeURIComponent(redirectUrl)}`
+    ? encodeURIComponent(redirectUrl)
     : state || '';
   
   const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${config.google.clientId}&redirect_uri=${encodeURIComponent(config.google.redirectUri)}&response_type=code&scope=${encodeURIComponent(oauthScopes)}&state=${stateWithRedirect}&access_type=offline&prompt=consent`;
