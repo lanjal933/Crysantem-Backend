@@ -2663,14 +2663,22 @@ router.post('/paula-chat', generalLimiter, async (req, res) => {
 
 // === ENDPOINT PARA N8N: OBTENER TOKENS OAUTH DE GOOGLE POR USUARIO ===
 // Este endpoint permite que n8n obtenga tokens OAuth frescos para cada usuario
-// Protegido con HMAC signature igual que el webhook principal
+// CRÍTICO: Este endpoint NUNCA debe responder HTML, solo JSON
 router.post('/get-google-tokens', generalLimiter, async (req, res) => {
+  // Forzar Content-Type JSON en todas las respuestas
+  res.setHeader('Content-Type', 'application/json');
+
   try {
     const { userId } = req.body;
 
-    // Validación mejorada: userId debe existir y no estar vacío
+    console.log('=== N8N TOKEN REQUEST ===');
+    console.log('Timestamp:', new Date().toISOString());
+    console.log('Body recibido:', JSON.stringify(req.body));
+    console.log('User ID:', userId);
+
+    // Validación estricta: userId debe existir y no estar vacío
     if (!userId || userId === '' || userId === null || userId === undefined) {
-      console.error('N8N Token Request: userId inválido o vacío');
+      console.error('ERROR: userId inválido o vacío');
       return res.status(400).json({
         success: false,
         error: 'userId es requerido y no puede estar vacío',
@@ -2678,8 +2686,19 @@ router.post('/get-google-tokens', generalLimiter, async (req, res) => {
       });
     }
 
-    console.log('=== N8N REQUEST: GET GOOGLE TOKENS ===');
-    console.log('User ID:', userId);
+    // Validar formato del userId (debe ser UUID)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(userId)) {
+      console.error('ERROR: userId no es un UUID válido:', userId);
+      return res.status(400).json({
+        success: false,
+        error: 'userId debe ser un UUID válido',
+        code: 'INVALID_USER_ID_FORMAT',
+        received: userId
+      });
+    }
+
+    console.log('Consultando tokens en Supabase para userId:', userId);
 
     // Obtener tokens de la tabla user_google_tokens
     const { data: tokens, error: tokensError } = await supabase
@@ -2690,9 +2709,10 @@ router.post('/get-google-tokens', generalLimiter, async (req, res) => {
 
     // Manejo mejorado de errores de Supabase
     if (tokensError) {
-      console.error('Error al obtener tokens de Google:', tokensError);
+      console.error('ERROR Supabase:', tokensError);
       if (tokensError.code === 'PGRST116') {
         // No se encontró registro
+        console.error('No se encontraron tokens para userId:', userId);
         return res.status(404).json({
           success: false,
           error: 'Tokens de Google no encontrados para este usuario',
@@ -2701,6 +2721,7 @@ router.post('/get-google-tokens', generalLimiter, async (req, res) => {
         });
       }
       // Otro error de Supabase
+      console.error('Error de base de datos:', tokensError.message);
       return res.status(500).json({
         success: false,
         error: 'Error al consultar la base de datos',
@@ -2710,13 +2731,17 @@ router.post('/get-google-tokens', generalLimiter, async (req, res) => {
     }
 
     if (!tokens) {
-      console.error('Tokens nulos para userId:', userId);
+      console.error('ERROR: Tokens nulos para userId:', userId);
       return res.status(404).json({
         success: false,
         error: 'Tokens de Google no encontrados para este usuario',
         code: 'TOKENS_NOT_FOUND'
       });
     }
+
+    console.log('Tokens encontrados para userId:', userId);
+    console.log('Email:', tokens.email);
+    console.log('Token expires at:', tokens.expires_at);
 
     // Verificar si el access_token está expirado o cerca de expirar
     const now = new Date();
@@ -2729,6 +2754,7 @@ router.post('/get-google-tokens', generalLimiter, async (req, res) => {
     // Si necesita refresco, usar el refresh_token para obtener un nuevo access_token
     if (isExpired || needsRefresh) {
       console.log('Token expirado o cerca de expirar, refrescando...');
+      console.log('Expira en:', Math.floor((expiresAt - now) / 1000 / 60), 'minutos');
 
       try {
         const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
@@ -2741,6 +2767,8 @@ router.post('/get-google-tokens', generalLimiter, async (req, res) => {
         accessToken = tokenResponse.data.access_token;
         const newExpiresAt = new Date(Date.now() + (tokenResponse.data.expires_in * 1000));
 
+        console.log('Token refrescado exitosamente, nuevo expires_in:', tokenResponse.data.expires_in, 'segundos');
+
         // Actualizar tokens en Supabase
         await supabase
           .from('user_google_tokens')
@@ -2751,31 +2779,45 @@ router.post('/get-google-tokens', generalLimiter, async (req, res) => {
           })
           .eq('user_id', userId);
 
-        console.log('Token refrescado exitosamente');
+        console.log('Tokens actualizados en Supabase');
       } catch (refreshError) {
-        console.error('Error al refrescar token:', refreshError);
-        // Si falla el refresco, retornar el token existente (podría seguir funcionando)
+        console.error('ERROR al refrescar token:', refreshError.message);
+        // Si falla el refresco, continuar con el token existente (podría seguir funcionando)
+        console.log('Continuando con token existente (puede estar expirado)');
       }
     }
 
-    console.log('Tokens enviados a n8n para user:', userId);
+    console.log('Enviando access_token a n8n para user:', userId);
 
-    res.json({
+    // Respuesta exitosa
+    const response = {
       success: true,
       data: {
         access_token: accessToken,
         email: tokens.email,
         expires_at: tokens.expires_at
       }
+    };
+
+    console.log('Response structure:', {
+      success: response.success,
+      has_access_token: !!response.data.access_token,
+      access_token_length: response.data.access_token?.length || 0
     });
+
+    return res.status(200).json(response);
   } catch (error) {
-    console.error('Error en get-google-tokens:', error);
-    // Asegurar que siempre retornamos JSON, nunca HTML
-    res.status(500).json({
+    console.error('=== ERROR CRÍTICO EN get-google-tokens ===');
+    console.error('Error:', error.message);
+    console.error('Stack:', error.stack);
+
+    // Asegurar que SIEMPRE retornamos JSON, nunca HTML
+    return res.status(500).json({
       success: false,
       error: 'Error interno del servidor al obtener tokens',
       code: 'INTERNAL_ERROR',
-      details: error.message
+      details: error.message,
+      timestamp: new Date().toISOString()
     });
   }
 });
