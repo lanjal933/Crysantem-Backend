@@ -147,10 +147,10 @@ router.post('/chat-message', generalLimiter, async (req, res) => {
     console.log('Plan:', plan);
     console.log('Message:', message);
 
-    // Obtener configuración de la página con información de estado y límites
+    // Obtener configuración de la página con información de estado, límites y URLs de integraciones para n8n
     const { data: pageConfig, error: configError } = await supabase
       .from('myia_page_config')
-      .select('business_name, slug, system_prompt, plan, is_active, messages_limit, messages_used_this_month, current_month, current_year')
+      .select('business_name, slug, system_prompt, plan, is_active, messages_limit, messages_used_this_month, current_month, current_year, user_id, sheets_database_url_get, sheets_database_url_post, sheets_custom_1_url_get, sheets_custom_1_url_post, sheets_custom_2_url_get, sheets_custom_2_url_post, gmail_sender_email')
       .eq('id', pageId)
       .single();
 
@@ -225,7 +225,21 @@ router.post('/chat-message', generalLimiter, async (req, res) => {
     const timestamp = Math.floor(Date.now() / 1000);
     const payload = JSON.stringify({
       slug: pageConfig.slug,
-      chatInput: message
+      chatInput: message,
+      userId: userId,
+      // URLs dinámicas de Sheets para n8n
+      sheets: {
+        database_url_get: pageConfig.sheets_database_url_get,
+        database_url_post: pageConfig.sheets_database_url_post,
+        custom_1_url_get: pageConfig.sheets_custom_1_url_get,
+        custom_1_url_post: pageConfig.sheets_custom_1_url_post,
+        custom_2_url_get: pageConfig.sheets_custom_2_url_get,
+        custom_2_url_post: pageConfig.sheets_custom_2_url_post
+      },
+      // Email de Gmail sender
+      gmail_sender_email: pageConfig.gmail_sender_email,
+      // Información del plan
+      plan: pageConfig.plan
     });
 
     const signature = crypto
@@ -234,8 +248,24 @@ router.post('/chat-message', generalLimiter, async (req, res) => {
       .digest('hex');
 
     const response = await axios.post(webhookUrl, {
-      slug: pageConfig.slug,          // Para que Supabase filtre y obtenga el system_prompt
-      chatInput: message             // Coincide con la expresión {{ $('agente-workspace').first().json.chatInput }}
+      slug: pageConfig.slug,          // Identificador único de la página
+      chatInput: message,             // Mensaje del usuario
+      userId: userId,                 // ID del usuario para obtener tokens OAuth
+      system_prompt: pageConfig.system_prompt,  // System prompt del bot (para que la IA use el correcto)
+      business_name: pageConfig.business_name,  // Nombre del negocio (para contexto)
+      // URLs dinámicas de Sheets para n8n (multitenencia)
+      sheets: {
+        database_url_get: pageConfig.sheets_database_url_get,
+        database_url_post: pageConfig.sheets_database_url_post,
+        custom_1_url_get: pageConfig.sheets_custom_1_url_get,
+        custom_1_url_post: pageConfig.sheets_custom_1_url_post,
+        custom_2_url_get: pageConfig.sheets_custom_2_url_get,
+        custom_2_url_post: pageConfig.sheets_custom_2_url_post
+      },
+      // Email de Gmail sender (multitenencia)
+      gmail_sender_email: pageConfig.gmail_sender_email,
+      // Información del plan
+      plan: pageConfig.plan
     }, {
       headers: {
         'Content-Type': 'application/json',
@@ -247,7 +277,7 @@ router.post('/chat-message', generalLimiter, async (req, res) => {
 
     console.log('Respuesta de n8n recibida:', response.status);
 
-    // ACTUALIZAR contador de mensajes
+    // ACTUALIZAR contador de mensajes en myia_page_config
     await supabase
       .from('myia_page_config')
       .update({
@@ -255,7 +285,26 @@ router.post('/chat-message', generalLimiter, async (req, res) => {
       })
       .eq('id', pageId);
 
-    console.log('Contador de mensajes actualizado:', messagesUsed + 1, '/', messageLimit);
+    console.log('Contador de mensajes actualizado en página:', messagesUsed + 1, '/', messageLimit);
+
+    // ACTUALIZAR contador de mensajes en user_message_limits
+    if (userId) {
+      const { data: userLimits } = await supabase
+        .from('user_message_limits')
+        .select('messages_used')
+        .eq('email', userId)
+        .single();
+
+      if (userLimits) {
+        await supabase
+          .from('user_message_limits')
+          .update({
+            messages_used: (userLimits.messages_used || 0) + 1
+          })
+          .eq('email', userId);
+        console.log('Contador de mensajes actualizado en usuario:', (userLimits.messages_used || 0) + 1);
+      }
+    }
 
     res.json({
       success: true,
@@ -564,6 +613,11 @@ router.get('/user-apps/:userId', async (req, res) => {
 router.get('/config-by-id/:id', async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Headers anti-cache
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
 
     const { data, error } = await supabase
       .from('myia_page_config')
@@ -972,6 +1026,89 @@ router.get('/message-limit/:pageId', async (req, res) => {
     });
   } catch (error) {
     console.error('Error getting message limit:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Obtener límite de mensajes de un usuario (para verificación en el chat)
+router.get('/user-message-limit/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log('Obteniendo límite de mensajes para usuario:', userId);
+
+    // Obtener límites del usuario desde user_message_limits
+    const now = new Date();
+    const currentMonth = now.getMonth() + 1; // 1-12
+    const currentYear = now.getFullYear();
+
+    const { data: userLimits, error: limitsError } = await supabase
+      .from('user_message_limits')
+      .select('*')
+      .eq('email', userId)
+      .single();
+
+    if (limitsError || !userLimits) {
+      console.log('Usuario no tiene límites configurados, creando registro con límite generoso');
+      // Crear registro con límite generoso
+      const { data: newLimits, error: createError } = await supabase
+        .from('user_message_limits')
+        .insert({
+          email: userId,
+          monthly_message_limit: 10000, // Límite generoso por defecto
+          messages_used: 0,
+          current_month: currentMonth,
+          current_year: currentYear
+        })
+        .select()
+        .single();
+
+      if (createError) {
+        console.error('Error al crear límites:', createError);
+        return res.status(500).json({ success: false, error: 'Error al inicializar límites' });
+      }
+
+      return res.json({
+        success: true,
+        data: {
+          limit: newLimits.monthly_message_limit,
+          used: newLimits.messages_used,
+          remaining: newLimits.monthly_message_limit - newLimits.messages_used,
+          current_month: currentMonth,
+          current_year: currentYear
+        }
+      });
+    }
+
+    // Verificar si es necesario resetear el contador
+    let messagesUsed = userLimits.messages_used || 0;
+    if (userLimits.current_month !== currentMonth || userLimits.current_year !== currentYear) {
+      console.log('Cambio de mes detectado - reseteando contador');
+      await supabase
+        .from('user_message_limits')
+        .update({
+          messages_used: 0,
+          current_month: currentMonth,
+          current_year: currentYear
+        })
+        .eq('email', userId);
+      messagesUsed = 0;
+    }
+
+    const messageLimit = userLimits.monthly_message_limit || 0;
+    const remaining = messageLimit > 0 ? Math.max(0, messageLimit - messagesUsed) : 'unlimited';
+
+    res.json({
+      success: true,
+      data: {
+        limit: messageLimit,
+        used: messagesUsed,
+        remaining: remaining,
+        current_month: currentMonth,
+        current_year: currentYear
+      }
+    });
+  } catch (error) {
+    console.error('Error getting user message limit:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -1436,7 +1573,7 @@ function generatePageHTML(config, webhookUrl) {
     </div>
   </div>
 
-  <script src="/js/myia-auth.js"></script>
+  <script src="/js/myia-auth.js?v=1.4"></script>
   <script>
     // Markdown Renderer - Simplificado para páginas MyIA
     class MarkdownRenderer {
@@ -2520,6 +2657,125 @@ router.post('/paula-chat', generalLimiter, async (req, res) => {
     res.status(500).json({
       success: false,
       error: 'Error interno del servidor al procesar chat'
+    });
+  }
+});
+
+// === ENDPOINT PARA N8N: OBTENER TOKENS OAUTH DE GOOGLE POR USUARIO ===
+// Este endpoint permite que n8n obtenga tokens OAuth frescos para cada usuario
+// Protegido con HMAC signature igual que el webhook principal
+router.post('/get-google-tokens', generalLimiter, async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    // Validación mejorada: userId debe existir y no estar vacío
+    if (!userId || userId === '' || userId === null || userId === undefined) {
+      console.error('N8N Token Request: userId inválido o vacío');
+      return res.status(400).json({
+        success: false,
+        error: 'userId es requerido y no puede estar vacío',
+        code: 'INVALID_USER_ID'
+      });
+    }
+
+    console.log('=== N8N REQUEST: GET GOOGLE TOKENS ===');
+    console.log('User ID:', userId);
+
+    // Obtener tokens de la tabla user_google_tokens
+    const { data: tokens, error: tokensError } = await supabase
+      .from('user_google_tokens')
+      .select('access_token, refresh_token, email, expires_at')
+      .eq('user_id', userId)
+      .single();
+
+    // Manejo mejorado de errores de Supabase
+    if (tokensError) {
+      console.error('Error al obtener tokens de Google:', tokensError);
+      if (tokensError.code === 'PGRST116') {
+        // No se encontró registro
+        return res.status(404).json({
+          success: false,
+          error: 'Tokens de Google no encontrados para este usuario',
+          code: 'TOKENS_NOT_FOUND',
+          details: 'El usuario no ha conectado Google OAuth'
+        });
+      }
+      // Otro error de Supabase
+      return res.status(500).json({
+        success: false,
+        error: 'Error al consultar la base de datos',
+        code: 'DATABASE_ERROR',
+        details: tokensError.message
+      });
+    }
+
+    if (!tokens) {
+      console.error('Tokens nulos para userId:', userId);
+      return res.status(404).json({
+        success: false,
+        error: 'Tokens de Google no encontrados para este usuario',
+        code: 'TOKENS_NOT_FOUND'
+      });
+    }
+
+    // Verificar si el access_token está expirado o cerca de expirar
+    const now = new Date();
+    const expiresAt = new Date(tokens.expires_at);
+    const isExpired = now >= expiresAt;
+    const needsRefresh = (expiresAt - now) < 5 * 60 * 1000; // Refrescar si faltan menos de 5 minutos
+
+    let accessToken = tokens.access_token;
+
+    // Si necesita refresco, usar el refresh_token para obtener un nuevo access_token
+    if (isExpired || needsRefresh) {
+      console.log('Token expirado o cerca de expirar, refrescando...');
+
+      try {
+        const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
+          client_id: process.env.GOOGLE_CLIENT_ID,
+          client_secret: process.env.GOOGLE_CLIENT_SECRET,
+          refresh_token: tokens.refresh_token,
+          grant_type: 'refresh_token'
+        });
+
+        accessToken = tokenResponse.data.access_token;
+        const newExpiresAt = new Date(Date.now() + (tokenResponse.data.expires_in * 1000));
+
+        // Actualizar tokens en Supabase
+        await supabase
+          .from('user_google_tokens')
+          .update({
+            access_token: accessToken,
+            expires_at: newExpiresAt.toISOString(),
+            updated_at: now.toISOString()
+          })
+          .eq('user_id', userId);
+
+        console.log('Token refrescado exitosamente');
+      } catch (refreshError) {
+        console.error('Error al refrescar token:', refreshError);
+        // Si falla el refresco, retornar el token existente (podría seguir funcionando)
+      }
+    }
+
+    console.log('Tokens enviados a n8n para user:', userId);
+
+    res.json({
+      success: true,
+      data: {
+        access_token: accessToken,
+        email: tokens.email,
+        expires_at: tokens.expires_at
+      }
+    });
+  } catch (error) {
+    console.error('Error en get-google-tokens:', error);
+    // Asegurar que siempre retornamos JSON, nunca HTML
+    res.status(500).json({
+      success: false,
+      error: 'Error interno del servidor al obtener tokens',
+      code: 'INTERNAL_ERROR',
+      details: error.message
     });
   }
 });
