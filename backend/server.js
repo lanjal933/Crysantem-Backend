@@ -44,7 +44,16 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
-// Servir archivos estáticos antes del rate limiter
+// CRÍTICO: Rutas API primero (antes de servir frontend estático)
+// Aplicar rate limiter solo a rutas API
+app.use('/api', generalLimiter);
+
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/ai', require('./routes/ai'));
+app.use('/api/config', require('./routes/config'));
+app.use('/api/myia', require('./routes/myia'));
+
+// Servir archivos estáticos después de las rutas API
 if (config.serveFrontend) {
   // Servir archivos HTML específicos directamente
   app.get('*.html', (req, res) => {
@@ -56,18 +65,10 @@ if (config.serveFrontend) {
     console.log('Archivo HTML no encontrado, sirviendo index.html:', req.path);
     res.sendFile(path.join(__dirname, '../frontend/index.html'));
   });
-  
+
   // Servir otros archivos estáticos
   app.use(express.static(path.join(__dirname, '../frontend')));
 }
-
-// Aplicar rate limiter solo a rutas API
-app.use('/api', generalLimiter);
-
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/ai', require('./routes/ai'));
-app.use('/api/config', require('./routes/config'));
-app.use('/api/myia', require('./routes/myia'));
 
 // Ruta catch-all para SPA (después de las rutas API)
 // CRÍTICO: Solo aceptar GET para no interferir con POST /api/*
