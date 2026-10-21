@@ -45,17 +45,6 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
 // CRÍTICO: Rutas API primero (antes de servir frontend estático)
-// Middleware para asegurar que /api/* nunca responda HTML
-app.use('/api', (req, res, next) => {
-  // Forzar Content-Type JSON para todas las respuestas de /api/*
-  const originalJson = res.json;
-  res.json = function(data) {
-    res.setHeader('Content-Type', 'application/json');
-    return originalJson.call(this, data);
-  };
-  next();
-});
-
 // Aplicar rate limiter solo a rutas API
 app.use('/api', generalLimiter);
 
@@ -74,53 +63,20 @@ if (getGoogleTokensHandler) {
   console.log('✅ Endpoint dedicado para n8n registrado: /internal/n8n/get-google-tokens');
 }
 
-// Servir archivos estáticos después de las rutas API
+// Servir archivos estáticos en ruta específica /frontend en lugar de catch-all global
+// Esto evita que el catch-all intercepte rutas API
 if (config.serveFrontend) {
-  // Servir archivos HTML específicos directamente
-  app.get('*.html', (req, res) => {
-    const filePath = path.join(__dirname, '../frontend', req.path);
-    if (require('fs').existsSync(filePath)) {
-      console.log('Sirviendo archivo HTML:', req.path);
-      return res.sendFile(filePath);
-    }
-    console.log('Archivo HTML no encontrado, sirviendo index.html:', req.path);
+  // Servir archivos estáticos bajo /frontend
+  app.use('/frontend', express.static(path.join(__dirname, '../frontend')));
+
+  // SPA catch-all solo para /frontend (no intercepta /api ni /internal)
+  app.get('/frontend/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'));
   });
 
-  // Servir otros archivos estáticos
-  app.use(express.static(path.join(__dirname, '../frontend')));
-}
-
-// Ruta catch-all para SPA (después de las rutas API)
-// CRÍTICO: Solo aceptar GET para no interferir con POST /api/*
-if (config.serveFrontend) {
-  app.get('*', (req, res) => {
-    // NO servir archivos HTML aquí (ya se manejan arriba)
-    // Solo servir index.html para rutas que no son archivos
-    if (!req.path.endsWith('.html') && !req.path.includes('.')) {
-      res.sendFile(path.join(__dirname, '../frontend/index.html'));
-    } else {
-      // Para archivos que no son HTML (como imágenes, CSS, JS)
-      const filePath = path.join(__dirname, '../frontend', req.path);
-      if (require('fs').existsSync(filePath)) {
-        return res.sendFile(filePath);
-      }
-      res.sendFile(path.join(__dirname, '../frontend/index.html'));
-    }
-  });
-
-  // Middleware para rechazar POST que lleguen al catch-all y retornar JSON
-  app.use('*', (req, res, next) => {
-    if (req.method === 'POST') {
-      console.error('POST request reached catch-all - returning JSON error:', req.path);
-      return res.status(404).json({
-        success: false,
-        error: 'Endpoint not found',
-        path: req.path,
-        method: req.method
-      });
-    }
-    next();
+  // Redirigir raíz a /frontend
+  app.get('/', (req, res) => {
+    res.redirect('/frontend/');
   });
 }
 
