@@ -83,8 +83,7 @@ if (config.serveFrontend) {
 
 // Ruta catch-all para SPA (después de las rutas API)
 // CRÍTICO: Solo aceptar GET para no interferir con POST /api/*
-// NOTA: En producción, SERVE_FRONTEND debe ser false para evitar conflictos
-if (config.serveFrontend && config.nodeEnv !== 'production') {
+if (config.serveFrontend) {
   app.get('*', (req, res) => {
     // NO servir archivos HTML aquí (ya se manejan arriba)
     // Solo servir index.html para rutas que no son archivos
@@ -98,6 +97,20 @@ if (config.serveFrontend && config.nodeEnv !== 'production') {
       }
       res.sendFile(path.join(__dirname, '../frontend/index.html'));
     }
+  });
+
+  // Middleware para rechazar POST que lleguen al catch-all y retornar JSON
+  app.use('*', (req, res, next) => {
+    if (req.method === 'POST') {
+      console.error('POST request reached catch-all - returning JSON error:', req.path);
+      return res.status(404).json({
+        success: false,
+        error: 'Endpoint not found',
+        path: req.path,
+        method: req.method
+      });
+    }
+    next();
   });
 }
 
