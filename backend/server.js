@@ -64,6 +64,16 @@ app.use('/api/ai', require('./routes/ai'));
 app.use('/api/config', require('./routes/config'));
 app.use('/api/myia', require('./routes/myia'));
 
+// Endpoint dedicado para n8n fuera de /api para evitar conflictos con SPA catch-all
+// Ruta: /internal/n8n/get-google-tokens
+// No está bajo /api, así que el SPA catch-all no lo intercepta
+const myiaRouter = require('./routes/myia');
+const getGoogleTokensHandler = myiaRouter.stack.find(layer => layer.route?.path === '/get-google-tokens' && layer.route?.methods.post);
+if (getGoogleTokensHandler) {
+  app.post('/internal/n8n/get-google-tokens', generalLimiter, getGoogleTokensHandler.handle);
+  console.log('✅ Endpoint dedicado para n8n registrado: /internal/n8n/get-google-tokens');
+}
+
 // Servir archivos estáticos después de las rutas API
 if (config.serveFrontend) {
   // Servir archivos HTML específicos directamente
