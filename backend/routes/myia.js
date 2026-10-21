@@ -2701,6 +2701,7 @@ router.post('/get-google-tokens', generalLimiter, async (req, res) => {
     console.log('Consultando tokens en Supabase para userId:', userId);
 
     // Obtener tokens de la tabla user_google_tokens
+    // expires_at es opcional por compatibilidad con tablas antiguas
     const { data: tokens, error: tokensError } = await supabase
       .from('user_google_tokens')
       .select('access_token, refresh_token, email, expires_at')
@@ -2741,13 +2742,21 @@ router.post('/get-google-tokens', generalLimiter, async (req, res) => {
 
     console.log('Tokens encontrados para userId:', userId);
     console.log('Email:', tokens.email);
-    console.log('Token expires at:', tokens.expires_at);
+    console.log('Token expires at:', tokens.expires_at || 'No disponible');
 
-    // Verificar si el access_token está expirado o cerca de expirar
+    // Verificar si el access_token está expirado o cerca de expiración
     const now = new Date();
-    const expiresAt = new Date(tokens.expires_at);
-    const isExpired = now >= expiresAt;
-    const needsRefresh = (expiresAt - now) < 5 * 60 * 1000; // Refrescar si faltan menos de 5 minutos
+    let isExpired = false;
+    let needsRefresh = false;
+
+    // Solo verificar expiración si expires_at existe
+    if (tokens.expires_at) {
+      const expiresAt = new Date(tokens.expires_at);
+      isExpired = now >= expiresAt;
+      needsRefresh = (expiresAt - now) < 5 * 60 * 1000; // Refrescar si faltan menos de 5 minutos
+    } else {
+      console.log('expires_at no existe, se asume token válido');
+    }
 
     let accessToken = tokens.access_token;
 

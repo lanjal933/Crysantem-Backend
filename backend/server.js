@@ -70,6 +70,7 @@ app.use('/api/config', require('./routes/config'));
 app.use('/api/myia', require('./routes/myia'));
 
 // Ruta catch-all para SPA (después de las rutas API)
+// CRÍTICO: Solo aceptar GET para no interferir con POST /api/*
 if (config.serveFrontend) {
   app.get('*', (req, res) => {
     // NO servir archivos HTML aquí (ya se manejan arriba)
