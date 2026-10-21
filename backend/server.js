@@ -45,6 +45,17 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
 // CRÍTICO: Rutas API primero (antes de servir frontend estático)
+// Middleware para asegurar que /api/* nunca responda HTML
+app.use('/api', (req, res, next) => {
+  // Forzar Content-Type JSON para todas las respuestas de /api/*
+  const originalJson = res.json;
+  res.json = function(data) {
+    res.setHeader('Content-Type', 'application/json');
+    return originalJson.call(this, data);
+  };
+  next();
+});
+
 // Aplicar rate limiter solo a rutas API
 app.use('/api', generalLimiter);
 
@@ -72,7 +83,8 @@ if (config.serveFrontend) {
 
 // Ruta catch-all para SPA (después de las rutas API)
 // CRÍTICO: Solo aceptar GET para no interferir con POST /api/*
-if (config.serveFrontend) {
+// NOTA: En producción, SERVE_FRONTEND debe ser false para evitar conflictos
+if (config.serveFrontend && config.nodeEnv !== 'production') {
   app.get('*', (req, res) => {
     // NO servir archivos HTML aquí (ya se manejan arriba)
     // Solo servir index.html para rutas que no son archivos
