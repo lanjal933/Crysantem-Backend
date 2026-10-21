@@ -19,6 +19,10 @@ class MarkdownRenderer {
     // 1. Procesar componentes personalizados en orden específico
     html = this.processPlanComponents(html);
     html = this.processChartComponents(html);
+    html = this.processNewChartComponents(html);
+    html = this.processColorBoxes(html);
+    html = this.processButtons(html);
+    html = this.processLinks(html);
     html = this.processInfoComponents(html);
     html = this.processWhatsAppComponents(html);
 
@@ -60,18 +64,18 @@ class MarkdownRenderer {
    */
   processChartComponents(text) {
     const chartRegex = /\[CHART\s+type="(\w+)"(?:\s+id="([^"]+)")?\]([\s\S]*?)\[\/CHART\]/g;
-    
+
     return text.replace(chartRegex, (match, type, customId, jsonData) => {
       // Sanitizar el ID: eliminar espacios y caracteres especiales
       const sanitizedId = customId ? customId.replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_-]/g, '') : `chart-${this.chartCounter++}`;
       const chartId = sanitizedId;
-      
+
       console.log('Procesando componente CHART:', { type, customId, chartId });
-      
+
       try {
         const data = JSON.parse(jsonData.trim());
         console.log('Datos del gráfico parseados:', data);
-        
+
         // Guardar datos del gráfico para inicializar después
         if (!window.pendingCharts) {
           window.pendingCharts = [];
@@ -81,9 +85,9 @@ class MarkdownRenderer {
           type: type,
           data: data
         });
-        
+
         console.log('Gráfico agregado a pendingCharts. Total:', window.pendingCharts.length);
-        
+
         return `
           <div class="chart-container">
             <canvas id="${chartId}"></canvas>
@@ -93,6 +97,262 @@ class MarkdownRenderer {
         console.error('Error parsing chart data:', e);
         return `<div class="error-box">Error al procesar el gráfico: datos inválidos</div>`;
       }
+    });
+  }
+
+  /**
+   * Procesa componentes de gráficos con nueva sintaxis :::
+   * Formato flexible:
+   * :::grafico-line :::titulo Título :::datos {"A": 10, "B": 20} :::color azul :::etiqueta Eje X :::
+   */
+  processNewChartComponents(text) {
+    // Regex más flexible: permite formato en una sola línea o múltiples líneas
+    const chartRegex = /:::grafico-(\w+)\s*((?::::[a-z]+\s+[^\n]+)(?:\s*:::[a-z]+\s+[^\n]+)*)\s*:::/g;
+
+    return text.replace(chartRegex, (match, chartType, paramsBlock) => {
+      const chartId = `chart-${this.chartCounter++}`;
+
+      // Parsear parámetros (manejar tanto saltos de línea como espacios)
+      const params = {};
+      const paramLines = paramsBlock.trim().split(/\s*:::/).filter(line => line.trim());
+
+      for (const line of paramLines) {
+        const match = line.match(/^([a-z]+)\s+(.+)$/);
+        if (match) {
+          const key = match[1];
+          const value = match[2].trim();
+
+          if (key === 'datos') {
+            try {
+              params.data = JSON.parse(value);
+            } catch (e) {
+              console.error('Error parsing datos:', e);
+              params.data = {};
+            }
+          } else if (key === 'etiqueta') {
+            if (!params.labels) params.labels = [];
+            params.labels.push(value);
+          } else {
+            params[key] = value;
+          }
+        }
+      }
+
+      console.log('Procesando gráfico nuevo:', { chartType, params });
+
+      // Mapear tipo de gráfico
+      const typeMap = {
+        'line': 'line',
+        'bar': 'bar',
+        'pie': 'pie',
+        'doughnut': 'doughnut',
+        'area': 'line'
+      };
+
+      const chartJsType = typeMap[chartType] || 'line';
+
+      // Mapear colores
+      const colorMap = {
+        'morado': { border: '#9b59b6', bg: 'rgba(155, 89, 182, 0.2)' },
+        'verde': { border: '#2ecc71', bg: 'rgba(46, 204, 113, 0.2)' },
+        'azul': { border: '#3498db', bg: 'rgba(52, 152, 219, 0.2)' },
+        'rojo': { border: '#e74c3c', bg: 'rgba(231, 76, 60, 0.2)' },
+        'naranja': { border: '#f39c12', bg: 'rgba(243, 156, 18, 0.2)' },
+        'amarillo': { border: '#f1c40f', bg: 'rgba(241, 196, 15, 0.2)' },
+        'cyan': { border: '#00bcd4', bg: 'rgba(0, 188, 212, 0.2)' },
+        'rosa': { border: '#e91e63', bg: 'rgba(233, 30, 99, 0.2)' },
+        'gris': { border: '#95a5a6', bg: 'rgba(149, 165, 166, 0.2)' }
+      };
+
+      const colors = colorMap[params.color] || colorMap['morado'];
+
+      // Construir datos para Chart.js
+      const labels = Object.keys(params.data || {});
+      const values = Object.values(params.data || {});
+
+      const chartData = {
+        labels: labels,
+        datasets: [{
+          label: params.titulo || 'Gráfico',
+          data: values,
+          borderColor: colors.border,
+          backgroundColor: colors.bg,
+          borderWidth: 2,
+          fill: chartJsType === 'line',
+          tension: 0.4
+        }]
+      };
+
+      const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          title: {
+            display: !!params.titulo,
+            text: params.titulo || '',
+            color: '#fff'
+          },
+          legend: {
+            labels: {
+              color: '#fff'
+            }
+          }
+        },
+        scales: chartJsType === 'line' || chartJsType === 'bar' ? {
+          x: {
+            display: true,
+            title: {
+              display: !!params.labels?.[0],
+              text: params.labels?.[0] || '',
+              color: '#fff'
+            },
+            ticks: {
+              color: '#fff'
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            }
+          },
+          y: {
+            display: true,
+            title: {
+              display: !!params.labels?.[1],
+              text: params.labels?.[1] || '',
+              color: '#fff'
+            },
+            ticks: {
+              color: '#fff'
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            }
+          }
+        } : {}
+      };
+
+      // Guardar datos del gráfico para inicializar después
+      if (!window.pendingCharts) {
+        window.pendingCharts = [];
+      }
+      window.pendingCharts.push({
+        id: chartId,
+        type: chartJsType,
+        data: chartData,
+        options: chartOptions
+      });
+
+      return `
+        <div class="chart-container" style="margin: 20px 0;">
+          <canvas id="${chartId}"></canvas>
+        </div>
+      `;
+    });
+  }
+
+  /**
+   * Procesa cajas de colores (ej: :::caja-morado)
+   * Formato flexible: :::caja-[color] contenido ::: (con o sin saltos de línea)
+   */
+  processColorBoxes(text) {
+    // Regex más flexible: acepta contenido en múltiples líneas o en una sola línea
+    const boxRegex = /:::caja-(\w+)\s+([\s\S]*?)\s*:::/g;
+
+    const colorMap = {
+      'morado': { bg: 'rgba(155, 89, 182, 0.2)', border: '#9b59b6' },
+      'verde': { bg: 'rgba(46, 204, 113, 0.2)', border: '#2ecc71' },
+      'azul': { bg: 'rgba(52, 152, 219, 0.2)', border: '#3498db' },
+      'rojo': { bg: 'rgba(231, 76, 60, 0.2)', border: '#e74c3c' },
+      'naranja': { bg: 'rgba(243, 156, 18, 0.2)', border: '#f39c12' },
+      'amarillo': { bg: 'rgba(241, 196, 15, 0.2)', border: '#f1c40f' },
+      'gris': { bg: 'rgba(149, 165, 166, 0.2)', border: '#95a5a6' }
+    };
+
+    return text.replace(boxRegex, (match, color, content) => {
+      const colors = colorMap[color] || colorMap['azul'];
+      // Limpiar espacios excesivos pero mantener estructura
+      const cleanedContent = content.trim().replace(/\n\s*\n/g, '\n');
+      return `
+        <div class="color-box" style="
+          background: ${colors.bg};
+          border-left: 4px solid ${colors.border};
+          padding: 16px;
+          margin: 12px 0;
+          border-radius: 4px;
+        ">
+          ${cleanedContent}
+        </div>
+      `;
+    });
+  }
+
+  /**
+   * Procesa botones (ej: :::boton Texto URL/Action)
+   * Soporta: web, wa.me, mailto, tel
+   */
+  processButtons(text) {
+    const buttonRegex = /:::boton\s+([^\s]+)\s+(https?:\/\/[^\s]+|wa\.me\/[^\s]+|mailto:[^\s]+|tel:[^\s]+)/g;
+
+    return text.replace(buttonRegex, (match, text, action) => {
+      let href = action;
+      let bgColor = '#00ff88';
+      let textColor = '#000';
+
+      // Detectar tipo de acción y ajustar estilo
+      if (action.startsWith('wa.me') || action.startsWith('https://wa.me')) {
+        bgColor = '#25D366';
+        textColor = '#fff';
+        if (!action.startsWith('https://')) {
+          href = `https://${action}`;
+        }
+      } else if (action.startsWith('mailto:')) {
+        bgColor = '#3498db';
+        textColor = '#fff';
+      } else if (action.startsWith('tel:')) {
+        bgColor = '#2ecc71';
+        textColor = '#fff';
+      } else if (action.startsWith('http')) {
+        bgColor = '#00ff88';
+        textColor = '#000';
+      }
+
+      return `
+        <a href="${href}" target="_blank" class="action-button" style="
+          display: inline-block;
+          background: ${bgColor};
+          color: ${textColor};
+          padding: 12px 24px;
+          border-radius: 8px;
+          text-decoration: none;
+          margin: 8px 4px;
+          font-weight: 600;
+        ">
+          ${text}
+        </a>
+      `;
+    });
+  }
+
+  /**
+   * Procesa enlaces (ej: :::enlace Texto https://url.com)
+   */
+  processLinks(text) {
+    const linkRegex = /:::enlace\s+([^\s]+)\s+(https?:[^\s]+)/g;
+
+    return text.replace(linkRegex, (match, text, url) => {
+      return `
+        <a href="${url}" target="_blank" class="action-link" style="
+          display: inline-block;
+          background: rgba(255, 255, 255, 0.1);
+          color: #00ff88;
+          padding: 12px 24px;
+          border-radius: 8px;
+          text-decoration: none;
+          margin: 8px 4px;
+          border: 1px solid #00ff88;
+        ">
+          ${text}
+        </a>
+      `;
     });
   }
 
@@ -177,6 +437,9 @@ class MarkdownRenderer {
     // Italic
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
 
+    // Strikethrough
+    html = html.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
     // Code blocks
     html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>');
 
@@ -190,6 +453,9 @@ class MarkdownRenderer {
     html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="markdown-image">');
 
     // Line breaks (DESPUÉS de procesar todo lo demás)
+    // Reducir múltiples saltos de línea a un solo br
+    html = html.replace(/\n\s*\n\s*\n/g, '<br><br>');
+    html = html.replace(/\n\s*\n/g, '<br>');
     html = html.replace(/\n/g, '<br>');
 
     return html;

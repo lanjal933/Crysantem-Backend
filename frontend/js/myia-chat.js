@@ -1,5 +1,6 @@
 // Archivo compartido para todos los planes
 // Carga configuración desde Supabase según el slug de la URL
+// v2.0 - Agregada verificación de login y límite de mensajes
 
 async function loadChat() {
   // Obtener slug de la URL (última parte del path)
@@ -126,11 +127,48 @@ function setupMessageSending(config) {
   const input = document.getElementById('messageInput');
   const sendButton = document.getElementById('sendButton');
   const messagesContainer = document.getElementById('chatMessages');
-  
+
+  // Función helper para agregar mensaje del bot
+  function addBotMessage(text, config) {
+    const botMessage = document.createElement('div');
+    botMessage.className = 'message message-bot';
+
+    // Renderizar markdown si el renderer está disponible
+    if (typeof markdownRenderer !== 'undefined') {
+      botMessage.innerHTML = markdownRenderer.render(text);
+    } else {
+      botMessage.textContent = text;
+    }
+
+    botMessage.style.background = config.message_bubble_color || '#00ff88';
+    botMessage.style.color = getContrastColor(config.message_bubble_color || '#00ff88');
+    messagesContainer.appendChild(botMessage);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    // Inicializar gráficos pendientes
+    if (window.pendingCharts && window.pendingCharts.length > 0) {
+      window.pendingCharts.forEach(chart => {
+        try {
+          const ctx = document.getElementById(chart.id);
+          if (ctx) {
+            new Chart(ctx, {
+              type: chart.type,
+              data: chart.data,
+              options: chart.options
+            });
+          }
+        } catch (e) {
+          console.error('Error inicializando gráfico:', e);
+        }
+      });
+      window.pendingCharts = [];
+    }
+  }
+
   function sendMessage() {
     const message = input.value.trim();
     if (!message) return;
-    
+
     // Agregar mensaje del usuario
     const userMessage = document.createElement('div');
     userMessage.className = 'message message-user';
@@ -138,13 +176,13 @@ function setupMessageSending(config) {
     userMessage.style.background = config.user_bubble_color || '#333333';
     userMessage.style.color = getContrastColor(config.user_bubble_color || '#333333');
     messagesContainer.appendChild(userMessage);
-    
+
     // Limpiar input
     input.value = '';
-    
+
     // Scroll al final
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    
+
     // Enviar al backend (a implementar)
     sendToBackend(message, config);
   }
@@ -161,6 +199,50 @@ async function sendToBackend(message, config) {
   const messagesContainer = document.getElementById('chatMessages');
   const sendButton = document.getElementById('sendButton');
   
+  // VERIFICACIÓN 1: Verificar si el usuario está logueado
+  const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+  if (!token) {
+    // Mostrar mensaje de error de login
+    const errorMessage = document.createElement('div');
+    errorMessage.className = 'message message-bot';
+    errorMessage.style.background = '#ff6b6b';
+    errorMessage.style.color = '#fff';
+    errorMessage.textContent = 'Logueate para iniciar la conversacion, puedes hacerlo por google en minutos (Abre el menu desplegable en moviles o toca "Accounts" en PC)';
+    messagesContainer.appendChild(errorMessage);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    return;
+  }
+  
+  // VERIFICACIÓN 2: Verificar límite de mensajes del usuario
+  try {
+    const userId = localStorage.getItem('userId');
+    const limitResponse = await fetch(`https://crysantem-backend.onrender.com/api/myia/user-message-limit/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    
+    const limitResult = await limitResponse.json();
+    
+    if (limitResult.success && limitResult.data) {
+      const { limit, used, remaining } = limitResult.data;
+      
+      if (remaining === 0 || (limit > 0 && used >= limit)) {
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'message message-bot';
+        errorMessage.style.background = '#ff6b6b';
+        errorMessage.style.color = '#fff';
+        errorMessage.textContent = `Has alcanzado tu límite mensual de ${limit} mensajes. Tu límite se renovará el próximo mes.`;
+        messagesContainer.appendChild(errorMessage);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        return;
+      }
+    }
+  } catch (error) {
+    console.error('Error al verificar límite de mensajes:', error);
+    // Continuar aunque falle la verificación del límite
+  }
+  
   // Mostrar indicador de "escribiendo"
   const typingIndicator = document.createElement('div');
   typingIndicator.className = 'typing-indicator';
@@ -176,12 +258,14 @@ async function sendToBackend(message, config) {
     const response = await fetch('https://crysantem-backend.onrender.com/api/myia/chat-message', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         pageId: config.id,
         message: message,
-        plan: config.plan
+        plan: config.plan,
+        userId: localStorage.getItem('userId')
       })
     });
     
@@ -189,25 +273,49 @@ async function sendToBackend(message, config) {
     
     // Remover indicador de "escribiendo"
     typingIndicator.remove();
-    
-    if (result.success && result.response) {
-      // Agregar respuesta del bot con markdown
-      const botMessage = document.createElement('div');
-      botMessage.className = 'message message-bot';
-      
-      // Renderizar markdown si el renderer está disponible
+        if (result.success && result.response) {
+      const responseText = result.response;
+
+      // Parsear formato de n8n: String('texto')\n\nString('texto2')
+      if (responseText.includes("String('")) {
+        // Extraer contenido entre String(' y ')
+        const matches = responseText.matchAll(/String\('([^']+)'\)/g);
+        const parts = Array.from(matches, m => m[1]);
+
+        console.log('Partes extraídas:', parts);
+
+        // Enviar cada parte como un mensaje separado con delay de 3 segundos
+        parts.forEach((part, index) => {
+          setTimeout(() => {
+            addBotMessage(part, config);
+          }, index * 3000); // 3 segundos de delay entre burbujas
+        });
+      } else {
+        // Si no tiene formato especial, enviar como un solo mensaje
+        addBotMessage(responseText, config);
+      }
+    } else {
+      // Error
+      const errorMessage = document.createElement('div');
+      errorMessage.className = 'message message-bot';
+      errorMessage.style.background = '#ff6b6b';
+      errorMessage.style.color = '#fff';
+      errorMessage.textContent = result.error || 'Lo siento, hubo un error. Por favor intenta nuevamente.';
+      messagesContainer.appendChild(errorMessage);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
       if (typeof markdownRenderer !== 'undefined') {
         botMessage.innerHTML = markdownRenderer.render(result.response);
       } else {
         botMessage.textContent = result.response;
       }
-      
+
       botMessage.style.background = config.message_bubble_color || '#00ff88';
       botMessage.style.color = getContrastColor(config.message_bubble_color || '#00ff88');
-      
+
       messagesContainer.appendChild(botMessage);
       messagesContainer.scrollTop = messagesContainer.scrollHeight;
-      
+
       // Inicializar gráficos pendientes si Chart.js está disponible
       if (typeof Chart !== 'undefined' && window.pendingCharts && window.pendingCharts.length > 0) {
         window.pendingCharts.forEach(chartData => {
@@ -215,7 +323,8 @@ async function sendToBackend(message, config) {
           if (canvas) {
             new Chart(canvas, {
               type: chartData.type,
-              data: chartData.data
+              data: chartData.data,
+              options: chartData.options || {}
             });
           }
         });
